@@ -36,3 +36,10 @@
 .chip--disabled .chip__label {
   color: var(--ui-text-disabled);
 }
+
+.chip--variant4 {
+  background-color: var(--ui-text-emphasis-bullet-main);
+}
+.chip--variant4 .chip__label {
+  color: var(--ui-common-white-white-100p);
+}

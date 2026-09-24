@@ -16,3 +16,5 @@ export const Shirt: Story = { args: { variant: 'Shirt', children: 'Shirt 1' } }
 
 export const Disabled: Story = { args: { variant: 'disabled', children: 'Shirt 1' } }
 Disabled.storyName = 'disabled'
+
+export const Variant4: Story = { args: { variant: 'Variant4', children: '14 DAYS LEFT' } }
