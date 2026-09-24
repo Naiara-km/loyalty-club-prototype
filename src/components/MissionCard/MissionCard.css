@@ -1,0 +1,166 @@
+.mission-card {
+  position: relative;
+  display: flex;
+  width: 314px;
+  padding: var(--spacing-4);
+  border-radius: var(--mainpages-desktop-container-corners);
+}
+
+/* --- Active --- */
+.mission-card--active {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-4);
+  border-style: solid;
+  border-color: var(--club-mission-card-active-border);
+  border-width: var(--border-width-1) var(--border-width-1) var(--border-width-4);
+  background-repeat: no-repeat;
+  background-position: -1px -13px;
+  background-size: auto;
+}
+
+/* --- Pending --- */
+.mission-card--pending {
+  flex-direction: column;
+  align-items: flex-start;
+  border: var(--border-width-1) dashed var(--ui-text-disabled);
+}
+
+/* --- Completed --- */
+.mission-card--completed {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--ui-common-white-white-100p);
+  border: var(--border-width-1) solid var(--ui-semantic-colours-success-dark);
+}
+
+/* Meta wrapper */
+.mission-card__meta {
+  display: flex;
+  align-items: flex-start;
+}
+.mission-card--active .mission-card__meta,
+.mission-card--pending .mission-card__meta {
+  width: 100%;
+}
+.mission-card--completed .mission-card__meta {
+  width: 213px;
+}
+
+/* Inner column */
+.mission-card__meta-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1 0 0;
+  min-width: 0;
+}
+.mission-card--active .mission-card__meta-col,
+.mission-card--pending .mission-card__meta-col {
+  gap: var(--spacing-2);
+}
+
+/* Title + subtitle wrapper (Active only) */
+.mission-card__title-and-subtitle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Titles */
+.mission-card__title {
+  margin: 0;
+  width: 100%;
+  word-break: break-word;
+}
+
+.mission-card__title--active {
+  font-family: var(--typography-body-1-medium-font-family);
+  font-size: var(--typography-body-1-medium-font-size);
+  font-weight: var(--typography-body-1-medium-font-weight);
+  line-height: var(--typography-body-1-medium-line-height);
+  letter-spacing: var(--typography-body-1-medium-letter-spacing);
+  color: var(--ui-text-primary);
+}
+
+.mission-card__title--pending,
+.mission-card__title--completed {
+  font-family: var(--typography-body-1-bold-font-family);
+  font-size: var(--typography-body-1-bold-font-size);
+  font-weight: var(--typography-body-1-bold-font-weight);
+  line-height: var(--typography-body-1-bold-line-height);
+  letter-spacing: var(--typography-body-1-bold-letter-spacing);
+}
+.mission-card__title--pending {
+  color: var(--ui-text-primary);
+}
+.mission-card__title--completed {
+  color: var(--ui-text-secondary);
+  text-decoration: line-through;
+}
+
+/* Subtitle */
+.mission-card__subtitle {
+  margin: 0;
+  width: 100%;
+  font-family: var(--typography-caption-bold-font-family);
+  font-size: var(--typography-caption-bold-font-size);
+  font-weight: var(--typography-caption-bold-font-weight);
+  line-height: var(--typography-caption-bold-line-height);
+  letter-spacing: var(--typography-caption-bold-letter-spacing);
+  color: var(--ui-text-secondary);
+}
+
+/* Completed status text */
+.mission-card__completed-text {
+  margin: 0;
+  width: 213px;
+  font-family: var(--typography-caption-bold-font-family);
+  font-size: var(--typography-caption-bold-font-size);
+  font-weight: var(--typography-caption-bold-font-weight);
+  line-height: var(--typography-caption-bold-line-height);
+  letter-spacing: var(--typography-caption-bold-letter-spacing);
+  color: var(--ui-semantic-colours-success-main);
+}
+
+/* Badges */
+.mission-card__badges {
+  display: flex;
+  align-items: flex-start;
+}
+.mission-card__badges--active {
+  gap: var(--spacing-1);
+}
+.mission-card__badges--pending {
+  gap: var(--spacing-2);
+}
+
+/* NEXT STEP pill (Active only) */
+.mission-card__next-step {
+  position: absolute;
+  top: -11.5px;
+  left: 151.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-1) var(--spacing-3);
+  background-color: var(--ui-value-main);
+  border-radius: var(--border-radius-full);
+}
+.mission-card__next-step-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+.mission-card__next-step-label {
+  font-family: var(--typography-caption-bold-font-family);
+  font-size: var(--typography-caption-bold-font-size);
+  font-weight: var(--typography-caption-bold-font-weight);
+  line-height: var(--typography-caption-bold-line-height);
+  letter-spacing: var(--typography-caption-bold-letter-spacing);
+  color: var(--ui-common-black-black-100p);
+  white-space: nowrap;
+}
