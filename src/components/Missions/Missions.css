@@ -1,0 +1,68 @@
+.missions {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  width: 358px;
+  /* Padding: 16 top / 16 sides / 24 bottom — bottom value is raw in
+   * Figma (no matching spacing token in the current DS). */
+  padding: var(--spacing-4) var(--spacing-4) 24px;
+  background-color: var(--ui-custom-palettes-oddsbuttons-selected-light);
+  border-style: solid;
+  border-color: var(--ui-primary-main);
+  border-width: var(--border-width-1) var(--border-width-1) var(--border-width-4);
+  border-radius: var(--mainpages-desktop-container-corners);
+}
+
+/* Promo_Text_Block */
+.missions__block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  width: 100%;
+}
+
+/* Title row (Figma has a justify-between wrapper for future flexibility) */
+.missions__title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Title — Figma's Promo_Title node uses Roboto Bold 700 despite the
+ * Typography/H6-medium style assignment. Sourced from the text node. */
+.missions__title {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--font-line-height-6);
+  letter-spacing: 0.15px;
+  color: var(--ui-text-primary);
+  white-space: nowrap;
+  word-break: break-word;
+}
+
+/* Subtitle — Figma uses Inter Medium (not Roboto) for this text node
+ * specifically. lineHeight is AUTO in Figma → CSS `normal`. */
+.missions__subtitle {
+  margin: 0;
+  width: 100%;
+  font-family: Inter, var(--font-family-sans);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: normal;
+  letter-spacing: 0;
+  color: var(--ui-text-secondary);
+  word-break: break-word;
+}
+
+/* Countdown chip overhanging the top-right border */
+.missions__chip {
+  position: absolute;
+  top: -13px;
+  left: 226px;
+}
