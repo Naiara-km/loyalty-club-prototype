@@ -1,5 +1,10 @@
-// Verbatim from Figma design 48:2383 shader export ("Concentric patterns").
-// Do not edit.
+// Sourced from Figma design 48:2383 shader export ("Concentric patterns").
+// ONE local fix vs the Figma export: the fragment shader now returns a
+// premultiplied colour (`color.rgb * alpha`) instead of the raw
+// `vec4f(color.rgb, alpha)`. The runtime configures the canvas with
+// `alphaMode: 'premultiplied'`, so an unpremultiplied output blends as
+// full-brightness colour regardless of alpha — the ring overlay looked
+// harsh. Premultiplying restores the soft translucent overlay Figma renders.
 // @ts-nocheck
 
 // Property metadata is only used in Figma Design, so this is a no-op.
@@ -63,7 +68,7 @@ fn shapeDistance(p: vec2f, shape: i32) -> f32 {
   var fade = normalFalloff;
   if (inverseFalloff) { fade = 1.0 - normalFalloff; }
   let alpha = band * fade * color.a;
-  return vec4f(color.rgb, alpha);
+  return vec4f(color.rgb * alpha, alpha);
 }
 `;
     frame.state.module = device.createShaderModule({ code: wgsl });
