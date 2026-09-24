@@ -7,10 +7,10 @@
 }
 
 /* --- Active ---
- * Background = linear gradient (CSS) + WebGPU shader ring overlay (canvas)
- * layered inside a positioned fill wrapper, matching Figma's structure.
- * Requires WebGPU. On unsupported browsers the ShaderFill returns null and
- * the gradient shows through unmodified.
+ * Gradient value copied verbatim from Figma design 48:2383 (fill).
+ * Ring pattern rendered as ::before pseudo-element with radial-gradient
+ * mask for centre-outward falloff, at the 60% opacity Figma assigns to
+ * the shader layer. Approximates Figma's WebGPU concentric-rings shader.
  */
 .mission-card--active {
   flex-direction: column;
@@ -19,39 +19,39 @@
   border-style: solid;
   border-color: var(--club-mission-card-active-border);
   border-width: var(--border-width-1) var(--border-width-1) var(--border-width-4);
+  background: linear-gradient(
+    -68.57899654835904deg,
+    var(--ui-value-main) 4.4336%,
+    var(--ui-common-white-white-100p) 85.84%
+  );
 }
 
-/* Background stack — matches Figma's ShaderFill wrapper */
-.mission-card__fill {
+.mission-card--active::before {
+  content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  border-radius: var(--mainpages-desktop-container-corners);
-  overflow: hidden;
-}
-.mission-card__gradient {
-  position: absolute;
-  inset: 0;
-  border-radius: var(--mainpages-desktop-container-corners);
-  background: linear-gradient(
-    -33.6deg,
-    var(--ui-value-main) 61.27%,
-    var(--ui-common-white-white-100p) 88.96%
+  border-radius: inherit;
+  /* Ring stack from shader params: centre (81.15%, 76.63%), 18 rings across
+   * 48.85% radius ≈ 8px spacing at the card's 314px width. */
+  background: repeating-radial-gradient(
+    circle at 81.15% 76.63%,
+    transparent 0 7px,
+    var(--ui-common-white-white-100p) 7px 8px
   );
-}
-.mission-card__shader {
-  position: absolute;
-  inset: 0;
+  /* Falloff mask: rings full-strength at centre, fading to transparent
+   * beyond the shader's normalised radius. */
+  mask: radial-gradient(
+    circle at 81.15% 76.63%,
+    #000 0%,
+    transparent 55%
+  );
+  -webkit-mask: radial-gradient(
+    circle at 81.15% 76.63%,
+    #000 0%,
+    transparent 55%
+  );
   opacity: 0.6;
-  border-radius: var(--mainpages-desktop-container-corners);
-}
-
-/* Meta and Button sit above the fill stack (positioned so they win the paint
- * order vs the absolute fill). The NEXT STEP pill has its own absolute
- * positioning below and must NOT be caught by this rule. */
-.mission-card--active > .mission-card__meta,
-.mission-card--active > .button {
-  position: relative;
 }
 
 /* --- Pending --- */
@@ -68,6 +68,12 @@
   justify-content: space-between;
   background-color: var(--ui-common-white-white-100p);
   border: var(--border-width-1) solid var(--ui-semantic-colours-success-dark);
+}
+
+/* Meta and Button sit above the ::before ring overlay */
+.mission-card--active > .mission-card__meta,
+.mission-card--active > .button {
+  position: relative;
 }
 
 /* Meta wrapper */
@@ -136,15 +142,17 @@
   text-decoration: line-through;
 }
 
-/* Subtitle */
+/* Subtitle — Figma uses Roboto:Regular family + secondary text colour.
+ * The `font-bold` class Figma also emits is a codegen quirk; the real
+ * font weight in Figma's render is Regular (400). */
 .mission-card__subtitle {
   margin: 0;
   width: 100%;
-  font-family: var(--typography-caption-bold-font-family);
-  font-size: var(--typography-caption-bold-font-size);
-  font-weight: var(--typography-caption-bold-font-weight);
-  line-height: var(--typography-caption-bold-line-height);
-  letter-spacing: var(--typography-caption-bold-letter-spacing);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-line-height-4);
+  letter-spacing: 0.4px;
   color: var(--ui-text-secondary);
 }
 
