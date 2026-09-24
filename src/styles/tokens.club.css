@@ -1,2 +1,73 @@
+/*
+ * Loyalty Club Tokens
+ * Extends tokens.system.css (colours) with typography, spacing, radii,
+ * border widths, and component paddings sourced from the Loyalty-MVP Figma
+ * variables. Names follow the Figma variable path, kebab-cased.
+ * Do not edit values without a matching Figma change.
+ */
+
 :root {
+
+  /* Font primitives */
+  --font-family-sans: Roboto, system-ui, sans-serif;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-line-height-4: 16px;
+  --font-line-height-6: 24px;
+
+  /* Typography compositions
+   * CSS can't compose these into a single value — apply per-property.
+   * Line-heights below use unitless numbers where Figma does; the rest
+   * reference the primitives above.
+   */
+
+  /* Typography/body-1-medium — 16 / 1.5, 500, ls 0.15 */
+  --typography-body-1-medium-font-family: var(--font-family-sans);
+  --typography-body-1-medium-font-size: var(--font-size-base);
+  --typography-body-1-medium-font-weight: var(--font-weight-medium);
+  --typography-body-1-medium-line-height: 1.5;
+  --typography-body-1-medium-letter-spacing: 0.15px;
+
+  /* Typography/body-1-bold — 16 / 1.5, 700, ls 0.15 */
+  --typography-body-1-bold-font-family: var(--font-family-sans);
+  --typography-body-1-bold-font-size: var(--font-size-base);
+  --typography-body-1-bold-font-weight: var(--font-weight-bold);
+  --typography-body-1-bold-line-height: 1.5;
+  --typography-body-1-bold-letter-spacing: 0.15px;
+
+  /* Typography/caption-bold — 12 / 16, 700, ls 0.4 */
+  --typography-caption-bold-font-family: var(--font-family-sans);
+  --typography-caption-bold-font-size: var(--font-size-xs);
+  --typography-caption-bold-font-weight: var(--font-weight-bold);
+  --typography-caption-bold-line-height: var(--font-line-height-4);
+  --typography-caption-bold-letter-spacing: 0.4px;
+
+  /* Components/Button Medium — 14 / 24, 500, ls 0.4 */
+  --components-button-medium-font-family: var(--font-family-sans);
+  --components-button-medium-font-size: var(--font-size-sm);
+  --components-button-medium-font-weight: var(--font-weight-medium);
+  --components-button-medium-line-height: var(--font-line-height-6);
+  --components-button-medium-letter-spacing: 0.4px;
+
+  /* Spacing */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+
+  /* Border radii */
+  --border-radius-full: 360px;
+  --settings-components-cta-buttons-border-radii: var(--border-radius-full);
+  --mainpages-desktop-container-corners: 12px;
+
+  /* Border widths */
+  --border-width-1: 1px;
+  --border-width-4: 4px;
+
+  /* Button paddings — medium size */
+  --buttons-md-lr: 16px;
+  --buttons-md-tb: 6px;
 }
