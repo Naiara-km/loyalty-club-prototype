@@ -1,4 +1,10 @@
 import playArrowFilled from '../../assets/icons/play-arrow-filled.svg'
+import { ShaderFill } from '../../lib/custom-effect-runtime'
+import {
+  manifest as concentricRingsManifest,
+  render as concentricRingsRender,
+  setup as concentricRingsSetup,
+} from '../../lib/custom-effects/concentric-rings'
 import { Button } from '../Button/Button'
 import { Chip } from '../Chip/Chip'
 import './MissionCard.css'
@@ -17,6 +23,27 @@ type MissionCardProps = {
   onButtonClick?: () => void
 }
 
+// Params extracted verbatim from Figma design 48:2383.
+const concentricRingsShader = {
+  setup: concentricRingsSetup,
+  render: concentricRingsRender,
+  manifest: concentricRingsManifest,
+  params: {
+    falloff: 1,
+    inverseFalloff: false,
+    ringCount: 18,
+    offset: 0.1599999964237213,
+    shape: 1,
+    transform: {
+      x: 81.14620208740234,
+      y: 76.6301040649414,
+      radius: 48.849510192871094,
+      angle: -17.174762725830078,
+    },
+    color: { r: 1, g: 1, b: 1, a: 1 },
+  },
+}
+
 export function MissionCard(props: MissionCardProps) {
   if (props.variant === 'Active') {
     const {
@@ -30,6 +57,10 @@ export function MissionCard(props: MissionCardProps) {
     } = props
     return (
       <div className="mission-card mission-card--active">
+        <div className="mission-card__fill" aria-hidden>
+          <div className="mission-card__gradient" />
+          <ShaderFill className="mission-card__shader" shader={concentricRingsShader} />
+        </div>
         <div className="mission-card__meta">
           <div className="mission-card__meta-col">
             <div className="mission-card__title-and-subtitle">
