@@ -54,11 +54,30 @@
   opacity: 0.6;
 }
 
-/* --- Pending --- */
+/* --- Pending ---
+ * Border is drawn as an SVG rect child (.mission-card__pending-border)
+ * instead of CSS `border-style: dashed`, because CSS uses a
+ * browser-default dash pattern (~2:1 dash:gap) that doesn't match
+ * Figma's exact strokeDashArray of [5, 5]. Stroke is 1px, INSIDE align
+ * (inset by 0.5px), corner radius 11.5px (matches 12 minus 0.5 stroke
+ * inset). Values pulled directly from Figma node 48:2382 via use_figma.
+ */
 .mission-card--pending {
   flex-direction: column;
   align-items: flex-start;
-  border: var(--border-width-1) dashed var(--ui-text-disabled);
+}
+
+.mission-card__pending-border {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.mission-card--pending > .mission-card__meta {
+  position: relative;
 }
 
 /* --- Completed --- */
