@@ -70,4 +70,18 @@
   /* Button paddings — medium size */
   --buttons-md-lr: 16px;
   --buttons-md-tb: 6px;
+
+  /*
+   * Prototype-only additions — no matching Figma variable exists.
+   * Flag to production DS to consider tokenising.
+   */
+
+  /* Colours hardcoded in Figma design (Loyalty-MVP) */
+  --club-mission-card-active-border: #b8860b;
+  --club-chip-xp-text: #b27a00;
+
+  /* --ui-value-main override — Figma resolves UI/Value/Main to #ffc400 but
+   * tokens.system.css ships #f1c72f. Overridden here (loads after) so the
+   * Loyalty gradient renders at the correct hue. Remove once prod DS is fixed. */
+  --ui-value-main: #ffc400;
 }
