@@ -71,9 +71,12 @@
   --border-radius-full: 360px;
   --settings-components-cta-buttons-border-radii: var(--border-radius-full);
   --mainpages-desktop-container-corners: 12px;
+  --border-radii-default: 4px;
+  --border-radii-lg: 8px;
 
   /* Border widths */
   --border-width-1: 1px;
+  --border-width-3: 3px;
   --border-width-4: 4px;
 
   /* Button paddings — medium size */
