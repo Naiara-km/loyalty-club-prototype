@@ -54,6 +54,13 @@
   --components-button-medium-line-height: var(--font-line-height-6);
   --components-button-medium-letter-spacing: 0.4px;
 
+  /* Typography/body-2-bold — 14 / 1.43, 700, ls 0.17 */
+  --typography-body-2-bold-font-family: var(--font-family-sans);
+  --typography-body-2-bold-font-size: var(--font-size-sm);
+  --typography-body-2-bold-font-weight: var(--font-weight-bold);
+  --typography-body-2-bold-line-height: 1.43;
+  --typography-body-2-bold-letter-spacing: 0.17px;
+
   /* Spacing */
   --spacing-1: 4px;
   --spacing-2: 8px;
