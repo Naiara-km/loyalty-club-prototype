@@ -86,8 +86,10 @@ export function MissionCard(props: MissionCardProps) {
         </svg>
         <div className="mission-card__meta">
           <div className="mission-card__meta-col">
-            <p className="mission-card__title mission-card__title--pending">{title}</p>
-            <p className="mission-card__subtitle">{subtitle}</p>
+            <div className="mission-card__title-and-subtitle">
+              <p className="mission-card__title mission-card__title--pending">{title}</p>
+              <p className="mission-card__subtitle">{subtitle}</p>
+            </div>
             <div className="mission-card__badges mission-card__badges--pending">
               <Chip variant="disabled">{xpLabel}</Chip>
               <Chip variant="disabled">{shirtLabel}</Chip>

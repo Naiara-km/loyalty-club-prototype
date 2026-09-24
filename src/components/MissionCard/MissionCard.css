@@ -116,9 +116,14 @@
   flex: 1 0 0;
   min-width: 0;
 }
-.mission-card--active .mission-card__meta-col,
-.mission-card--pending .mission-card__meta-col {
+.mission-card--active .mission-card__meta-col {
   gap: var(--spacing-2);
+}
+/* Figma pending frame 46:2058 uses itemSpacing 12 between the
+ * title-and-subtitle wrapper and the badges row (design_context CSS
+ * says gap-[8px] but the actual auto-layout value is 12). */
+.mission-card--pending .mission-card__meta-col {
+  gap: var(--spacing-3);
 }
 
 /* Title + subtitle wrapper (Active only) */
