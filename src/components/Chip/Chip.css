@@ -1,0 +1,38 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--border-radius-full);
+}
+
+.chip__label {
+  font-family: var(--typography-caption-bold-font-family);
+  font-size: var(--typography-caption-bold-font-size);
+  font-weight: var(--typography-caption-bold-font-weight);
+  line-height: var(--typography-caption-bold-line-height);
+  letter-spacing: var(--typography-caption-bold-letter-spacing);
+  white-space: nowrap;
+}
+
+.chip--xp {
+  background-color: var(--ui-common-white-white-100p);
+  border: var(--border-width-1) solid var(--ui-value-dark);
+}
+.chip--xp .chip__label {
+  color: var(--club-chip-xp-text);
+}
+
+.chip--shirt {
+  background-color: var(--ui-semantic-colours-success-contrast);
+  border: var(--border-width-1) solid var(--ui-semantic-colours-success-main);
+}
+.chip--shirt .chip__label {
+  color: var(--ui-semantic-colours-success-dark);
+}
+
+.chip--disabled {
+  background-color: var(--ui-primary-shades-50);
+}
+.chip--disabled .chip__label {
+  color: var(--ui-text-disabled);
+}
