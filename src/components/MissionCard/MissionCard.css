@@ -6,7 +6,11 @@
   border-radius: var(--mainpages-desktop-container-corners);
 }
 
-/* --- Active --- */
+/* --- Active ---
+ * Gradient is CSS-exact vs Figma. The 60%-white shader ring overlay from
+ * Figma is not rendered — it requires the WebGPU shader runtime and can't
+ * be reproduced faithfully in CSS. Prototype ships without rings.
+ */
 .mission-card--active {
   flex-direction: column;
   align-items: flex-start;
@@ -14,9 +18,11 @@
   border-style: solid;
   border-color: var(--club-mission-card-active-border);
   border-width: var(--border-width-1) var(--border-width-1) var(--border-width-4);
-  background-repeat: no-repeat;
-  background-position: -1px -13px;
-  background-size: auto;
+  background: linear-gradient(
+    -33.6deg,
+    var(--ui-value-main) 61.27%,
+    var(--ui-common-white-white-100p) 88.96%
+  );
 }
 
 /* --- Pending --- */

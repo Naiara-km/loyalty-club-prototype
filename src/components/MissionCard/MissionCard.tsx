@@ -1,4 +1,3 @@
-import missionCardActiveBg from '../../assets/illustrations/mission-card-active-bg.png'
 import playArrowFilled from '../../assets/icons/play-arrow-filled.svg'
 import { Button } from '../Button/Button'
 import { Chip } from '../Chip/Chip'
@@ -30,10 +29,7 @@ export function MissionCard(props: MissionCardProps) {
       onButtonClick,
     } = props
     return (
-      <div
-        className="mission-card mission-card--active"
-        style={{ backgroundImage: `url(${missionCardActiveBg})` }}
-      >
+      <div className="mission-card mission-card--active">
         <div className="mission-card__meta">
           <div className="mission-card__meta-col">
             <div className="mission-card__title-and-subtitle">
@@ -62,6 +58,7 @@ export function MissionCard(props: MissionCardProps) {
   if (props.variant === 'pending') {
     const {
       title = 'Mistery mission',
+      subtitle = 'subtitle',
       xpLabel = '+100 XP',
       shirtLabel = 'Shirt 1',
     } = props
@@ -70,6 +67,7 @@ export function MissionCard(props: MissionCardProps) {
         <div className="mission-card__meta">
           <div className="mission-card__meta-col">
             <p className="mission-card__title mission-card__title--pending">{title}</p>
+            <p className="mission-card__subtitle">{subtitle}</p>
             <div className="mission-card__badges mission-card__badges--pending">
               <Chip variant="disabled">{xpLabel}</Chip>
               <Chip variant="disabled">{shirtLabel}</Chip>

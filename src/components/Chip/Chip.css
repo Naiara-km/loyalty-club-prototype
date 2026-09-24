@@ -31,7 +31,7 @@
 }
 
 .chip--disabled {
-  background-color: var(--ui-primary-shades-50);
+  background-color: var(--ui-common-grey-300);
 }
 .chip--disabled .chip__label {
   color: var(--ui-text-disabled);
