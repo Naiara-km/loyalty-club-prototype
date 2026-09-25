@@ -111,14 +111,15 @@
 
 /* --- Confetti — 32 falling rectangles ---
  * Each piece gets --x-drift / --rotate-start / --rotate-end from JS.
- * The confetti layer covers the viewport but sits behind the dialog
- * (z-index: 1) so it can rain across the whole screen. */
+ * The confetti layer covers the viewport and sits ABOVE the dialog
+ * (z-index: 3) so pieces rain in front of the card. pointer-events
+ * stay disabled so clicks pass through to the button. */
 .celebration-modal__confetti {
   position: absolute;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  z-index: 1;
+  z-index: 3;
 }
 
 .celebration-modal__confetto {

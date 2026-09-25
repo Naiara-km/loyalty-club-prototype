@@ -126,7 +126,8 @@ export function CelebrationModal({
     >
       <div className="celebration-modal__backdrop" onClick={onClose} />
 
-      {/* Confetti sits above the backdrop but behind the dialog. */}
+      {/* Confetti sits above the dialog (z-index handled in CSS) and
+       *  is pointer-events: none so clicks pass through. */}
       <div className="celebration-modal__confetti" aria-hidden>
         {confetti.map((p, i) => (
           <span
