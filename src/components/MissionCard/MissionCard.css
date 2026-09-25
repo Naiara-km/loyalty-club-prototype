@@ -37,7 +37,47 @@
   opacity: 0.6;
 }
 
-/* --- Shader: rings (default) ---
+/* --- Shader: chevron (default) ---
+ * Tone-on-tone forward-motion pattern: chevrons pointing right, drawn
+ * as an inline SVG data URI used as a mask so `background-color`
+ * paints the strokes. Combined with a left-fade linear-gradient mask
+ * (via mask-composite: intersect) the pattern is invisible under the
+ * title area and eases in toward the right of the card.
+ *
+ * Two knobs for Storybook tuning:
+ *   --club-chevron-opacity  (default 0.35)
+ *   --club-chevron-color    (default white)
+ *
+ * All direct children of the card get position: relative so they
+ * stack above the ::before layer regardless of z-index inheritance. */
+.mission-card--shader-chevron {
+  --club-chevron-opacity: 0.35;
+  --club-chevron-color: #ffffff;
+}
+
+.mission-card--shader-chevron > * {
+  position: relative;
+}
+
+.mission-card--shader-chevron::before {
+  background-color: var(--club-chevron-color);
+  mask-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='40' viewBox='0 0 28 40'><path d='M2 0 L16 20 L2 40' fill='none' stroke='black' stroke-width='6' stroke-linejoin='round'/></svg>"),
+    linear-gradient(90deg, transparent 0%, black 40%);
+  mask-size: 28px 40px, 100% 100%;
+  mask-repeat: repeat, no-repeat;
+  mask-composite: intersect;
+  -webkit-mask-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='40' viewBox='0 0 28 40'><path d='M2 0 L16 20 L2 40' fill='none' stroke='black' stroke-width='6' stroke-linejoin='round'/></svg>"),
+    linear-gradient(90deg, transparent 0%, black 40%);
+  -webkit-mask-size: 28px 40px, 100% 100%;
+  -webkit-mask-repeat: repeat, no-repeat;
+  -webkit-mask-composite: source-in;
+  opacity: var(--club-chevron-opacity);
+}
+
+/* --- Shader: rings ---
+ * Prior default — approximates Figma's WebGPU concentric-rings shader.
  * Ring stack from shader params: centre (81.15%, 76.63%), 18 rings across
  * 48.85% radius ≈ 8px spacing at the card's 314px width. Falloff mask
  * fades the rings from full strength at the centre to transparent

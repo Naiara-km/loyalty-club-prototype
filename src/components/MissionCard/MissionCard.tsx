@@ -5,11 +5,16 @@ import './MissionCard.css'
 
 export type MissionCardVariant = 'Active' | 'pending' | 'Completed'
 
-/** Which decorative pattern is layered on top of the Active card's
- *  gold gradient. `rings` matches Figma production (approximates
- *  Figma's concentric-rings WebGPU shader). The other options are
- *  texture explorations used for stakeholder review only. */
-export type MissionCardShader = 'rings' | 'voxels' | 'dot-grid' | 'aurora'
+/** Decorative pattern layered on top of the Active card's gold
+ *  gradient. `chevron` is the current default — a subtle
+ *  forward-motion wash. The others (`rings`, `voxels`, `dot-grid`,
+ *  `aurora`) are alternates kept for stakeholder Storybook reviews. */
+export type MissionCardShader =
+  | 'chevron'
+  | 'rings'
+  | 'voxels'
+  | 'dot-grid'
+  | 'aurora'
 
 type MissionCardProps = {
   variant: MissionCardVariant
@@ -48,7 +53,7 @@ export function MissionCard(props: MissionCardProps) {
       countdownText,
       nextStepLabel = 'NEXT STEP',
       nextStepIcon = playArrowFilled,
-      shader = 'rings',
+      shader = 'chevron',
       onButtonClick,
     } = props
     const hasSubtitle = Boolean(subtitle || subtitleAccent)

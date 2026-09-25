@@ -16,7 +16,12 @@ export default meta
 
 type Story = StoryObj<typeof MissionCard>
 
-export const Active: Story = { args: { variant: 'Active' } }
+/** Default Active card — chevron texture (forward-motion wash) over
+ *  the gold gradient. Tune --club-chevron-opacity and
+ *  --club-chevron-color in the browser dev-tools to iterate. */
+export const Active: Story = {
+  args: { variant: 'Active', shader: 'chevron' },
+}
 
 /** Active card with the exploratory voxels/isometric-cube texture in
  *  place of the default concentric rings. Prototype only — used for
