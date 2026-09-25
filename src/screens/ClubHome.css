@@ -6,18 +6,28 @@
   background-color: var(--ui-background-8p);
 }
 
-/* --- Full-screen header (always spans viewport width) --- */
+/* --- Full-screen header (always spans viewport width) — Figma 272:44279
+ * Left group holds back button + title; right holds the help button. */
 .club-home__header {
   display: flex;
   align-items: center;
   gap: 6px; /* figma: spacing/1-5 */
   padding: var(--spacing-3) var(--spacing-4);
-  background-color: var(--ui-primary-main);
+  background-color: var(--ui-text-emphasis-bullet-main);
   width: 100%;
   align-self: stretch;
+  box-sizing: border-box;
 }
 
-.club-home__back {
+.club-home__header-left {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+
+.club-home__icon-btn {
   display: inline-flex;
   align-items: center;
   padding: var(--spacing-1);
@@ -31,14 +41,24 @@
   width: 20px;
   height: 20px;
 }
+.club-home__help-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
 
 .club-home__title {
   font-family: var(--font-family-sans);
   font-size: var(--font-size-base);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-bold);
   line-height: 1.5;
   letter-spacing: 0.15px;
   color: var(--ui-hybrid-text-primary);
+  white-space: nowrap;
+}
+
+.club-home__title-accent {
+  color: var(--ui-value-main);
 }
 
 /* --- Content sheet — white fill per Figma Frame 48095932, fluid up to 600px --- */

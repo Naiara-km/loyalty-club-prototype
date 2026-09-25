@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import arrowBackFilled from '../assets/icons/arrow-back-filled.svg'
+import helpFilled from '../assets/icons/help-filled.svg'
 import personCheckFilled from '../assets/icons/person-check-filled.svg'
 import { CelebrationModal } from '../components/CelebrationModal/CelebrationModal'
 import { ClubBanner, type CollectedCount } from '../components/ClubBanner/ClubBanner'
@@ -310,17 +311,29 @@ export function ClubHome({ onBack }: ClubHomeProps) {
 
   return (
     <div className="club-home">
-      {/* Header */}
+      {/* Header — Figma 272:44279 */}
       <header className="club-home__header">
+        <div className="club-home__header-left">
+          <button
+            type="button"
+            className="club-home__icon-btn"
+            onClick={onBack}
+            aria-label="Back"
+          >
+            <img src={arrowBackFilled} alt="" className="club-home__back-icon" />
+          </button>
+          <span className="club-home__title">
+            The Betking
+            <span className="club-home__title-accent"> Club</span>
+          </span>
+        </div>
         <button
           type="button"
-          className="club-home__back"
-          onClick={onBack}
-          aria-label="Back"
+          className="club-home__icon-btn club-home__icon-btn--help"
+          aria-label="Help"
         >
-          <img src={arrowBackFilled} alt="" className="club-home__back-icon" />
+          <img src={helpFilled} alt="" className="club-home__help-icon" />
         </button>
-        <span className="club-home__title">My Betking Club</span>
       </header>
 
       {/* Banner — Jay Jay reflects worn shirt, tiles reflect collected count */}
