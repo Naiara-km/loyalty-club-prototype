@@ -1,6 +1,6 @@
 /* Figma: 26:22254 My Account Default. Colours from Figma variables are
  * mapped to tokens.system.css tokens by value where possible; raw values
- * with /* figma: ... */ comments are used where no token matches. */
+ * with `figma: ...` inline comments are used where no token matches. */
 
 .my-account {
   display: flex;

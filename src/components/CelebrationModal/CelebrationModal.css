@@ -1,0 +1,155 @@
+/* Figma: 270:43201 Modal - green shirt. Fixed overlay covering the
+ * viewport; the dialog is a 336px card centered inside a dimmed
+ * backdrop. Padding + typography sourced from the Figma DialogTitle /
+ * dialogContent / DialogActions frames. */
+
+.celebration-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3);
+  font-family: var(--font-family-sans);
+}
+
+.celebration-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: var(--ui-background-backdrop-overlay);
+}
+
+/* Dialog card — Figma 270:43611 */
+.celebration-modal__dialog {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 336px;
+  background-color: var(--ui-background-paper);
+  border-radius: var(--mainpages-desktop-container-corners);
+  overflow: hidden;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 16, 65, 0.1),
+    0 4px 6px -4px rgba(0, 16, 65, 0.1);
+  box-sizing: border-box;
+}
+
+/* --- Title block (DialogTitle) --- */
+.celebration-modal__title-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  padding: 24px var(--spacing-4) var(--spacing-3);
+  text-align: center;
+}
+
+.celebration-modal__title {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--font-line-height-6);
+  letter-spacing: 0.15px;
+  color: var(--ui-text-primary);
+}
+
+.celebration-modal__subtitle {
+  margin: 0;
+  font-family: var(--typography-body-1-font-family, var(--font-family-sans));
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  color: var(--ui-text-secondary);
+}
+
+/* --- Content (dialogContent) --- */
+.celebration-modal__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-3) var(--spacing-4);
+}
+
+.celebration-modal__illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+/* JayJay defaults to 154.18 × 299 at its intrinsic size; nothing to
+ * override here — it sits centered. */
+
+.celebration-modal__reward {
+  margin: 0;
+  padding: var(--spacing-1) 0;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  color: var(--ui-hybrid-actions-selected-main);
+}
+
+.celebration-modal__reward-xp {
+  font-weight: var(--font-weight-bold);
+}
+
+/* --- Actions (DialogActions) — Primary button spans full width --- */
+.celebration-modal__actions {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-4) var(--spacing-4) var(--spacing-5, 20px);
+}
+
+/* --- Confetti — 32 falling rectangles ---
+ * Each piece gets --x-drift / --rotate-start / --rotate-end from JS.
+ * The confetti layer covers the viewport but sits behind the dialog
+ * (z-index: 1) so it can rain across the whole screen. */
+.celebration-modal__confetti {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.celebration-modal__confetto {
+  position: absolute;
+  top: -20px;
+  display: block;
+  border-radius: 2px;
+  transform: translateX(0) translateY(0) rotate(var(--rotate-start));
+  animation-name: celebration-fall;
+  animation-timing-function: cubic-bezier(0.25, 0.55, 0.55, 1);
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  opacity: 0.95;
+}
+
+@keyframes celebration-fall {
+  0% {
+    transform: translateX(0) translateY(0) rotate(var(--rotate-start));
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateX(var(--x-drift)) translateY(105vh) rotate(var(--rotate-end));
+    opacity: 0.95;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .celebration-modal__confetto {
+    display: none;
+  }
+}

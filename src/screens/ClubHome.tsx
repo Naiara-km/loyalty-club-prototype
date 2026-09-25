@@ -1,8 +1,10 @@
+import { useEffect, useState } from 'react'
 import arrowBackFilled from '../assets/icons/arrow-back-filled.svg'
+import { CelebrationModal } from '../components/CelebrationModal/CelebrationModal'
 import { ClubBanner, type CollectedCount } from '../components/ClubBanner/ClubBanner'
 import type { JayJayVariant } from '../components/JayJay/JayJay'
 import { MainCard, type MainCardVariant } from '../components/MainCard/MainCard'
-import { MissionCard, type MissionCardVariant } from '../components/MissionCard/MissionCard'
+import { MissionCard } from '../components/MissionCard/MissionCard'
 import { Missions } from '../components/Missions/Missions'
 import {
   MissionProgress,
@@ -55,50 +57,65 @@ function collectedToMainVariant(count: number): MainCardVariant {
   return `${count}/3` as MainCardVariant
 }
 
-function missionCardVariant(state: Mission['state']): MissionCardVariant {
-  if (state === 'completed') return 'Completed'
-  if (state === 'active' || state === 'condition_met') return 'Active'
-  return 'pending' // locked + unlocking
+/** Format ms remaining as "HH:MM:SS" (00:00:00 floor). */
+function formatCountdown(msRemaining: number): string {
+  const total = Math.max(0, Math.floor(msRemaining / 1000))
+  const h = String(Math.floor(total / 3600)).padStart(2, '0')
+  const m = String(Math.floor((total % 3600) / 60)).padStart(2, '0')
+  const s = String(total % 60).padStart(2, '0')
+  return `${h}:${m}:${s}`
 }
 
+/** Titles per mission number — Figma node 66:8200. Note "Mistery" is
+ *  the Figma spelling (kept verbatim). */
+const missionTitles = {
+  1: { active: 'Claim Jay Jay first shirt!', locked: 'Mistery mission' },
+  2: { active: 'Find Jay Jay', locked: 'Mistery mission' },
+  3: { active: 'Place a bet', locked: 'Mistery mission' },
+} as const
+
 /** Build MissionCard props derived from the mission's state, the mission
- *  number (1/2/3), the countdown for M2 unlocking, and the dispatch fn. */
+ *  number (1/2/3), the current tick (for M2's countdown), and the
+ *  dispatch fns. */
 function missionCardProps(
   mission: Mission,
   missionNo: 1 | 2 | 3,
-  countdownDaysLeft: number,
+  now: number,
   onClaim?: () => void,
   onHint?: () => void,
 ): React.ComponentProps<typeof MissionCard> {
-  const variant = missionCardVariant(mission.state)
   const shirtName = ({ 1: 'Green', 2: 'Red', 3: 'Blue' } as const)[missionNo]
 
-  // Titles + subtitles per state
+  // Completed
   if (mission.state === 'completed') {
     return {
       variant: 'Completed',
-      title: `Mission ${missionNo}`,
+      title: missionTitles[missionNo].active,
       completedText: `Done · Shirt ${shirtName} collected · +${mission.xpReward} XP`,
     }
   }
 
+  // Locked — dashed pending card with reveal subtitle (Figma 66:8200)
   if (mission.state === 'locked') {
     return {
       variant: 'pending',
-      title: 'Mystery mission',
+      title: missionTitles[missionNo].locked,
       subtitle: `Revealed when mission ${missionNo - 1} is done`,
       xpLabel: `+${mission.xpReward} XP`,
       shirtLabel: `Shirt ${shirtName}`,
     }
   }
 
+  // Unlocking — Active-style card with real title and a countdown pill
+  // instead of the primary button (Figma 66:8460).
   if (mission.state === 'unlocking') {
+    const msLeft = (mission.unlockedAt ?? now) - now
     return {
-      variant: 'pending',
-      title: 'Mystery mission',
-      subtitle: `Unlocks in ${countdownDaysLeft} days`,
+      variant: 'Active',
+      title: missionTitles[missionNo].active,
       xpLabel: `+${mission.xpReward} XP`,
       shirtLabel: `Shirt ${shirtName}`,
+      countdownText: formatCountdown(msLeft),
     }
   }
 
@@ -118,14 +135,8 @@ function missionCardProps(
   })()
 
   return {
-    variant,
-    title: `Mission ${missionNo}`,
-    subtitle:
-      missionNo === 1
-        ? 'Claim your first shirt!'
-        : missionNo === 2
-          ? 'Find Jay Jay in Virtuals'
-          : 'Place any bet',
+    variant: 'Active',
+    title: missionTitles[missionNo].active,
     xpLabel: `+${mission.xpReward} XP`,
     shirtLabel: `Shirt ${shirtName}`,
     buttonLabel: ctaLabel,
@@ -133,14 +144,52 @@ function missionCardProps(
   }
 }
 
+/** Which mission the user just claimed → drives the celebration modal. */
+type ClaimedMissionNo = 1 | 2 | 3
+
+const shirtColourByMission: Record<ClaimedMissionNo, ShirtColour> = {
+  1: 'Green',
+  2: 'Red',
+  3: 'Blue',
+}
+
 export function ClubHome({ onBack }: ClubHomeProps) {
   const { state, totalXp, collectedCount, dispatch } = useClubState()
   const { missions, wardrobe, countdownDaysLeft } = state
+
+  // Tick every second while M2 is unlocking so the countdown pill updates.
+  const [now, setNow] = useState(() => Date.now())
+  useEffect(() => {
+    if (missions.m2.state !== 'unlocking') return
+    const id = window.setInterval(() => setNow(Date.now()), 1000)
+    return () => window.clearInterval(id)
+  }, [missions.m2.state])
+
+  // Celebration modal: opens on CLAIM SHIRT NOW, dispatches the claim
+  // when the user taps NEXT MISSION (defers state advance until then).
+  const [celebrating, setCelebrating] = useState<ClaimedMissionNo | null>(null)
+  const claim = (missionNo: ClaimedMissionNo) => setCelebrating(missionNo)
+  const confirmClaim = () => {
+    if (!celebrating) return
+    const type = (
+      { 1: 'claim_shirt_1', 2: 'claim_shirt_2', 3: 'claim_shirt_3' } as const
+    )[celebrating]
+    dispatch({ type })
+    setCelebrating(null)
+  }
 
   const wornSlot = wardrobe.slots[wardrobe.wearing]!
   const jayJayShirt: JayJayVariant = jayJayByColour[wornSlot.colour]
   const banner: CollectedCount = Math.min(3, collectedCount) as CollectedCount
   const allDone = totalXp === 500
+
+  // "Shirts left" counter reflects what will remain AFTER the claim is
+  // confirmed (i.e. 3 - collectedCount - 1). Guard for the not-open case.
+  const modalShirtsLeft = celebrating ? Math.max(0, 3 - collectedCount - 1) : 0
+  const modalXp = celebrating ? missions[`m${celebrating}` as const].xpReward : 0
+  const modalColour: ShirtColour = celebrating
+    ? shirtColourByMission[celebrating]
+    : 'Green'
 
   return (
     <div className="club-home">
@@ -173,30 +222,20 @@ export function ClubHome({ onBack }: ClubHomeProps) {
           <Path variant={missionsToPathVariant(missions.m1, missions.m2, missions.m3)} />
           <div className="club-home__mission-cards">
             <MissionCard
-              {...missionCardProps(
-                missions.m1,
-                1,
-                countdownDaysLeft,
-                () => dispatch({ type: 'claim_shirt_1' }),
-              )}
+              {...missionCardProps(missions.m1, 1, now, () => claim(1))}
             />
             <MissionCard
               {...missionCardProps(
                 missions.m2,
                 2,
-                countdownDaysLeft,
-                () => dispatch({ type: 'claim_shirt_2' }),
+                now,
+                () => claim(2),
                 // Need a hint? — modal opens next task; for now a no-op.
                 undefined,
               )}
             />
             <MissionCard
-              {...missionCardProps(
-                missions.m3,
-                3,
-                countdownDaysLeft,
-                () => dispatch({ type: 'claim_shirt_3' }),
-              )}
+              {...missionCardProps(missions.m3, 3, now, () => claim(3))}
             />
           </div>
         </div>
@@ -206,6 +245,14 @@ export function ClubHome({ onBack }: ClubHomeProps) {
           <MainCard variant={collectedToMainVariant(collectedCount)} />
         </section>
       </div>
+
+      <CelebrationModal
+        open={celebrating !== null}
+        onClose={confirmClaim}
+        shirtColour={modalColour}
+        xpAwarded={modalXp}
+        shirtsLeft={modalShirtsLeft}
+      />
     </div>
   )
 }

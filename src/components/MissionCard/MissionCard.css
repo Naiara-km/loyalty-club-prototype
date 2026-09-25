@@ -91,10 +91,40 @@
   border: var(--border-width-1) solid var(--ui-semantic-colours-success-dark);
 }
 
-/* Meta and Button sit above the ::before ring overlay */
+/* Meta, Button, and Countdown sit above the ::before ring overlay */
 .mission-card--active > .mission-card__meta,
-.mission-card--active > .button {
+.mission-card--active > .button,
+.mission-card--active > .mission-card__countdown {
   position: relative;
+}
+
+/* --- Unlocking countdown ---
+ * Display-only "Unlocks in HH:MM:SS" pill that replaces the primary
+ * Button while M2 is in the 12-hour unlocking window. Dark navy fill,
+ * white label + gold time. Figma node I66:8460;46:2024. */
+.mission-card__countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: var(--buttons-md-tb) var(--buttons-md-lr);
+  background-color: var(--ui-text-emphasis-bullet-main);
+  border-radius: var(--border-radius-full);
+  font-family: var(--components-button-medium-font-family);
+  font-size: var(--components-button-medium-font-size);
+  font-weight: var(--components-button-medium-font-weight);
+  line-height: var(--components-button-medium-line-height);
+  letter-spacing: var(--components-button-medium-letter-spacing);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.mission-card__countdown-label {
+  color: var(--ui-common-white-white-100p);
+}
+
+.mission-card__countdown-time {
+  color: var(--ui-value-dark);
 }
 
 /* Meta wrapper */

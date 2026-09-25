@@ -12,6 +12,10 @@ type MissionCardProps = {
   xpLabel?: string
   shirtLabel?: string
   buttonLabel?: string
+  /** When set on an Active card, replaces the Button with a dark
+   *  display-only countdown ("Unlocks in HH:MM:SS"). Used for M2 in the
+   *  unlocking state — Figma node 66:8460. */
+  countdownText?: string
   completedText?: string
   nextStepLabel?: string
   onButtonClick?: () => void
@@ -21,10 +25,11 @@ export function MissionCard(props: MissionCardProps) {
   if (props.variant === 'Active') {
     const {
       title = 'Mission title',
-      subtitle = 'subtitle',
+      subtitle,
       xpLabel = '+ 100 XP',
       shirtLabel = 'Shirt 1',
       buttonLabel = 'Button',
+      countdownText,
       nextStepLabel = 'NEXT STEP',
       onButtonClick,
     } = props
@@ -34,7 +39,7 @@ export function MissionCard(props: MissionCardProps) {
           <div className="mission-card__meta-col">
             <div className="mission-card__title-and-subtitle">
               <p className="mission-card__title mission-card__title--active">{title}</p>
-              <p className="mission-card__subtitle">{subtitle}</p>
+              {subtitle && <p className="mission-card__subtitle">{subtitle}</p>}
             </div>
             <div className="mission-card__badges mission-card__badges--active">
               <Chip variant="XP">{xpLabel}</Chip>
@@ -42,7 +47,14 @@ export function MissionCard(props: MissionCardProps) {
             </div>
           </div>
         </div>
-        <Button onClick={onButtonClick}>{buttonLabel}</Button>
+        {countdownText ? (
+          <div className="mission-card__countdown" aria-live="polite">
+            <span className="mission-card__countdown-label">Unlocks in </span>
+            <span className="mission-card__countdown-time">{countdownText}</span>
+          </div>
+        ) : (
+          <Button onClick={onButtonClick}>{buttonLabel}</Button>
+        )}
         <div className="mission-card__next-step">
           <img
             src={playArrowFilled}
@@ -58,7 +70,7 @@ export function MissionCard(props: MissionCardProps) {
   if (props.variant === 'pending') {
     const {
       title = 'Mistery mission',
-      subtitle = 'subtitle',
+      subtitle,
       xpLabel = '+100 XP',
       shirtLabel = 'Shirt 1',
     } = props
@@ -88,7 +100,7 @@ export function MissionCard(props: MissionCardProps) {
           <div className="mission-card__meta-col">
             <div className="mission-card__title-and-subtitle">
               <p className="mission-card__title mission-card__title--pending">{title}</p>
-              <p className="mission-card__subtitle">{subtitle}</p>
+              {subtitle && <p className="mission-card__subtitle">{subtitle}</p>}
             </div>
             <div className="mission-card__badges mission-card__badges--pending">
               <Chip variant="disabled">{xpLabel}</Chip>
