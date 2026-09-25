@@ -24,7 +24,7 @@
 }
 
 .dev-panel__body {
-  width: 240px;
+  width: 260px;
   padding: 12px 14px;
   background-color: var(--ui-common-white-white-100p);
   border: 1px solid var(--ui-components-borders-outline-border);
@@ -32,7 +32,9 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .dev-panel__title {
@@ -43,51 +45,58 @@
   color: var(--ui-text-secondary);
 }
 
-.dev-panel__row {
+.dev-panel__group {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.dev-panel__label {
-  font-size: 13px;
-  color: var(--ui-text-primary);
-}
-
-.dev-panel__hint {
+.dev-panel__field-label {
   font-size: 11px;
-  line-height: 14px;
+  font-weight: 500;
   color: var(--ui-text-secondary);
 }
 
-/* Switch */
-.dev-panel__switch {
-  position: relative;
-  width: 34px;
-  height: 20px;
-  padding: 0;
-  background-color: var(--ui-common-grey-300);
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: background-color 120ms ease;
-  flex: none;
-}
-.dev-panel__switch--on {
-  background-color: var(--ui-notification-main);
-}
-.dev-panel__switch-thumb {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
+.dev-panel__select,
+.dev-panel__number {
+  padding: 6px 8px;
+  font-family: inherit;
+  font-size: 13px;
+  border: 1px solid var(--ui-components-borders-outline-border);
+  border-radius: 4px;
   background-color: var(--ui-common-white-white-100p);
-  transition: transform 120ms ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  color: var(--ui-text-primary);
 }
-.dev-panel__switch--on .dev-panel__switch-thumb {
-  transform: translateX(14px);
+
+.dev-panel__button-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dev-panel__btn {
+  padding: 6px 10px;
+  background-color: var(--ui-background-8p);
+  color: var(--ui-text-primary);
+  border: 1px solid var(--ui-components-borders-divider);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+.dev-panel__btn:hover:not(:disabled) {
+  background-color: var(--ui-primary-shades-8p);
+}
+.dev-panel__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.dev-panel__btn--reset {
+  background-color: var(--ui-notification-12p);
+  border-color: var(--ui-notification-30p);
+  color: var(--ui-notification-dark);
+  text-align: center;
+  margin-top: 4px;
 }

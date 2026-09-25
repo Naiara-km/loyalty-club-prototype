@@ -3,7 +3,12 @@
   flex-direction: column;
   align-items: center;
   width: 32px;
-  height: 214px;
+  /* No fixed height — when placed in a flex row (e.g. ClubHome's
+   * missions layout) Path stretches via align-self: stretch to match
+   * the sibling mission-cards column. Storybook stories render at the
+   * min-height below. */
+  min-height: 214px;
+  align-self: stretch;
 }
 
 /* Lines grow to fill the space between dots. In Figma, both lines

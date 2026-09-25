@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, type ReactNode } from 'react'
+import { createContext, useContext, useReducer, type ReactNode } from 'react'
+import { clubReducer, type ClubEvent } from './clubReducer'
 import {
   initialClubState,
   selectCollectedCount,
@@ -12,13 +13,13 @@ type ClubStateContextValue = {
   totalXp: number
   hasPendingClaim: boolean
   collectedCount: number
-  setState: (updater: (s: ClubState) => ClubState) => void
+  dispatch: (event: ClubEvent) => void
 }
 
 const ClubStateContext = createContext<ClubStateContextValue | null>(null)
 
 export function ClubStateProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<ClubState>(initialClubState)
+  const [state, dispatch] = useReducer(clubReducer, initialClubState)
   return (
     <ClubStateContext.Provider
       value={{
@@ -26,7 +27,7 @@ export function ClubStateProvider({ children }: { children: ReactNode }) {
         totalXp: selectTotalXp(state),
         hasPendingClaim: selectHasPendingClaim(state),
         collectedCount: selectCollectedCount(state),
-        setState: (updater) => setState(updater),
+        dispatch,
       }}
     >
       {children}

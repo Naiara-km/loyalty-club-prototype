@@ -1,17 +1,17 @@
 .club-home {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  min-height: 100vh;
   background-color: var(--ui-background-8p);
 }
 
-.club-home__app-bar {
+/* --- Full-screen header --- */
+.club-home__header {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 6px; /* figma: spacing/1-5 */
   padding: var(--spacing-3) var(--spacing-4);
   background-color: var(--ui-primary-main);
-  color: var(--ui-hybrid-text-primary);
 }
 
 .club-home__back {
@@ -38,13 +38,46 @@
   color: var(--ui-hybrid-text-primary);
 }
 
-.club-home__placeholder {
-  flex: 1 0 0;
+/* --- Content sheet --- */
+.club-home__content {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-4);
-  color: var(--ui-text-secondary);
+  flex-direction: column;
+  gap: 24px; /* figma: spacing/6 between top-level sections */
+  padding: 24px var(--spacing-4);
+  width: 100%;
+  max-width: 360px; /* figma: mobile home is 360 wide */
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Missions row: Path (32) + gap 16 + mission cards column (flex-1). */
+.club-home__missions-row {
+  display: flex;
+  align-items: stretch;
+  gap: var(--spacing-4);
+  width: 100%;
+}
+.club-home__mission-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+/* Collection section (title + MainCard) */
+.club-home__collection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  width: 100%;
+}
+.club-home__collection-title {
+  margin: 0;
   font-family: var(--font-family-sans);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  color: var(--ui-primary-main);
 }

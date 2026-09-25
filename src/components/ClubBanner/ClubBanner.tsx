@@ -11,44 +11,44 @@ import { JayJay, type JayJayVariant } from '../JayJay/JayJay'
 import './ClubBanner.css'
 
 export type ClubBannerVariant = 'White' | 'Red' | 'Green' | 'Blue'
+export type CollectedCount = 0 | 1 | 2 | 3
 
+/** ClubBanner props are decoupled:
+ *  - `jayJayShirt` controls the character (matches whichever shirt the
+ *    user is wearing — unchanged by mission progress unless they change
+ *    it manually).
+ *  - `collectedCount` controls the tile row + "N/3 COLLECTED" badge.
+ *  - `variant` remains as a shortcut preset that sets both. Existing
+ *    stories keep passing `variant` and still render identically.
+ *  Explicit `jayJayShirt` or `collectedCount` overrides the preset. */
 type ClubBannerProps = {
-  variant: ClubBannerVariant
+  variant?: ClubBannerVariant
+  jayJayShirt?: JayJayVariant
+  collectedCount?: CollectedCount
 }
 
-type Config = {
-  jayJay: JayJayVariant
-  collected: number
-  tiles: [string, string, string]
+type Preset = { jayJayShirt: JayJayVariant; collectedCount: CollectedCount }
+
+const variantPresets: Record<ClubBannerVariant, Preset> = {
+  White: { jayJayShirt: 'white', collectedCount: 0 },
+  Red: { jayJayShirt: 'Red', collectedCount: 1 },
+  Green: { jayJayShirt: 'Green', collectedCount: 2 },
+  Blue: { jayJayShirt: 'Betking', collectedCount: 3 },
 }
 
-/** Progressive-unlock config per variant: how many shirts collected, which
- *  team Jay Jay wears, and which tile art each slot renders. */
-const config: Record<ClubBannerVariant, Config> = {
-  White: {
-    jayJay: 'white',
-    collected: 0,
-    tiles: [shirtLocked1, shirtLocked2, shirtLocked3],
-  },
-  Red: {
-    jayJay: 'Red',
-    collected: 1,
-    tiles: [shirtRed, shirtLocked2, shirtLocked3],
-  },
-  Green: {
-    jayJay: 'Green',
-    collected: 2,
-    tiles: [shirtRed, shirtGreen, shirtLocked3],
-  },
-  Blue: {
-    jayJay: 'Betking',
-    collected: 3,
-    tiles: [shirtRed, shirtGreen, shirtBlue],
-  },
+const tilesByCount: Record<CollectedCount, [string, string, string]> = {
+  0: [shirtLocked1, shirtLocked2, shirtLocked3],
+  1: [shirtRed, shirtLocked2, shirtLocked3],
+  2: [shirtRed, shirtGreen, shirtLocked3],
+  3: [shirtRed, shirtGreen, shirtBlue],
 }
 
-export function ClubBanner({ variant }: ClubBannerProps) {
-  const cfg = config[variant]
+export function ClubBanner({ variant, jayJayShirt, collectedCount }: ClubBannerProps) {
+  const preset = variant ? variantPresets[variant] : variantPresets.White
+  const finalJayJay = jayJayShirt ?? preset.jayJayShirt
+  const finalCount = collectedCount ?? preset.collectedCount
+  const tiles = tilesByCount[finalCount]
+
   return (
     <div className="club-banner">
       <div className="club-banner__content">
@@ -66,7 +66,7 @@ export function ClubBanner({ variant }: ClubBannerProps) {
                   </div>
                   <div className="club-banner__rewards">
                     <div className="club-banner__shirts">
-                      {cfg.tiles.map((src, i) => (
+                      {tiles.map((src, i) => (
                         <div
                           key={i}
                           className={`club-banner__shirt-slot club-banner__shirt-slot--${i}`}
@@ -90,7 +90,7 @@ export function ClubBanner({ variant }: ClubBannerProps) {
                   </div>
                 </div>
                 <div className="club-banner__badge">
-                  <p className="club-banner__badge-text">{cfg.collected}/3 COLLECTED</p>
+                  <p className="club-banner__badge-text">{finalCount}/3 COLLECTED</p>
                 </div>
               </div>
             </div>
@@ -102,7 +102,7 @@ export function ClubBanner({ variant }: ClubBannerProps) {
       </div>
       <div className="club-banner__jayjay">
         <div className="club-banner__jayjay-figure">
-          <JayJay variant={cfg.jayJay} />
+          <JayJay variant={finalJayJay} />
         </div>
       </div>
     </div>

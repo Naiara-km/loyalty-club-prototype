@@ -1,37 +1,16 @@
 import { useState } from 'react'
+import { stageLabels, type Stage } from '../../state/clubReducer'
 import { useClubState } from '../../state/ClubStateContext'
 import './DevPanel.css'
 
-/** Overlay dev widget for prototype-only state toggles. Currently exposes
- *  a single toggle: whether the Betking Club row shows the notification
- *  (Mission 1 in 'active' with a claim pending) or not (Mission 1
- *  'completed' — 100 XP earned, no pending claim). */
+/** Prototype-only overlay for state controls. Fires reducer events that
+ *  the app can't trigger via normal clicks (12h wait, "found Jay Jay",
+ *  "bet placed"), and lets the reviewer jump to any stage or scrub the
+ *  days-left countdown. */
 export function DevPanel() {
-  const { hasPendingClaim, setState } = useClubState()
+  const { state, dispatch } = useClubState()
+  const { missions, countdownDaysLeft } = state
   const [open, setOpen] = useState(false)
-
-  const toggleClaim = () => {
-    setState((s) => {
-      if (s.missions.m1.state === 'active') {
-        // Mark M1 completed → hasPendingClaim false, +100 XP
-        return {
-          ...s,
-          missions: {
-            ...s.missions,
-            m1: { ...s.missions.m1, state: 'completed', completedAt: Date.now() },
-          },
-        }
-      }
-      // Reset M1 back to active → hasPendingClaim true, 0 XP
-      return {
-        ...s,
-        missions: {
-          ...s.missions,
-          m1: { ...s.missions.m1, state: 'active', completedAt: null },
-        },
-      }
-    })
-  }
 
   return (
     <div className={`dev-panel${open ? ' dev-panel--open' : ''}`}>
@@ -43,30 +22,89 @@ export function DevPanel() {
       >
         DEV
       </button>
+
       {open && (
         <div className="dev-panel__body">
-          <div className="dev-panel__title">Dev · state toggles</div>
+          <div className="dev-panel__title">Dev · state controls</div>
 
-          <label className="dev-panel__row">
-            <span className="dev-panel__label">Claim pending</span>
-            <button
-              type="button"
-              className={`dev-panel__switch${
-                hasPendingClaim ? ' dev-panel__switch--on' : ''
-              }`}
-              role="switch"
-              aria-checked={hasPendingClaim}
-              onClick={toggleClaim}
+          <div className="dev-panel__group">
+            <label className="dev-panel__field-label" htmlFor="dev-stage">
+              Jump to stage
+            </label>
+            <select
+              id="dev-stage"
+              className="dev-panel__select"
+              onChange={(e) => {
+                dispatch({ type: 'jump_to_stage', stage: e.target.value as Stage })
+              }}
+              value=""
             >
-              <span className="dev-panel__switch-thumb" />
-            </button>
-          </label>
-
-          <div className="dev-panel__hint">
-            {hasPendingClaim
-              ? 'Row shows red dot + “1 reward ready”'
-              : 'Row shows plain XP only'}
+              <option value="" disabled>
+                — choose —
+              </option>
+              {stageLabels.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
           </div>
+
+          <div className="dev-panel__group">
+            <div className="dev-panel__field-label">Simulate events</div>
+            <div className="dev-panel__button-col">
+              <button
+                type="button"
+                className="dev-panel__btn"
+                disabled={missions.m2.state !== 'unlocking'}
+                onClick={() => dispatch({ type: 'twelve_hours_elapsed' })}
+              >
+                Skip 12h wait (M2)
+              </button>
+              <button
+                type="button"
+                className="dev-panel__btn"
+                disabled={missions.m2.state !== 'active'}
+                onClick={() => dispatch({ type: 'find_jay_jay' })}
+              >
+                Find Jay Jay (M2)
+              </button>
+              <button
+                type="button"
+                className="dev-panel__btn"
+                disabled={missions.m3.state !== 'active'}
+                onClick={() => dispatch({ type: 'place_bet' })}
+              >
+                Place a bet (M3)
+              </button>
+            </div>
+          </div>
+
+          <div className="dev-panel__group">
+            <label className="dev-panel__field-label" htmlFor="dev-days">
+              Days left
+            </label>
+            <input
+              id="dev-days"
+              className="dev-panel__number"
+              type="number"
+              min={0}
+              max={30}
+              value={countdownDaysLeft}
+              onChange={(e) => {
+                const n = Number(e.target.value)
+                if (Number.isFinite(n)) dispatch({ type: 'set_days_left', days: n })
+              }}
+            />
+          </div>
+
+          <button
+            type="button"
+            className="dev-panel__btn dev-panel__btn--reset"
+            onClick={() => dispatch({ type: 'reset' })}
+          >
+            Reset to Start
+          </button>
         </div>
       )}
     </div>
