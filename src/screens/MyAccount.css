@@ -1,14 +1,25 @@
-/* --- Root --- */
+/* Figma: 26:22254 My Account Default. Colours from Figma variables are
+ * mapped to tokens.system.css tokens by value where possible; raw values
+ * with /* figma: ... */ comments are used where no token matches. */
+
 .my-account {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--ui-background-12p);
+  font-family: var(--font-family-sans);
+}
+
+.my-account__page {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100%;
-  background-color: var(--ui-background-12p);
+  width: 100%;
 }
 
-/* --- Fixed app bar (back / Account / close) --- */
+/* --- App bar (absolute overlay) --- */
 .my-account__app-bar {
   position: absolute;
   top: 0;
@@ -16,22 +27,19 @@
   right: 0;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 6px; /* figma: spacing/1-5 */
   padding: var(--spacing-3) var(--spacing-4);
   overflow: clip;
   z-index: 2;
 }
-
 .my-account__app-bar-left {
   display: flex;
   flex: 1 0 0;
   min-width: 0;
   align-items: center;
-  gap: 6px;
+  gap: 6px; /* figma: spacing/1-5 */
 }
-
 .my-account__app-bar-title {
-  font-family: var(--font-family-sans);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-regular);
   line-height: 1.5;
@@ -39,7 +47,6 @@
   color: var(--ui-hybrid-text-primary);
   white-space: nowrap;
 }
-
 .my-account__icon-btn {
   display: inline-flex;
   align-items: center;
@@ -49,7 +56,6 @@
   border-radius: var(--border-radius-full);
   cursor: pointer;
 }
-
 .my-account__icon-btn-img {
   display: block;
   width: 20px;
@@ -62,34 +68,40 @@
 
 /* --- Gradient header --- */
 .my-account__header {
+  position: relative;
   width: 100%;
-  padding: 56px 0 36px;
+  padding: 56px 0 36px; /* figma: pt matches app-bar height, pb spacing/9 */
+  margin-bottom: -12px; /* sheet overlaps header by 12px */
   background: linear-gradient(
     to top,
-    var(--ui-primary-main) 99.708%,
-    var(--ui-secondary-main)
+    var(--ui-secondary-main),
+    var(--ui-primary-main) 99.708%
   );
-  margin-bottom: -12px; /* header bleeds into the sheet corner */
 }
-
 .my-account__header-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 600px;
+  width: 100%;
+  max-width: 600px; /* figma: breakpoint/sm */
   margin: 0 auto;
 }
 
-/* User row */
-.my-account__user {
+/* User info block */
+.my-account__user-info {
   display: flex;
-  align-items: center;
-  gap: var(--spacing-3);
+  flex-direction: column;
+  gap: var(--spacing-4);
   width: 100%;
-  padding: var(--spacing-6, 24px) var(--spacing-4) 0;
+  padding: 24px var(--spacing-4) 0; /* figma: spacing/6 top, spacing/4 sides */
   box-sizing: border-box;
 }
-
+.my-account__user-row {
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: center;
+  width: 100%;
+}
 .my-account__avatar {
   display: flex;
   align-items: center;
@@ -98,24 +110,23 @@
   height: 40px;
   padding: var(--spacing-2);
   background-color: var(--ui-primary-contrast);
-  border-radius: 64px;
+  border-radius: 64px; /* figma: Avatar radius */
   overflow: clip;
   box-sizing: border-box;
+  flex: none;
 }
 .my-account__avatar-img {
   display: block;
   width: 24px;
   height: 24px;
 }
-
 .my-account__user-details {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--spacing-1);
   flex: 1 0 0;
   min-width: 0;
   color: var(--ui-hybrid-text-primary);
-  font-family: var(--font-family-sans);
   font-weight: var(--font-weight-regular);
 }
 .my-account__hi {
@@ -128,19 +139,19 @@
 .my-account__user-id {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--spacing-1);
   margin: 0;
   font-size: var(--font-size-xs);
   line-height: var(--font-line-height-4);
   letter-spacing: 0.4px;
+  white-space: nowrap;
 }
-
-.my-account__divider-dark {
-  width: calc(100% - var(--spacing-4) * 2);
+.my-account__header-divider {
+  width: 100%;
   height: 1px;
-  margin: var(--spacing-4) var(--spacing-4) 0;
-  background-color: rgba(227, 241, 253, 0.12); /* --ui-hybrid-shades-16p */
+  margin: 0;
   border: none;
+  background-color: rgba(227, 241, 253, 0.12); /* figma: UI/Hybrid/Shades/16p */
 }
 
 /* Balance block */
@@ -148,12 +159,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: var(--spacing-1);
   width: 100%;
   padding: var(--spacing-4);
   color: var(--ui-hybrid-text-primary);
-  font-family: var(--font-family-sans);
-  font-weight: var(--font-weight-regular);
   box-sizing: border-box;
 }
 .my-account__balance-amount {
@@ -169,7 +178,7 @@
 }
 .my-account__balance-number {
   font-size: var(--font-size-2xl);
-  line-height: 1.334;
+  line-height: 1.334; /* figma: Typography/H5 */
 }
 .my-account__balance-label {
   margin: 0;
@@ -178,28 +187,28 @@
   letter-spacing: 0.17px;
 }
 
-/* Withdraw / Deposit buttons */
+/* Withdraw + Deposit */
 .my-account__actions {
   display: flex;
+  gap: var(--spacing-4);
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-4);
   width: 100%;
   padding: 0 var(--spacing-4);
-  border-radius: 4px;
   overflow: clip;
   box-sizing: border-box;
 }
 .my-account__btn {
   flex: 1 0 0;
   min-width: 0;
-  padding: 8px 22px;
+  padding: 8px 22px; /* figma: Buttons/LG/TB Buttons/LG/LR */
+  background-color: var(--ui-common-white-white-100p);
   border: none;
   border-radius: var(--border-radius-full);
   font-family: var(--font-family-sans);
   font-size: var(--font-size-sm-plus);
   font-weight: var(--font-weight-medium);
-  line-height: 26px;
+  line-height: 26px; /* figma: Components/Button Large */
   letter-spacing: 0.46px;
   text-align: center;
   text-transform: uppercase;
@@ -215,20 +224,26 @@
   color: var(--ui-highlight-contrast);
 }
 
-/* --- Content sheet --- */
-.my-account__sheet {
+/* --- Sheet (light content area) --- */
+.my-account__sheet-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
   position: relative;
+  z-index: 1;
+}
+.my-account__sheet {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  width: 361px;
+  width: 361px; /* figma: sheet w-[361px] */
   max-width: 100%;
   background-color: var(--ui-background-8p);
   border-radius: var(--border-radii-lg) var(--border-radii-lg) 0 0;
   filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.25));
 }
 
-/* Section (My Rewards, My Activity, etc.) */
+/* --- Section --- */
 .my-account__section {
   display: flex;
   flex-direction: column;
@@ -237,21 +252,20 @@
 .my-account__section-header {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 24px 12px 16px 16px;
+  gap: 6px; /* figma: spacing/1-5 */
+  padding: 24px 12px 16px 16px; /* figma: pt spacing/6, pr spacing/3, pb spacing/4, pl spacing/4 */
   overflow: clip;
 }
 .my-account__section-title {
   margin: 0;
-  font-family: var(--font-family-sans);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   line-height: 1.5;
   letter-spacing: 0.15px;
   color: var(--ui-primary-main);
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .my-account__section-body {
   display: flex;
@@ -259,21 +273,21 @@
   padding: 0 var(--spacing-4);
 }
 
-/* Tile (white rounded container inside a section) */
+/* Tile */
 .my-account__tile {
   display: flex;
   flex-direction: column;
   padding: var(--spacing-1) 0;
-  background-color: var(--ui-common-white-white-100p);
+  background-color: var(--ui-background-paper);
   border-radius: var(--border-radii-lg);
 }
 
-/* --- Rows --- */
+/* --- Row --- */
 .my-account__row {
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 10px var(--spacing-4);
+  padding: 10px var(--spacing-4); /* figma: spacing/2-5 vertical */
   background: transparent;
   border: none;
   font: inherit;
@@ -291,14 +305,11 @@
   min-width: 0;
   align-items: center;
   gap: var(--spacing-3);
-  position: relative;
 }
-
 .my-account__row-icon {
   display: block;
   flex: none;
 }
-
 .my-account__row-label {
   padding: var(--spacing-1) 0;
   font-family: var(--typography-body-2-font-family);
@@ -309,35 +320,31 @@
   color: var(--ui-text-primary);
   white-space: nowrap;
 }
-
 .my-account__row-value {
   display: flex;
   align-items: center;
-  font-family: var(--font-family-sans);
-  font-size: var(--typography-body-2-font-size);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--typography-body-2-line-height);
-  letter-spacing: var(--typography-body-2-letter-spacing);
+  font-family: var(--typography-body-2-medium-font-family);
+  font-size: var(--typography-body-2-medium-font-size);
+  font-weight: var(--typography-body-2-medium-font-weight);
+  line-height: var(--typography-body-2-medium-line-height);
+  letter-spacing: var(--typography-body-2-medium-letter-spacing);
   color: var(--ui-text-primary);
   white-space: nowrap;
 }
-
 .my-account__currency-symbol {
   font-weight: var(--font-weight-regular);
 }
 .my-account__currency-value {
   font-weight: var(--font-weight-medium);
 }
-
 .my-account__row-chevron {
   display: block;
   width: 24px;
   height: 24px;
   flex: none;
-  margin-left: 0;
 }
 
-/* Betking Club row extras */
+/* Betking Club row */
 .my-account__club-icon {
   position: relative;
   flex: none;
@@ -349,7 +356,7 @@
   display: block;
   width: 5px;
   height: 5px;
-  border-radius: 450px;
+  border-radius: 450px; /* figma: IconBadgeBase */
   background-color: var(--ui-notification-main);
 }
 .my-account__club-labels {
@@ -358,15 +365,14 @@
   padding: var(--spacing-1) 0;
 }
 .my-account__club-subtitle {
-  font-family: var(--font-family-sans);
-  font-size: 11px;
+  font-size: 11px; /* figma: small-text size not in tokens */
   font-weight: var(--font-weight-bold);
-  line-height: 14px;
+  line-height: 14px; /* figma: small-text lh */
   color: var(--ui-hybrid-actions-selected-main);
   white-space: nowrap;
 }
 
-/* Divider between rows in a tile */
+/* Row divider inside a tile */
 .my-account__row-divider-wrap {
   display: flex;
   align-items: flex-start;
@@ -388,12 +394,12 @@
   border-radius: 1px;
 }
 
-/* --- Log out button --- */
+/* --- Log out --- */
 .my-account__logout-wrap {
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-4);
   width: 100%;
+  padding: var(--spacing-4);
   box-sizing: border-box;
 }
 .my-account__logout-btn {

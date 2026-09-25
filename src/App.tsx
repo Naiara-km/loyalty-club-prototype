@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { DevPanel } from './components/DevPanel/DevPanel'
 import { ClubHome } from './screens/ClubHome'
 import { MyAccount } from './screens/MyAccount'
 import { ClubStateProvider } from './state/ClubStateContext'
@@ -15,6 +16,7 @@ export default function App() {
       {screen === 'club-home' && (
         <ClubHome onBack={() => setScreen('my-account')} />
       )}
+      <DevPanel />
     </ClubStateProvider>
   )
 }

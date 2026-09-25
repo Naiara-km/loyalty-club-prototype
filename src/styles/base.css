@@ -3,3 +3,22 @@
 *::after {
   box-sizing: border-box;
 }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  color: var(--ui-text-primary);
+  background-color: var(--ui-background-default);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}

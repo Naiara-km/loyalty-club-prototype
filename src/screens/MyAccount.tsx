@@ -20,6 +20,7 @@ import virtualsBetList from '../assets/icons/virtuals-bet-list.svg'
 import { useClubState } from '../state/ClubStateContext'
 import './MyAccount.css'
 
+/** Figma frame: 26:22254 (My Account Default). */
 type MyAccountProps = {
   onOpenClub: () => void
 }
@@ -29,125 +30,177 @@ export function MyAccount({ onOpenClub }: MyAccountProps) {
 
   return (
     <div className="my-account">
-      {/* Fixed-position app bar on top of the gradient */}
-      <div className="my-account__app-bar">
-        <div className="my-account__app-bar-left">
-          <button type="button" className="my-account__icon-btn" aria-label="Back">
-            <img src={arrowBackFilled} alt="" className="my-account__icon-btn-img" />
-          </button>
-          <span className="my-account__app-bar-title">Account</span>
-        </div>
-        <button type="button" className="my-account__icon-btn" aria-label="Close">
-          <img src={closeFilled} alt="" className="my-account__icon-btn-img my-account__icon-btn-img--lg" />
-        </button>
-      </div>
-
-      {/* Gradient header */}
-      <header className="my-account__header">
-        <div className="my-account__header-inner">
-          <div className="my-account__user">
-            <div className="my-account__avatar">
-              <img src={personFilled} alt="" className="my-account__avatar-img" />
-            </div>
-            <div className="my-account__user-details">
-              <p className="my-account__hi">Hi User</p>
-              <p className="my-account__user-id">
-                <span>UserId: </span>
-                <span>3888807</span>
-              </p>
-            </div>
-          </div>
-          <hr className="my-account__divider-dark" />
-
-          <div className="my-account__balance">
-            <p className="my-account__balance-amount">
-              <span className="my-account__balance-currency">₦</span>
-              <span className="my-account__balance-number">0</span>
-            </p>
-            <p className="my-account__balance-label">Your balance</p>
-          </div>
-
-          <div className="my-account__actions">
-            <button type="button" className="my-account__btn my-account__btn--withdraw">
-              Withdraw
+      <div className="my-account__page">
+        {/* Absolute app bar on top of the gradient */}
+        <div className="my-account__app-bar">
+          <div className="my-account__app-bar-left">
+            <button type="button" className="my-account__icon-btn" aria-label="Back">
+              <img
+                src={arrowBackFilled}
+                alt=""
+                className="my-account__icon-btn-img"
+              />
             </button>
-            <button type="button" className="my-account__btn my-account__btn--deposit">
-              Deposit
-            </button>
+            <span className="my-account__app-bar-title">Account</span>
           </div>
-        </div>
-      </header>
-
-      {/* Content sheet */}
-      <main className="my-account__sheet">
-        <Section title="My Rewards">
-          <Tile>
-            <ListRow
-              icon={giftPackage}
-              iconSize={20}
-              label="Free Bets"
-              value={
-                <>
-                  <span className="my-account__currency-symbol">₦</span>
-                  <span className="my-account__currency-value"> 100</span>
-                </>
-              }
-              chevron
+          <button type="button" className="my-account__icon-btn" aria-label="Close">
+            <img
+              src={closeFilled}
+              alt=""
+              className="my-account__icon-btn-img my-account__icon-btn-img--lg"
             />
-            <RowDivider />
-            <ClubRow xp={totalXp} pending={hasPendingClaim} onClick={onOpenClub} />
-          </Tile>
-        </Section>
-
-        <Section title="My Activity">
-          <Tile>
-            <ListRow icon={navbarMyBets} iconSize={20} label="My Bets" chevron />
-            <RowDivider />
-            <ListRow icon={historyFilled} iconSize={20} label="Transaction History" chevron />
-            <RowDivider />
-            <ListRow icon={virtualsBetList} iconSize={20} label="Virtual Bet List" chevron />
-          </Tile>
-        </Section>
-
-        <Section title="My Information">
-          <Tile>
-            <ListRow icon={genericListIcon} iconSize={20} label="My Details" chevron />
-            <RowDivider />
-            <ListRow icon={digitalWellbeing} iconSize={20} label="Responsible Gambling" chevron />
-            <RowDivider />
-            <ListRow icon={appleFaceid} iconSize={20} label="Fingerprint or Face Login" chevron />
-            <RowDivider />
-            <ListRow icon={emailFilled} iconSize={20} label="Messages" chevron />
-            <RowDivider />
-            <ListRow icon={notificationsFilled} iconSize={20} label="Notications" chevron />
-          </Tile>
-        </Section>
-
-        <div className="my-account__logout-wrap">
-          <button type="button" className="my-account__logout-btn">Log OUT</button>
+          </button>
         </div>
 
-        <Section title="BetKing Info">
-          <Tile>
-            <ListRow icon={phoneFilled} iconSize={20} label="Contact Us" />
-            <RowDivider />
-            <ListRow icon={genericListIcon} iconSize={20} label="Help " />
-            <RowDivider />
-            <ListRow icon={helpFilled} iconSize={20} label="FAQs" />
-            <RowDivider />
-            <ListRow icon={genericListIcon} iconSize={20} label="Blog" />
-            <RowDivider />
-            <ListRow icon={personAddFilled} iconSize={20} label="Become an Agent" />
-            <RowDivider />
-            <ListRow icon={infoFilled} iconSize={20} label="About" />
-          </Tile>
-        </Section>
-      </main>
+        {/* Header — navy gradient */}
+        <header className="my-account__header">
+          <div className="my-account__header-inner">
+            {/* User info + divider */}
+            <div className="my-account__user-info">
+              <div className="my-account__user-row">
+                <div className="my-account__avatar">
+                  <img src={personFilled} alt="" className="my-account__avatar-img" />
+                </div>
+                <div className="my-account__user-details">
+                  <p className="my-account__hi">Hi User</p>
+                  <p className="my-account__user-id">
+                    <span>UserId:&nbsp;</span>
+                    <span>3888807</span>
+                  </p>
+                </div>
+              </div>
+              <hr className="my-account__header-divider" />
+            </div>
+
+            {/* Balance */}
+            <div className="my-account__balance">
+              <p className="my-account__balance-amount">
+                <span className="my-account__balance-currency">₦</span>
+                <span className="my-account__balance-number">0</span>
+              </p>
+              <p className="my-account__balance-label">Your balance</p>
+            </div>
+
+            {/* Withdraw / Deposit */}
+            <div className="my-account__actions">
+              <button type="button" className="my-account__btn my-account__btn--withdraw">
+                Withdraw
+              </button>
+              <button type="button" className="my-account__btn my-account__btn--deposit">
+                Deposit
+              </button>
+            </div>
+          </div>
+        </header>
+
+        {/* Sheet — light content area, overlaps 12px into the header via CSS */}
+        <div className="my-account__sheet-wrap">
+          <div className="my-account__sheet">
+            <Section title="My Rewards">
+              <Tile>
+                <Row
+                  icon={giftPackage}
+                  iconSize={20}
+                  label="Free Bets"
+                  value={
+                    <>
+                      <span className="my-account__currency-symbol">₦</span>
+                      <span className="my-account__currency-value">&nbsp;100</span>
+                    </>
+                  }
+                  chevron
+                />
+                <RowDivider />
+                <ClubRow
+                  xp={totalXp}
+                  pending={hasPendingClaim}
+                  onClick={onOpenClub}
+                />
+              </Tile>
+            </Section>
+
+            <Section title="My Activity">
+              <Tile>
+                <Row icon={navbarMyBets} iconSize={20} label="My Bets" chevron />
+                <RowDivider />
+                <Row
+                  icon={historyFilled}
+                  iconSize={20}
+                  label="Transaction History"
+                  chevron
+                />
+                <RowDivider />
+                <Row
+                  icon={virtualsBetList}
+                  iconSize={20}
+                  label="Virtual Bet List"
+                  chevron
+                />
+              </Tile>
+            </Section>
+
+            <Section title="My Information">
+              <Tile>
+                <Row icon={genericListIcon} iconSize={20} label="My Details" chevron />
+                <RowDivider />
+                <Row
+                  icon={digitalWellbeing}
+                  iconSize={20}
+                  label="Responsible Gambling"
+                  chevron
+                />
+                <RowDivider />
+                <Row
+                  icon={appleFaceid}
+                  iconSize={20}
+                  label="Fingerprint or Face Login"
+                  chevron
+                />
+                <RowDivider />
+                <Row icon={emailFilled} iconSize={20} label="Messages" chevron />
+                <RowDivider />
+                <Row
+                  icon={notificationsFilled}
+                  iconSize={20}
+                  label="Notications"
+                  chevron
+                />
+              </Tile>
+            </Section>
+
+            <div className="my-account__logout-wrap">
+              <button type="button" className="my-account__logout-btn">
+                Log OUT
+              </button>
+            </div>
+
+            <Section title="BetKing Info">
+              <Tile>
+                <Row icon={phoneFilled} iconSize={20} label="Contact Us" />
+                <RowDivider />
+                <Row icon={genericListIcon} iconSize={20} label="Help " />
+                <RowDivider />
+                <Row icon={helpFilled} iconSize={20} label="FAQs" />
+                <RowDivider />
+                <Row icon={genericListIcon} iconSize={20} label="Blog" />
+                <RowDivider />
+                <Row
+                  icon={personAddFilled}
+                  iconSize={20}
+                  label="Become an Agent"
+                />
+                <RowDivider />
+                <Row icon={infoFilled} iconSize={20} label="About" />
+              </Tile>
+            </Section>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
 
-/** --- Internal helpers (only used inside this screen) --- */
+/* --- Local helpers (only used inside this screen) --- */
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -164,7 +217,7 @@ function Tile({ children }: { children: ReactNode }) {
   return <div className="my-account__tile">{children}</div>
 }
 
-type ListRowProps = {
+type RowProps = {
   icon: string
   iconSize?: 20 | 24
   label: string
@@ -173,10 +226,10 @@ type ListRowProps = {
   onClick?: () => void
 }
 
-function ListRow({ icon, iconSize = 20, label, value, chevron, onClick }: ListRowProps) {
-  const Wrapper = onClick ? 'button' : 'div'
+function Row({ icon, iconSize = 20, label, value, chevron, onClick }: RowProps) {
+  const Tag = onClick ? 'button' : 'div'
   return (
-    <Wrapper
+    <Tag
       type={onClick ? 'button' : undefined}
       className={`my-account__row${onClick ? ' my-account__row--interactive' : ''}`}
       onClick={onClick}
@@ -192,15 +245,18 @@ function ListRow({ icon, iconSize = 20, label, value, chevron, onClick }: ListRo
       </div>
       {value !== undefined && <span className="my-account__row-value">{value}</span>}
       {chevron && (
-        <img src={navChevronRight} alt="" className="my-account__row-chevron" />
+        <img
+          src={navChevronRight}
+          alt=""
+          className="my-account__row-chevron"
+        />
       )}
-    </Wrapper>
+    </Tag>
   )
 }
 
-/** Betking Club row — special ListRow with the K logo, live XP, and a
- *  notification badge + "1 reward ready" subtitle when a shirt is
- *  waiting to be claimed. */
+/** Betking Club row — 24px K logo, live XP, notification variant when
+ *  a shirt is waiting to be claimed. */
 function ClubRow({
   xp,
   pending,
@@ -218,17 +274,24 @@ function ClubRow({
     >
       <div className="my-account__row-left">
         <div className="my-account__club-icon">
-          <img src={kLogo} alt="" className="my-account__row-icon" style={{ width: 24, height: 24 }} />
+          <img
+            src={kLogo}
+            alt=""
+            className="my-account__row-icon"
+            style={{ width: 24, height: 24 }}
+          />
           {pending && <span className="my-account__club-badge" aria-hidden />}
         </div>
         <div className="my-account__club-labels">
           <span className="my-account__row-label">My Betking Club</span>
-          {pending && <span className="my-account__club-subtitle">1 reward ready</span>}
+          {pending && (
+            <span className="my-account__club-subtitle">1 reward ready</span>
+          )}
         </div>
       </div>
       <span className="my-account__row-value">
         <span>XP</span>
-        <span>{` ${xp}/500`}</span>
+        <span>&nbsp;{xp}/500</span>
       </span>
       <img src={navChevronRight} alt="" className="my-account__row-chevron" />
     </button>
