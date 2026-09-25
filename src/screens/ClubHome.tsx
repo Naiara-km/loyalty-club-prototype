@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import arrowBackFilled from '../assets/icons/arrow-back-filled.svg'
+import personCheckFilled from '../assets/icons/person-check-filled.svg'
 import { CelebrationModal } from '../components/CelebrationModal/CelebrationModal'
 import { ClubBanner, type CollectedCount } from '../components/ClubBanner/ClubBanner'
 import type { JayJayVariant } from '../components/JayJay/JayJay'
@@ -66,20 +67,36 @@ function formatCountdown(msRemaining: number): string {
   return `${h}:${m}:${s}`
 }
 
-/** Titles per mission number — Figma node 66:8200. Note "Mistery" is
- *  the Figma spelling (kept verbatim). */
-const missionTitles = {
-  1: { active: 'Claim Jay Jay first shirt!', locked: 'Mistery mission' },
-  2: { active: 'Find Jay Jay', locked: 'Mistery mission' },
-  3: { active: 'Place a bet', locked: 'Mistery mission' },
-} as const
+/** Titles per mission number — Figma nodes 272:44292 (M1), 272:46474
+ *  (M2), 272:46066 (M3). "Mistery" is the Figma spelling. */
+const missionTitles: Record<1 | 2 | 3, { active: string; locked: string }> = {
+  1: { active: 'Claim Jay Jay first shirt!', locked: 'Mistery mission 1' },
+  2: { active: 'Find Jay Jay', locked: 'Mistery mission 2' },
+  3: { active: 'Place a bet', locked: 'Mistery mission 3' },
+}
 
-/** Subtitles for the Active card per mission — Figma 66:8460 (M2)
- *  and 66:8809 (M3). M1's active card doesn't show a subtitle. */
+/** Body of the Active-card subtitle. The bold gold "Mission N" prefix
+ *  is applied via the `subtitleAccent` prop. Figma 272:46479 / 272:46066. */
 const missionSubtitles: Record<1 | 2 | 3, string | undefined> = {
   1: undefined,
-  2: "Jay Jay's hiding in one of our games.",
-  3: 'Sports, Virtuals or Casino',
+  2: "He's hiding somewhere",
+  3: 'Any amount on Sports, Virtuals or Casino.',
+}
+
+/** Yellow next-step pill label per mission — Figma renames per state:
+ *  M1 "READY", M2 "FOUND" (once located), M3 "LAST MISSION". */
+const nextStepLabels: Record<1 | 2 | 3, string> = {
+  1: 'READY',
+  2: 'FOUND',
+  3: 'LAST MISSION',
+}
+
+/** Icon shown in the next-step pill. M3 renders without an icon
+ *  (Figma 272:46066). */
+const nextStepIcons: Record<1 | 2 | 3, string | null> = {
+  1: null, // M1 uses the default play-arrow — set via component default
+  2: personCheckFilled,
+  3: null, // M3 has no icon
 }
 
 /** Build MissionCard props derived from the mission's state, the mission
@@ -92,25 +109,24 @@ function missionCardProps(
   onClaim?: () => void,
   onHint?: () => void,
 ): React.ComponentProps<typeof MissionCard> {
-  const shirtName = ({ 1: 'Green', 2: 'Red', 3: 'Blue' } as const)[missionNo]
-
-  // Completed
+  // Completed — Figma 272:45692 / 272:46867 render "Done · Club shirt N
+  // collected · +N XP" (mission number, no shirt colour).
   if (mission.state === 'completed') {
     return {
       variant: 'Completed',
       title: missionTitles[missionNo].active,
-      completedText: `Done · Shirt ${shirtName} collected · +${mission.xpReward} XP`,
+      completedText: `Done · Club shirt ${missionNo} collected · +${mission.xpReward} XP`,
     }
   }
 
-  // Locked — dashed pending card with reveal subtitle (Figma 66:8200)
+  // Locked — dashed pending card with reveal subtitle (Figma 272:44293)
   if (mission.state === 'locked') {
     return {
       variant: 'pending',
       title: missionTitles[missionNo].locked,
       subtitle: `Revealed when mission ${missionNo - 1} is done`,
       xpLabel: `+${mission.xpReward} XP`,
-      shirtLabel: `Shirt ${shirtName}`,
+      shirtLabel: `Shirt ${missionNo}`,
     }
   }
 
@@ -121,10 +137,13 @@ function missionCardProps(
     return {
       variant: 'Active',
       title: missionTitles[missionNo].active,
+      subtitleAccent: `Mission ${missionNo}`,
       subtitle: missionSubtitles[missionNo],
       xpLabel: `+ ${mission.xpReward} XP`,
-      shirtLabel: `Shirt ${shirtName}`,
+      shirtLabel: `Shirt ${missionNo}`,
       countdownText: formatCountdown(msLeft),
+      nextStepLabel: nextStepLabels[missionNo],
+      nextStepIcon: nextStepIcons[missionNo],
     }
   }
 
@@ -146,12 +165,12 @@ function missionCardProps(
   return {
     variant: 'Active',
     title: missionTitles[missionNo].active,
+    subtitleAccent: `Mission ${missionNo}`,
     subtitle: missionSubtitles[missionNo],
-    // M3 is the final mission — Figma 66:8809 labels its step chip
-    // "LAST STEP".
-    nextStepLabel: missionNo === 3 ? 'LAST STEP' : 'NEXT STEP',
+    nextStepLabel: nextStepLabels[missionNo],
+    nextStepIcon: nextStepIcons[missionNo],
     xpLabel: `+ ${mission.xpReward} XP`,
-    shirtLabel: `Shirt ${shirtName}`,
+    shirtLabel: `Shirt ${missionNo}`,
     buttonLabel: ctaLabel,
     onButtonClick: onClick,
   }
@@ -195,6 +214,41 @@ export function ClubHome({ onBack }: ClubHomeProps) {
   const jayJayShirt: JayJayVariant = jayJayByColour[wornSlot.colour]
   const banner: CollectedCount = Math.min(3, collectedCount) as CollectedCount
   const allDone = totalXp === 500
+
+  // Card ordering — Figma section 272:47393 restacks the cards so that
+  // the currently-active/unlocking mission is always at the top,
+  // followed by remaining locked missions in ascending number order,
+  // then completed missions in reverse completion order (newest first).
+  const missionRank = (m: Mission): 0 | 1 | 2 => {
+    if (m.state === 'active' || m.state === 'unlocking' || m.state === 'condition_met') return 0
+    if (m.state === 'locked') return 1
+    return 2 // completed
+  }
+  const orderedMissions: Array<{ no: 1 | 2 | 3; mission: Mission }> = (
+    [
+      { no: 1, mission: missions.m1 },
+      { no: 2, mission: missions.m2 },
+      { no: 3, mission: missions.m3 },
+    ] as const
+  )
+    .slice()
+    .sort((a, b) => {
+      const ra = missionRank(a.mission)
+      const rb = missionRank(b.mission)
+      if (ra !== rb) return ra - rb
+      // Same bucket. Completed: newest first (larger completedAt on top).
+      if (ra === 2) {
+        return (b.mission.completedAt ?? 0) - (a.mission.completedAt ?? 0)
+      }
+      // Locked / active: ascending mission number.
+      return a.no - b.no
+    })
+
+  const claimHandlerByNo: Record<1 | 2 | 3, () => void> = {
+    1: () => claim(1),
+    2: () => claim(2),
+    3: () => claim(3),
+  }
 
   // Copies for the celebration modal. M1/M2 use the per-shirt variant
   // (Figma 270:43201) — "Congrats King!" + "Club X Shirt is yours" +
@@ -268,22 +322,12 @@ export function ClubHome({ onBack }: ClubHomeProps) {
         <div className="club-home__missions-row">
           <Path variant={missionsToPathVariant(missions.m1, missions.m2, missions.m3)} />
           <div className="club-home__mission-cards">
-            <MissionCard
-              {...missionCardProps(missions.m1, 1, now, () => claim(1))}
-            />
-            <MissionCard
-              {...missionCardProps(
-                missions.m2,
-                2,
-                now,
-                () => claim(2),
-                // Need a hint? — modal opens next task; for now a no-op.
-                undefined,
-              )}
-            />
-            <MissionCard
-              {...missionCardProps(missions.m3, 3, now, () => claim(3))}
-            />
+            {orderedMissions.map(({ no, mission }) => (
+              <MissionCard
+                key={no}
+                {...missionCardProps(mission, no, now, claimHandlerByNo[no])}
+              />
+            ))}
           </div>
         </div>
 

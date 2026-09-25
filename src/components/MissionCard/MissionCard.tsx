@@ -9,6 +9,9 @@ type MissionCardProps = {
   variant: MissionCardVariant
   title?: string
   subtitle?: string
+  /** Bold gold prefix rendered before the subtitle (e.g. "Mission 2").
+   *  Figma 272:46479 splits the subtitle into an accent run + body. */
+  subtitleAccent?: string
   xpLabel?: string
   shirtLabel?: string
   buttonLabel?: string
@@ -18,6 +21,10 @@ type MissionCardProps = {
   countdownText?: string
   completedText?: string
   nextStepLabel?: string
+  /** Icon rendered inside the yellow next-step pill. Defaults to the
+   *  play-arrow. Pass `null` to hide the icon entirely (M3 uses no icon
+   *  next to "LAST MISSION" per Figma 272:46066). */
+  nextStepIcon?: string | null
   onButtonClick?: () => void
 }
 
@@ -26,20 +33,33 @@ export function MissionCard(props: MissionCardProps) {
     const {
       title = 'Mission title',
       subtitle,
+      subtitleAccent,
       xpLabel = '+ 100 XP',
       shirtLabel = 'Shirt 1',
       buttonLabel = 'Button',
       countdownText,
       nextStepLabel = 'NEXT STEP',
+      nextStepIcon = playArrowFilled,
       onButtonClick,
     } = props
+    const hasSubtitle = Boolean(subtitle || subtitleAccent)
     return (
       <div className="mission-card mission-card--active">
         <div className="mission-card__meta">
           <div className="mission-card__meta-col">
             <div className="mission-card__title-and-subtitle">
               <p className="mission-card__title mission-card__title--active">{title}</p>
-              {subtitle && <p className="mission-card__subtitle">{subtitle}</p>}
+              {hasSubtitle && (
+                <p className="mission-card__subtitle">
+                  {subtitleAccent && (
+                    <span className="mission-card__subtitle-accent">
+                      {subtitleAccent}
+                    </span>
+                  )}
+                  {subtitleAccent && subtitle && ' '}
+                  {subtitle}
+                </p>
+              )}
             </div>
             <div className="mission-card__badges mission-card__badges--active">
               <Chip variant="XP">{xpLabel}</Chip>
@@ -56,11 +76,13 @@ export function MissionCard(props: MissionCardProps) {
           <Button onClick={onButtonClick}>{buttonLabel}</Button>
         )}
         <div className="mission-card__next-step">
-          <img
-            src={playArrowFilled}
-            alt=""
-            className="mission-card__next-step-icon"
-          />
+          {nextStepIcon && (
+            <img
+              src={nextStepIcon}
+              alt=""
+              className="mission-card__next-step-icon"
+            />
+          )}
           <span className="mission-card__next-step-label">{nextStepLabel}</span>
         </div>
       </div>

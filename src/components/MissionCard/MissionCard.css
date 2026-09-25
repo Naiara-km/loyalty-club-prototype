@@ -216,6 +216,14 @@
   color: var(--ui-text-secondary);
 }
 
+/* Bold gold "Mission N" prefix inside .mission-card__subtitle — Figma
+ * 272:46479 uses --club-mission-card-active-border (#b8860b) with bold
+ * weight for this run only. */
+.mission-card__subtitle-accent {
+  font-weight: var(--font-weight-bold);
+  color: var(--club-mission-card-active-border);
+}
+
 /* Completed status text */
 .mission-card__completed-text {
   margin: 0;
