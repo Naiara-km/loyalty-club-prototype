@@ -1,0 +1,78 @@
+.mission-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+  width: 100%;
+  max-width: 323px;
+  height: 40px;
+  padding: var(--spacing-2) var(--spacing-4);
+  background-color: var(--ui-text-emphasis-bullet-main);
+  border: none;
+  border-radius: var(--mainpages-desktop-container-corners);
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+
+/* Left content: label + bar + value, stretches to fill */
+.mission-progress__row {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+/* --- Label 'Starter' (left) --- */
+.mission-progress__label {
+  flex: none;
+  font-family: var(--typography-body-3-bold-font-family);
+  font-size: var(--typography-body-3-bold-font-size);
+  font-weight: var(--typography-body-3-bold-font-weight);
+  line-height: var(--typography-body-3-bold-line-height);
+  letter-spacing: var(--typography-body-3-bold-letter-spacing);
+  color: var(--ui-common-white-white-100p);
+  white-space: nowrap;
+}
+
+/* --- Progress bar (middle, flex-1) --- */
+.mission-progress__bar {
+  flex: 1 0 0;
+  min-width: 0;
+  height: 4px;
+  background-color: var(--ui-common-white-white-30p);
+  border-radius: 4px;
+  overflow: clip;
+}
+
+/* Filled portion — white-to-value gradient. Figma uses #f1c72f (the
+ * original --ui-value-main from tokens.system.css) rather than the club
+ * override #ffc400, so kept as raw hex here. */
+.mission-progress__bar-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--ui-common-white-white-100p), #f1c72f);
+}
+
+/* --- Value 'N/500 XP' (right of bar) --- */
+.mission-progress__value {
+  flex: none;
+  width: 80px;
+  font-family: var(--typography-body-3-bold-font-family);
+  font-size: var(--typography-body-3-bold-font-size);
+  font-weight: var(--typography-body-3-bold-font-weight);
+  line-height: var(--typography-body-3-bold-line-height);
+  letter-spacing: var(--typography-body-3-bold-letter-spacing);
+  color: var(--ui-value-main);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* --- Chevron (far right) --- */
+.mission-progress__chevron {
+  display: block;
+  flex: none;
+  width: 24px;
+  height: 24px;
+}
