@@ -5,48 +5,35 @@ import {
 } from '../TimelineDot/TimelineDot'
 import './Path.css'
 
-export type PathVariant = '1' | '2' | '3' | 'all'
+export type PathDot = { state: TimelineDotState; step?: TimelineDotStep }
 
 type PathProps = {
-  variant: PathVariant
+  /** Three dots stacked top-to-bottom, matching the order of the
+   *  mission cards rendered alongside the path. */
+  dots: [PathDot, PathDot, PathDot]
 }
 
-type DotSpec = { state: TimelineDotState; step: TimelineDotStep }
-
-const dotsPerVariant: Record<PathVariant, [DotSpec, DotSpec, DotSpec]> = {
-  '1': [
-    { state: 'Active', step: 1 },
-    { state: 'Locked', step: 2 },
-    { state: 'Locked', step: 3 },
-  ],
-  '2': [
-    { state: 'Completed', step: 1 },
-    { state: 'Active', step: 2 },
-    { state: 'Locked', step: 3 },
-  ],
-  '3': [
-    { state: 'Completed', step: 1 },
-    { state: 'Completed', step: 2 },
-    { state: 'Active', step: 3 },
-  ],
-  all: [
-    { state: 'Completed', step: 1 },
-    { state: 'Completed', step: 2 },
-    { state: 'Completed', step: 3 },
-  ],
+/** True when both endpoints of a segment are Completed — colours the
+ *  connecting line green. Any other pairing keeps the default grey. */
+function isCompletedSegment(a: PathDot, b: PathDot): boolean {
+  return a.state === 'Completed' && b.state === 'Completed'
 }
 
-export function Path({ variant }: PathProps) {
-  const [d1, d2, d3] = dotsPerVariant[variant]
+export function Path({ dots }: PathProps) {
+  const [d1, d2, d3] = dots
   return (
     <div className="path">
       <TimelineDot state={d1.state} step={d1.step} />
       <div
-        className={`path__line${d2.state === 'Completed' ? ' path__line--completed' : ''}`}
+        className={`path__line${
+          isCompletedSegment(d1, d2) ? ' path__line--completed' : ''
+        }`}
       />
       <TimelineDot state={d2.state} step={d2.step} />
       <div
-        className={`path__line${d3.state === 'Completed' ? ' path__line--completed' : ''}`}
+        className={`path__line${
+          isCompletedSegment(d2, d3) ? ' path__line--completed' : ''
+        }`}
       />
       <TimelineDot state={d3.state} step={d3.step} />
     </div>

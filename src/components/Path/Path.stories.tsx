@@ -9,14 +9,50 @@ export default meta
 
 type Story = StoryObj<typeof Path>
 
-export const Variant1: Story = { args: { variant: '1' } }
+/** M1 active, M2 and M3 locked. */
+export const Variant1: Story = {
+  args: {
+    dots: [
+      { state: 'Active', step: 1 },
+      { state: 'Locked' },
+      { state: 'Locked' },
+    ],
+  },
+}
 Variant1.storyName = '1'
 
-export const Variant2: Story = { args: { variant: '2' } }
+/** M2 active (top after reorder), then M3 locked, then M1 completed. */
+export const Variant2: Story = {
+  args: {
+    dots: [
+      { state: 'Active', step: 2 },
+      { state: 'Locked' },
+      { state: 'Completed' },
+    ],
+  },
+}
 Variant2.storyName = '2'
 
-export const Variant3: Story = { args: { variant: '3' } }
+/** M3 active (top), then M2 completed, then M1 completed. */
+export const Variant3: Story = {
+  args: {
+    dots: [
+      { state: 'Active', step: 3 },
+      { state: 'Completed' },
+      { state: 'Completed' },
+    ],
+  },
+}
 Variant3.storyName = '3'
 
-export const VariantAll: Story = { args: { variant: 'all' } }
+/** All three missions completed (newest → oldest, top-to-bottom). */
+export const VariantAll: Story = {
+  args: {
+    dots: [
+      { state: 'Completed' },
+      { state: 'Completed' },
+      { state: 'Completed' },
+    ],
+  },
+}
 VariantAll.storyName = 'all'

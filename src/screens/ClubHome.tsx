@@ -11,7 +11,8 @@ import {
   MissionProgress,
   type MissionProgressVariant,
 } from '../components/MissionProgress/MissionProgress'
-import { Path, type PathVariant } from '../components/Path/Path'
+import { Path, type PathDot } from '../components/Path/Path'
+import type { TimelineDotState, TimelineDotStep } from '../components/TimelineDot/TimelineDot'
 import { useClubState } from '../state/ClubStateContext'
 import type { Mission, ShirtColour } from '../state/clubState'
 import './ClubHome.css'
@@ -39,19 +40,17 @@ function xpToProgressVariant(xp: number): MissionProgressVariant {
   return 'Start'
 }
 
-function missionsToPathVariant(
-  m1: Mission,
-  m2: Mission,
-  m3: Mission,
-): PathVariant {
-  if (m1.state === 'completed' && m2.state === 'completed' && m3.state === 'completed') {
-    return 'all'
+/** Map a mission's state to the dot state next to its card. */
+function missionToDotState(mission: Mission): TimelineDotState {
+  if (mission.state === 'completed') return 'Completed'
+  if (
+    mission.state === 'active' ||
+    mission.state === 'unlocking' ||
+    mission.state === 'condition_met'
+  ) {
+    return 'Active'
   }
-  if (m3.state === 'active' || m3.state === 'condition_met') return '3'
-  if (m2.state === 'active' || m2.state === 'condition_met' || m2.state === 'unlocking') {
-    return '2'
-  }
-  return '1'
+  return 'Locked'
 }
 
 function collectedToMainVariant(count: number): MainCardVariant {
@@ -250,6 +249,23 @@ export function ClubHome({ onBack }: ClubHomeProps) {
     3: () => claim(3),
   }
 
+  // Path dots mirror the card order — each dot sits next to its card.
+  // Active gets the mission number, completed shows a check, locked "?".
+  const pathDots: [PathDot, PathDot, PathDot] = [
+    {
+      state: missionToDotState(orderedMissions[0].mission),
+      step: orderedMissions[0].no as TimelineDotStep,
+    },
+    {
+      state: missionToDotState(orderedMissions[1].mission),
+      step: orderedMissions[1].no as TimelineDotStep,
+    },
+    {
+      state: missionToDotState(orderedMissions[2].mission),
+      step: orderedMissions[2].no as TimelineDotStep,
+    },
+  ]
+
   // Copies for the celebration modal. M1/M2 use the per-shirt variant
   // (Figma 270:43201) — "Congrats King!" + "Club X Shirt is yours" +
   // "N shirts left" tail + NEXT MISSION button. M3, the final claim,
@@ -320,7 +336,7 @@ export function ClubHome({ onBack }: ClubHomeProps) {
         )}
 
         <div className="club-home__missions-row">
-          <Path variant={missionsToPathVariant(missions.m1, missions.m2, missions.m3)} />
+          <Path dots={pathDots} />
           <div className="club-home__mission-cards">
             {orderedMissions.map(({ no, mission }) => (
               <MissionCard
