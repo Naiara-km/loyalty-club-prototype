@@ -82,13 +82,17 @@
   position: relative;
 }
 
-/* --- Completed --- */
+/* --- Completed ---
+ * Padding + radius from Figma 48:2381 — a shorter tile than active/
+ * pending (py 8, radius 8) rather than the base 16/12. */
 .mission-card--completed {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: var(--spacing-2) var(--spacing-4);
   background-color: var(--ui-common-white-white-100p);
   border: var(--border-width-1) solid var(--ui-semantic-colours-success-dark);
+  border-radius: var(--border-radii-lg);
 }
 
 /* Meta, Button, and Countdown sit above the ::before ring overlay */
