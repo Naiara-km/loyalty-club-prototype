@@ -1,0 +1,80 @@
+.main-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 358px;
+  background-color: var(--ui-background-8p);
+  border-radius: var(--mainpages-desktop-container-corners);
+  overflow: hidden;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.05);
+}
+
+/* Wardrobe row — 3 slots + 2 x 10px gaps fit exactly inside the 326px
+ * inner width (358 - 2 x 16 padding). Wardrobe is 102px fixed, so this
+ * fills without needing flex-grow. */
+.main-card__items-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  padding: 20px var(--spacing-4);
+}
+
+/* Dark footer with counter + button */
+.main-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--spacing-3) 24px;
+  background-color: var(--ui-text-emphasis-bullet-main);
+}
+
+.main-card__status-text {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.43;
+  letter-spacing: 0.17px;
+  color: var(--ui-hybrid-text-primary);
+  white-space: nowrap;
+}
+
+/* Change Shirt CTA — Figma calls this "Button/1. Primary" too but at
+ * XS size with a yellow value fill and dark text. Different enough
+ * from the medium primary Button component that it's inlined here
+ * rather than added as another Button variant. */
+.main-card__change-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-1);
+  width: 123px;
+  height: 28px;
+  padding: var(--spacing-1);
+  background-color: var(--ui-value-main);
+  color: var(--ui-primary-main);
+  border: none;
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.25));
+}
+
+.main-card__change-btn-label {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: 18px;
+  letter-spacing: 0.2px;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.main-card__change-btn-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
