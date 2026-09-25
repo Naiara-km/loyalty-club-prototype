@@ -72,6 +72,21 @@
   opacity: 0.75;
 }
 
+/* --- Shader: dot-grid ---
+ * White dot grid layered on the gold gradient. Approximates a
+ * <Shader><DotGrid color="#ffffff"/></Shader> figma effect without
+ * a WebGPU runtime — small radial gradients tiled at 16px spacing. */
+.mission-card--shader-dot-grid::before {
+  background-image: radial-gradient(
+    circle,
+    var(--ui-common-white-white-100p) 1.5px,
+    transparent 2px
+  );
+  background-size: 16px 16px;
+  background-repeat: repeat;
+  opacity: 0.9;
+}
+
 /* --- Pending ---
  * Border is drawn as an SVG rect child (.mission-card__pending-border)
  * instead of CSS `border-style: dashed`, because CSS uses a

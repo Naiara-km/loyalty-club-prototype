@@ -26,6 +26,13 @@ export const ActiveVoxels: Story = {
 }
 ActiveVoxels.storyName = 'Active — voxels shader'
 
+/** Active card with a white dot-grid overlay in place of the default
+ *  rings. Approximates <Shader><DotGrid color="#ffffff"/></Shader>. */
+export const ActiveDotGrid: Story = {
+  args: { variant: 'Active', shader: 'dot-grid' },
+}
+ActiveDotGrid.storyName = 'Active — dot-grid shader'
+
 export const Pending: Story = { args: { variant: 'pending' } }
 Pending.storyName = 'pending'
 
