@@ -33,6 +33,14 @@ export const ActiveDotGrid: Story = {
 }
 ActiveDotGrid.storyName = 'Active — dot-grid shader'
 
+/** Active card with a solid #ffc400 wash at 30% opacity. Stand-in for
+ *  <Shader><Aurora intensity={80}/></Shader> — collapses the aurora
+ *  effect to a flat colour overlay per stakeholder request. */
+export const ActiveAurora: Story = {
+  args: { variant: 'Active', shader: 'aurora' },
+}
+ActiveAurora.storyName = 'Active — aurora shader'
+
 export const Pending: Story = { args: { variant: 'pending' } }
 Pending.storyName = 'pending'
 

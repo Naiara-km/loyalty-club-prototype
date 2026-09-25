@@ -87,6 +87,15 @@
   opacity: 0.9;
 }
 
+/* --- Shader: aurora ---
+ * Requested as <Shader><Aurora intensity={80}/></Shader> but with the
+ * effect collapsed to a solid #ffc400 wash at 30% opacity. Overrides
+ * the base ::before opacity so the wash renders at exactly 0.3. */
+.mission-card--shader-aurora::before {
+  background: var(--ui-value-main);
+  opacity: 0.3;
+}
+
 /* --- Pending ---
  * Border is drawn as an SVG rect child (.mission-card__pending-border)
  * instead of CSS `border-style: dashed`, because CSS uses a

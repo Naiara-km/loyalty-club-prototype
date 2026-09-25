@@ -7,9 +7,9 @@ export type MissionCardVariant = 'Active' | 'pending' | 'Completed'
 
 /** Which decorative pattern is layered on top of the Active card's
  *  gold gradient. `rings` matches Figma production (approximates
- *  Figma's concentric-rings WebGPU shader). `voxels` and `dot-grid`
- *  are texture explorations used for stakeholder review only. */
-export type MissionCardShader = 'rings' | 'voxels' | 'dot-grid'
+ *  Figma's concentric-rings WebGPU shader). The other options are
+ *  texture explorations used for stakeholder review only. */
+export type MissionCardShader = 'rings' | 'voxels' | 'dot-grid' | 'aurora'
 
 type MissionCardProps = {
   variant: MissionCardVariant
