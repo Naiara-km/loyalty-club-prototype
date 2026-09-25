@@ -5,6 +5,12 @@ import './MissionCard.css'
 
 export type MissionCardVariant = 'Active' | 'pending' | 'Completed'
 
+/** Which decorative pattern is layered on top of the Active card's
+ *  gold gradient. `rings` matches Figma production (approximates
+ *  Figma's concentric-rings WebGPU shader). `voxels` is a texture
+ *  exploration used for stakeholder review only. */
+export type MissionCardShader = 'rings' | 'voxels'
+
 type MissionCardProps = {
   variant: MissionCardVariant
   title?: string
@@ -25,6 +31,8 @@ type MissionCardProps = {
    *  play-arrow. Pass `null` to hide the icon entirely (M3 uses no icon
    *  next to "LAST MISSION" per Figma 272:46066). */
   nextStepIcon?: string | null
+  /** Active variant only — swap the decorative shader pattern. */
+  shader?: MissionCardShader
   onButtonClick?: () => void
 }
 
@@ -40,11 +48,12 @@ export function MissionCard(props: MissionCardProps) {
       countdownText,
       nextStepLabel = 'NEXT STEP',
       nextStepIcon = playArrowFilled,
+      shader = 'rings',
       onButtonClick,
     } = props
     const hasSubtitle = Boolean(subtitle || subtitleAccent)
     return (
-      <div className="mission-card mission-card--active">
+      <div className={`mission-card mission-card--active mission-card--shader-${shader}`}>
         <div className="mission-card__meta">
           <div className="mission-card__meta-col">
             <div className="mission-card__title-and-subtitle">

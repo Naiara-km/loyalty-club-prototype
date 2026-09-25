@@ -18,6 +18,14 @@ type Story = StoryObj<typeof MissionCard>
 
 export const Active: Story = { args: { variant: 'Active' } }
 
+/** Active card with the exploratory voxels/isometric-cube texture in
+ *  place of the default concentric rings. Prototype only — used for
+ *  stakeholder texture reviews. */
+export const ActiveVoxels: Story = {
+  args: { variant: 'Active', shader: 'voxels' },
+}
+ActiveVoxels.storyName = 'Active — voxels shader'
+
 export const Pending: Story = { args: { variant: 'pending' } }
 Pending.storyName = 'pending'
 

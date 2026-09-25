@@ -34,15 +34,20 @@
   inset: 0;
   pointer-events: none;
   border-radius: inherit;
-  /* Ring stack from shader params: centre (81.15%, 76.63%), 18 rings across
-   * 48.85% radius ≈ 8px spacing at the card's 314px width. */
+  opacity: 0.6;
+}
+
+/* --- Shader: rings (default) ---
+ * Ring stack from shader params: centre (81.15%, 76.63%), 18 rings across
+ * 48.85% radius ≈ 8px spacing at the card's 314px width. Falloff mask
+ * fades the rings from full strength at the centre to transparent
+ * beyond the shader's normalised radius. */
+.mission-card--shader-rings::before {
   background: repeating-radial-gradient(
     circle at 81.15% 76.63%,
     transparent 0 7px,
     var(--ui-common-white-white-100p) 7px 8px
   );
-  /* Falloff mask: rings full-strength at centre, fading to transparent
-   * beyond the shader's normalised radius. */
   mask: radial-gradient(
     circle at 81.15% 76.63%,
     #000 0%,
@@ -53,7 +58,18 @@
     #000 0%,
     transparent 55%
   );
-  opacity: 0.6;
+}
+
+/* --- Shader: voxels ---
+ * Isometric-cube texture rendered as a tiled SVG data URI. Three
+ * shaded diamonds per cube (top = light, left = mid, right = dark)
+ * approximate a WebGPU voxels shader without a runtime. Prototype
+ * only — used for stakeholder texture exploration. */
+.mission-card--shader-voxels::before {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='46' viewBox='0 0 40 46'><polygon points='20,0 40,11.5 20,23 0,11.5' fill='%23ffffff' fill-opacity='0.55'/><polygon points='0,11.5 20,23 20,46 0,34.5' fill='%23000000' fill-opacity='0.08'/><polygon points='40,11.5 20,23 20,46 40,34.5' fill='%23000000' fill-opacity='0.22'/></svg>");
+  background-size: 40px 46px;
+  background-repeat: repeat;
+  opacity: 0.75;
 }
 
 /* --- Pending ---
