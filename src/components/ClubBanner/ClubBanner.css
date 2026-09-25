@@ -1,0 +1,254 @@
+/* --- Root — clips the Jay Jay figure that overflows below --- */
+.club-banner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 6px;
+  width: 402px;
+  max-width: 600px;
+  min-width: 320px;
+  height: 263px;
+  padding: 0 var(--spacing-2);
+  overflow: clip;
+}
+
+.club-banner__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+/* --- Board — fixed frame that holds the rotated banner centred --- */
+.club-banner__board {
+  position: relative;
+  width: 291.318px;
+  height: 191.719px;
+  flex: none;
+}
+
+.club-banner__board-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.club-banner__rotate {
+  flex: none;
+  transform: rotate(-5.04deg);
+}
+
+/* --- Card stack — holds shadow, offer card, and badge --- */
+.club-banner__card-stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 277.645px;
+  height: 168px;
+}
+
+/* Dark-gold shadow layer beneath the offer card */
+.club-banner__card-shadow {
+  position: absolute;
+  left: 1.3px;
+  top: 14.61px;
+  width: 276px;
+  height: 150px;
+  background-color: var(--club-mission-card-active-border); /* #b8860b */
+  border-radius: 20px;
+}
+
+/* Gradient offer card */
+.club-banner__offer-card {
+  position: absolute;
+  left: 2.3px;
+  top: 8.61px;
+  width: 275px;
+  height: 151px;
+  padding: 30px var(--spacing-4) 14px;
+  border: 3px solid var(--ui-value-main);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  overflow: clip;
+  /* Figma gradient — the second stop rgb(0, 41, 167) has no matching DS
+   * token, kept as raw rgb. First stop resolves to --ui-primary-main. */
+  background: linear-gradient(
+    -28.964955347175263deg,
+    rgb(0, 16, 65) 16.102%,
+    rgb(0, 41, 167) 74.074%
+  );
+}
+
+/* --- Title --- */
+.club-banner__title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.club-banner__title-line {
+  margin: 0;
+  width: 100%;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--font-line-height-6);
+  letter-spacing: 0.15px;
+  color: var(--ui-common-white-white-100p);
+  word-break: break-word;
+}
+
+.club-banner__title-line--accent {
+  color: var(--ui-value-main);
+}
+
+/* --- Rewards row (three tilted shirt tiles) --- */
+.club-banner__rewards {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 49px;
+}
+
+.club-banner__shirts {
+  display: flex;
+  align-items: center;
+}
+
+.club-banner__shirt-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.club-banner__shirt-slot--0 {
+  width: 43.706px;
+  height: 45.447px;
+  margin-right: -4px;
+  transform: rotate(-7deg);
+}
+
+.club-banner__shirt-slot--1 {
+  width: 41.092px;
+  height: 42.985px;
+  margin-right: -4px;
+  transform: rotate(3deg);
+}
+
+.club-banner__shirt-slot--2 {
+  width: 42.425px;
+  height: 44.243px;
+  transform: rotate(-5deg);
+}
+
+.club-banner__shirt-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 41px;
+  background-color: var(--ui-common-white-white-100p);
+  border-radius: 10px;
+  box-shadow: 0px 2px 2px 0px rgba(0, 16, 65, 0.2);
+  overflow: clip;
+  flex: none;
+}
+
+.club-banner__shirt-img {
+  display: block;
+  width: 21px;
+  height: 22px;
+}
+
+/* --- Star + sparkle decorations (top-right of the offer card) --- */
+.club-banner__star {
+  position: absolute;
+  left: 252px;
+  top: 91px;
+  width: 8px;
+  height: 8px;
+  display: block;
+}
+
+.club-banner__sparkle-wrap {
+  position: absolute;
+  left: 243.64px;
+  top: 72.49px;
+  width: 11.49px;
+  height: 10.956px;
+}
+
+/* Figma extends the sparkle image slightly beyond its container to
+ * accommodate the SVG's own padding — kept verbatim. */
+.club-banner__sparkle-inner {
+  position: absolute;
+  inset: -7.86% -7.5%;
+}
+
+.club-banner__sparkle-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+/* --- "N/3 COLLECTED" badge --- */
+.club-banner__badge {
+  position: absolute;
+  left: 16.3px;
+  top: 0.61px;
+  width: 149px;
+  height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--ui-value-main);
+  border-bottom: 2px solid var(--club-mission-card-active-border);
+  border-radius: 14px;
+  box-shadow: 0px 2px 2px 0px rgba(0, 16, 65, 0.25);
+  overflow: clip;
+}
+
+.club-banner__badge-text {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-extra-bold);
+  /* 11px + tracking 1.8px — no DS tokens for these values. */
+  font-size: 11px;
+  line-height: normal;
+  letter-spacing: 1.8px;
+  color: var(--ui-text-primary);
+  white-space: nowrap;
+}
+
+/* --- CTA --- */
+.club-banner__cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 var(--spacing-3);
+}
+
+/* --- Jay Jay figure — positioned right, clipped by root overflow --- */
+.club-banner__jayjay {
+  position: absolute;
+  right: var(--spacing-2);
+  top: 38px;
+  width: 135px;
+  height: 261.797px;
+}
+
+.club-banner__jayjay-figure {
+  position: absolute;
+  left: -27.25px;
+  top: 0;
+}
