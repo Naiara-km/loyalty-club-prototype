@@ -16,6 +16,11 @@ export type MissionCardShader =
   | 'dot-grid'
   | 'aurora'
 
+/** Only meaningful when `shader === 'chevron'`. Chooses between the
+ *  repeating chevron tile (default) and a single large decorative
+ *  chevron in the right third of the card. */
+export type MissionCardTexture = 'chevrons' | 'single'
+
 type MissionCardProps = {
   variant: MissionCardVariant
   title?: string
@@ -41,6 +46,9 @@ type MissionCardProps = {
   nextStepIcon?: string | null
   /** Active variant only — swap the decorative shader pattern. */
   shader?: MissionCardShader
+  /** Active variant only, meaningful when `shader === 'chevron'`.
+   *  Defaults to the repeating tile. */
+  texture?: MissionCardTexture
   onButtonClick?: () => void
 }
 
@@ -58,11 +66,14 @@ export function MissionCard(props: MissionCardProps) {
       nextStepLabel = 'NEXT STEP',
       nextStepIcon = playArrowFilled,
       shader = 'chevron',
+      texture = 'chevrons',
       onButtonClick,
     } = props
     const hasSubtitle = Boolean(subtitle || subtitleAccent)
     return (
-      <div className={`mission-card mission-card--active mission-card--shader-${shader}`}>
+      <div
+        className={`mission-card mission-card--active mission-card--shader-${shader} mission-card--texture-${texture}`}
+      >
         <div className="mission-card__meta">
           <div className="mission-card__meta-col">
             <div className="mission-card__title-and-subtitle">

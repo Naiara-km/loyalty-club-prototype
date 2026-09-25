@@ -60,6 +60,14 @@
 }
 
 .mission-card--shader-chevron::before {
+  opacity: var(--club-chevron-opacity);
+}
+
+/* Texture: chevrons (default) — repeating right-pointing chevron tile
+ * used as a mask so background-color paints the strokes. A left-fade
+ * linear-gradient is composited via mask-composite: intersect so the
+ * pattern eases in from the left and the title area stays clean. */
+.mission-card--shader-chevron.mission-card--texture-chevrons::before {
   background-color: var(--club-chevron-color);
   mask-image:
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='40' viewBox='0 0 28 40'><path d='M2 0 L16 20 L2 40' fill='none' stroke='black' stroke-width='6' stroke-linejoin='round'/></svg>"),
@@ -73,7 +81,19 @@
   -webkit-mask-size: 28px 40px, 100% 100%;
   -webkit-mask-repeat: repeat, no-repeat;
   -webkit-mask-composite: source-in;
-  opacity: var(--club-chevron-opacity);
+}
+
+/* Texture: single — one large filled chevron sitting in the right
+ * third of the card, sized to 130% of card height so it bleeds
+ * slightly off top and bottom. Rendered as a background-image (no
+ * mask), so the chevron colour is baked as white in the SVG and
+ * --club-chevron-color is not wired for this variant. --club-chevron-
+ * opacity still applies via the base ::before rule above. */
+.mission-card--shader-chevron.mission-card--texture-single::before {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 100' preserveAspectRatio='none'><path d='M0 0 L24 0 L60 50 L24 100 L0 100 L36 50 Z' fill='%23FFFFFF'/></svg>");
+  background-repeat: no-repeat;
+  background-size: auto 130%;
+  background-position: right 12% center;
 }
 
 /* --- Shader: rings ---
