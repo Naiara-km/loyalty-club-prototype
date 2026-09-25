@@ -4,7 +4,8 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--spacing-3);
-  width: 358px;
+  width: 100%;
+  max-width: 600px;
   /* Padding: 16 top / 16 sides / 24 bottom — bottom value is raw in
    * Figma (no matching spacing token in the current DS). */
   padding: var(--spacing-4) var(--spacing-4) 24px;
@@ -60,9 +61,10 @@
   word-break: break-word;
 }
 
-/* Countdown chip overhanging the top-right border */
+/* Countdown chip overhanging the top-right border. Anchored to right
+ * so it stays in the right area at any card width up to 600px. */
 .missions__chip {
   position: absolute;
   top: -13px;
-  left: 226px;
+  right: 17px;
 }

@@ -1,9 +1,11 @@
 .mission-card {
   position: relative;
   display: flex;
-  width: 314px;
+  width: 100%;
+  max-width: 600px;
   padding: var(--spacing-4);
   border-radius: var(--mainpages-desktop-container-corners);
+  box-sizing: border-box;
 }
 
 /* --- Active ---
@@ -204,11 +206,13 @@
   gap: var(--spacing-2);
 }
 
-/* NEXT STEP pill (Active only) */
+/* NEXT STEP pill (Active only). Right-anchored so it stays overhanging
+ * the top-right area at any card width up to 600px. Distance from the
+ * right edge matches Figma's 314-wide card (right = 314 - 151.5 - 114). */
 .mission-card__next-step {
   position: absolute;
   top: -11.5px;
-  left: 151.5px;
+  right: 48.5px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,17 +1,20 @@
 .club-home {
   display: flex;
   flex-direction: column;
+  align-items: center;
   min-height: 100vh;
   background-color: var(--ui-background-8p);
 }
 
-/* --- Full-screen header --- */
+/* --- Full-screen header (always spans viewport width) --- */
 .club-home__header {
   display: flex;
   align-items: center;
   gap: 6px; /* figma: spacing/1-5 */
   padding: var(--spacing-3) var(--spacing-4);
   background-color: var(--ui-primary-main);
+  width: 100%;
+  align-self: stretch;
 }
 
 .club-home__back {
@@ -38,15 +41,16 @@
   color: var(--ui-hybrid-text-primary);
 }
 
-/* --- Content sheet --- */
+/* --- Content sheet — white fill per Figma Frame 48095932, fluid up to 600px --- */
 .club-home__content {
   display: flex;
   flex-direction: column;
   gap: 24px; /* figma: spacing/6 between top-level sections */
   padding: 24px var(--spacing-4);
   width: 100%;
-  max-width: 360px; /* figma: mobile home is 360 wide */
+  max-width: 600px; /* figma: tablet reference is 600px wide */
   margin: 0 auto;
+  background-color: var(--ui-common-white-white-100p);
   box-sizing: border-box;
 }
 
