@@ -104,6 +104,13 @@
   --ui-text-emphasis-bullet-main: var(--ui-primary-main); /* Figma UI/Text/Emphasis-Bullet/Main = #001041 */
   --ui-custom-palettes-oddsbuttons-selected-light: #f5fafe; /* Figma UI/Custom Palettes/OddsButtons/Selected/Light */
 
+  /* Figma Custom Palettes/Virtuals/brand gradients/King-Champions-v2 —
+   * the gradient the ClubBanner Offer card uses. Note the second value
+   * differs from the existing --ui-custom-palettes-virtuals-brands-kings-champions
+   * (#04168d) in tokens.system.css, so aliased under Figma's own path. */
+  --ui-custom-palettes-virtuals-brands-kings-champions-accent: #032CEA;
+  --brnd-light-custom-palettes-virtuals-brands-kings-champions: #021C97;
+
   /* --ui-value-main override — Figma resolves UI/Value/Main to #ffc400 but
    * tokens.system.css ships #f1c72f. Overridden here (loads after) so the
    * Loyalty gradient renders at the correct hue. Remove once prod DS is fixed. */

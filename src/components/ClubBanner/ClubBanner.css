@@ -81,12 +81,13 @@
   align-items: flex-start;
   gap: 5px;
   overflow: clip;
-  /* Figma gradient — the second stop rgb(0, 41, 167) has no matching DS
-   * token, kept as raw rgb. First stop resolves to --ui-primary-main. */
+  /* Figma "Kings-Champions-v2" brand gradient — near-vertical, bright
+   * blue at top to dark blue at bottom. Both stops added as tokens in
+   * tokens.club.css since they weren't present in tokens.system.css. */
   background: linear-gradient(
-    -28.964955347175263deg,
-    rgb(0, 16, 65) 16.102%,
-    rgb(0, 41, 167) 74.074%
+    180.5823632796102deg,
+    var(--ui-custom-palettes-virtuals-brands-kings-champions-accent) 0.90876%,
+    var(--brnd-light-custom-palettes-virtuals-brands-kings-champions) 99.091%
   );
 }
 
