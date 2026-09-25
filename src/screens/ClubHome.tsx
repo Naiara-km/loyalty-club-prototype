@@ -137,6 +137,10 @@ function missionCardProps(
   return {
     variant: 'Active',
     title: missionTitles[missionNo].active,
+    // M3 is the final mission — Figma 66:8809 labels its step chip
+    // "LAST STEP" and shows a subtitle beneath the title.
+    subtitle: missionNo === 3 ? 'Sports, Virtuals or Casino' : undefined,
+    nextStepLabel: missionNo === 3 ? 'LAST STEP' : 'NEXT STEP',
     xpLabel: `+${mission.xpReward} XP`,
     shirtLabel: `Shirt ${shirtName}`,
     buttonLabel: ctaLabel,
