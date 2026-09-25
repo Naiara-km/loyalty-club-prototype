@@ -1,0 +1,40 @@
+.jay-jay {
+  position: relative;
+  width: 154.18px;
+  height: 299px;
+}
+
+.jay-jay__base,
+.jay-jay__overlay {
+  display: block;
+  position: absolute;
+}
+
+.jay-jay__base {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Overlay positions/sizes from Figma exactly (sub-pixel offsets are
+ * Figma's precision — kept verbatim). */
+.jay-jay--betking .jay-jay__overlay {
+  left: 0.4px;
+  top: -0.4px;
+  width: 154.184px;
+  height: 298.88px;
+}
+
+.jay-jay--red .jay-jay__overlay {
+  left: 1.58px;
+  top: 0;
+  width: 154.18px;
+  height: 298.872px;
+}
+
+.jay-jay--green .jay-jay__overlay {
+  left: 0;
+  top: 0;
+  width: 154.18px;
+  height: 298.872px;
+}
