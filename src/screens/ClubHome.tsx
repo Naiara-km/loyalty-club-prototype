@@ -83,20 +83,29 @@ const missionSubtitles: Record<1 | 2 | 3, string | undefined> = {
   3: 'Any amount on Sports, Virtuals or Casino.',
 }
 
-/** Yellow next-step pill label per mission — Figma renames per state:
- *  M1 "READY", M2 "FOUND" (once located), M3 "LAST MISSION". */
-const nextStepLabels: Record<1 | 2 | 3, string> = {
-  1: 'READY',
-  2: 'FOUND',
-  3: 'LAST MISSION',
+/** Yellow next-step pill label per mission per state. M1 always
+ *  shows "READY". M2 reads "NEXT MISSION" while unlocking or active,
+ *  flipping to "FOUND" once Jay Jay has been located
+ *  (condition_met). M3 stays "LAST MISSION". */
+function nextStepLabelFor(
+  missionNo: 1 | 2 | 3,
+  state: Mission['state'],
+): string {
+  if (missionNo === 1) return 'READY'
+  if (missionNo === 3) return 'LAST MISSION'
+  return state === 'condition_met' ? 'FOUND' : 'NEXT MISSION'
 }
 
-/** Icon shown in the next-step pill. M3 renders without an icon
- *  (Figma 272:46066). */
-const nextStepIcons: Record<1 | 2 | 3, string | null> = {
-  1: null, // M1 uses the default play-arrow — set via component default
-  2: personCheckFilled,
-  3: null, // M3 has no icon
+/** Icon shown in the next-step pill. M2 uses PersonCheckFilled once
+ *  Jay Jay is found; before that it defaults to the play-arrow. M3
+ *  has no icon (Figma 272:46066). */
+function nextStepIconFor(
+  missionNo: 1 | 2 | 3,
+  state: Mission['state'],
+): string | null | undefined {
+  if (missionNo === 3) return null
+  if (missionNo === 2 && state === 'condition_met') return personCheckFilled
+  return undefined // fall through to MissionCard default (play-arrow)
 }
 
 /** Build MissionCard props derived from the mission's state, the mission
@@ -142,8 +151,8 @@ function missionCardProps(
       xpLabel: `+ ${mission.xpReward} XP`,
       shirtLabel: `Shirt ${missionNo}`,
       countdownText: formatCountdown(msLeft),
-      nextStepLabel: nextStepLabels[missionNo],
-      nextStepIcon: nextStepIcons[missionNo],
+      nextStepLabel: nextStepLabelFor(missionNo, mission.state),
+      nextStepIcon: nextStepIconFor(missionNo, mission.state),
     }
   }
 
@@ -167,8 +176,8 @@ function missionCardProps(
     title: missionTitles[missionNo].active,
     subtitleAccent: `Mission ${missionNo}`,
     subtitle: missionSubtitles[missionNo],
-    nextStepLabel: nextStepLabels[missionNo],
-    nextStepIcon: nextStepIcons[missionNo],
+    nextStepLabel: nextStepLabelFor(missionNo, mission.state),
+    nextStepIcon: nextStepIconFor(missionNo, mission.state),
     xpLabel: `+ ${mission.xpReward} XP`,
     shirtLabel: `Shirt ${missionNo}`,
     buttonLabel: ctaLabel,
