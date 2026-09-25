@@ -1,4 +1,8 @@
-/* --- Root — clips the Jay Jay figure that overflows below --- */
+/* --- Root — fluid width between 320 and 600, clips the Jay Jay figure
+ *  that overflows below and (on narrow widths) behind the banner card.
+ *  Banner content is anchored left and Jay Jay is absolutely anchored
+ *  right; between them the empty gradient background just grows as
+ *  the container widens. */
 .club-banner {
   position: relative;
   display: flex;
@@ -6,7 +10,7 @@
   align-items: flex-start;
   justify-content: center;
   gap: 6px;
-  width: 402px;
+  width: 100%;
   max-width: 600px;
   min-width: 320px;
   height: 263px;

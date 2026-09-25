@@ -14,6 +14,11 @@ const preview: Preview = {
           styles: { width: '390px', height: '844px' },
           type: 'mobile',
         },
+        tablet600: {
+          name: 'Tablet · 600px (max)',
+          styles: { width: '600px', height: '844px' },
+          type: 'tablet',
+        },
       },
       defaultViewport: 'mobile390',
     },
