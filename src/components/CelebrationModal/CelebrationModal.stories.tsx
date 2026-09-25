@@ -16,8 +16,11 @@ export const Green: Story = {
     open: true,
     onClose: () => {},
     shirtColour: 'Green',
+    title: 'Congrats King!',
+    subtitle: 'Club Green Shirt is yours',
     xpAwarded: 100,
-    shirtsLeft: 2,
+    rewardTail: '2 shirts left',
+    buttonLabel: 'NEXT MISSION',
   },
 }
 
@@ -27,18 +30,25 @@ export const Red: Story = {
     open: true,
     onClose: () => {},
     shirtColour: 'Red',
+    title: 'Congrats King!',
+    subtitle: 'Club Red Shirt is yours',
     xpAwarded: 100,
-    shirtsLeft: 1,
+    rewardTail: '1 shirt left',
+    buttonLabel: 'NEXT MISSION',
   },
 }
 
-/** Final shirt claimed (Blue). */
-export const Blue: Story = {
+/** Figma 186:28774 — final claim (Blue / Betking). Different copy: no
+ *  subtitle, "Level 2 reached!" bold tail, CLOSE button. */
+export const FullCollection: Story = {
   args: {
     open: true,
     onClose: () => {},
     shirtColour: 'Blue',
+    title: 'Congrats King! You have the full collection!',
     xpAwarded: 300,
-    shirtsLeft: 0,
+    rewardTail: 'Level 2 reached!',
+    rewardTailBold: true,
+    buttonLabel: 'CLOSE',
   },
 }

@@ -187,13 +187,47 @@ export function ClubHome({ onBack }: ClubHomeProps) {
   const banner: CollectedCount = Math.min(3, collectedCount) as CollectedCount
   const allDone = totalXp === 500
 
-  // "Shirts left" counter reflects what will remain AFTER the claim is
-  // confirmed (i.e. 3 - collectedCount - 1). Guard for the not-open case.
-  const modalShirtsLeft = celebrating ? Math.max(0, 3 - collectedCount - 1) : 0
-  const modalXp = celebrating ? missions[`m${celebrating}` as const].xpReward : 0
-  const modalColour: ShirtColour = celebrating
-    ? shirtColourByMission[celebrating]
-    : 'Green'
+  // Copies for the celebration modal. M1/M2 use the per-shirt variant
+  // (Figma 270:43201) — "Congrats King!" + "Club X Shirt is yours" +
+  // "N shirts left" tail + NEXT MISSION button. M3, the final claim,
+  // uses the full-collection variant (Figma 186:28774) — different
+  // title, no subtitle, "Level 2 reached!" tail (bold), CLOSE button.
+  const modalCopy = (() => {
+    if (!celebrating) {
+      return {
+        colour: 'Green' as ShirtColour,
+        title: '',
+        subtitle: undefined as string | undefined,
+        xp: 0,
+        tail: '',
+        tailBold: false,
+        button: 'NEXT MISSION',
+      }
+    }
+    const colour = shirtColourByMission[celebrating]
+    const xp = missions[`m${celebrating}` as const].xpReward
+    if (celebrating === 3) {
+      return {
+        colour,
+        title: 'Congrats King! You have the full collection!',
+        subtitle: undefined,
+        xp,
+        tail: 'Level 2 reached!',
+        tailBold: true,
+        button: 'CLOSE',
+      }
+    }
+    const shirtsLeft = Math.max(0, 3 - collectedCount - 1)
+    return {
+      colour,
+      title: 'Congrats King!',
+      subtitle: `Club ${colour} Shirt is yours`,
+      xp,
+      tail: `${shirtsLeft} shirt${shirtsLeft === 1 ? '' : 's'} left`,
+      tailBold: false,
+      button: 'NEXT MISSION',
+    }
+  })()
 
   return (
     <div className="club-home">
@@ -253,9 +287,13 @@ export function ClubHome({ onBack }: ClubHomeProps) {
       <CelebrationModal
         open={celebrating !== null}
         onClose={confirmClaim}
-        shirtColour={modalColour}
-        xpAwarded={modalXp}
-        shirtsLeft={modalShirtsLeft}
+        shirtColour={modalCopy.colour}
+        title={modalCopy.title}
+        subtitle={modalCopy.subtitle}
+        xpAwarded={modalCopy.xp}
+        rewardTail={modalCopy.tail}
+        rewardTailBold={modalCopy.tailBold}
+        buttonLabel={modalCopy.button}
       />
     </div>
   )

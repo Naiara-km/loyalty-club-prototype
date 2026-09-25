@@ -4,17 +4,32 @@ import { JayJay, type JayJayVariant } from '../JayJay/JayJay'
 import type { ShirtColour } from '../../state/clubState'
 import './CelebrationModal.css'
 
-/** Shirt-claim celebration dialog. Figma node 270:43201.
+/** Shirt-claim celebration dialog.
  *
- *  Anchored to the viewport as a fixed overlay + centered dialog. Fires
- *  confetti when it opens. */
+ *  Two Figma variants share the same layout:
+ *  - Per-shirt claim (270:43201) — "Congrats King!" + "Club X Shirt is
+ *    yours" subtitle + "N shirts left" tail + "NEXT MISSION" button.
+ *  - Final claim (186:28774) — "Congrats King! You have the full
+ *    collection!" title only + "Level 2 reached!" tail + "CLOSE" button.
+ *
+ *  The caller passes all copy so this component doesn't have to know
+ *  which shirt / stage it is showing. */
 
 type CelebrationModalProps = {
   open: boolean
   onClose: () => void
   shirtColour: ShirtColour
+  title: string
+  /** Optional subtitle rendered under the title. Omitted for the final
+   *  claim variant. */
+  subtitle?: string
   xpAwarded: number
-  shirtsLeft: number
+  /** Text rendered after "+ NNNXP · " in the reward line. */
+  rewardTail: string
+  /** Figma 186:28774 renders the tail bold to match the amount; the
+   *  per-shirt modal (270:43201) uses regular weight. Defaults false. */
+  rewardTailBold?: boolean
+  buttonLabel: string
 }
 
 const jayJayByColour: Record<ShirtColour, JayJayVariant> = {
@@ -72,8 +87,12 @@ export function CelebrationModal({
   open,
   onClose,
   shirtColour,
+  title,
+  subtitle,
   xpAwarded,
-  shirtsLeft,
+  rewardTail,
+  rewardTailBold = false,
+  buttonLabel,
 }: CelebrationModalProps) {
   // Bump the seed each time the modal opens so the confetti scatter is
   // a fresh scatter but stable across re-renders while open.
@@ -132,11 +151,11 @@ export function CelebrationModal({
       <div className="celebration-modal__dialog" role="document">
         <div className="celebration-modal__title-block">
           <h2 id="celebration-modal-title" className="celebration-modal__title">
-            Congrats King!
+            {title}
           </h2>
-          <p className="celebration-modal__subtitle">
-            Club {shirtColour} Shirt is yours
-          </p>
+          {subtitle && (
+            <p className="celebration-modal__subtitle">{subtitle}</p>
+          )}
         </div>
 
         <div className="celebration-modal__content">
@@ -147,15 +166,19 @@ export function CelebrationModal({
             <span className="celebration-modal__reward-xp">
               + {xpAwarded}XP
             </span>
-            <span>
-              {' · '}
-              {shirtsLeft} shirt{shirtsLeft === 1 ? '' : 's'} left
+            <span>{' · '}</span>
+            <span
+              className={
+                rewardTailBold ? 'celebration-modal__reward-xp' : undefined
+              }
+            >
+              {rewardTail}
             </span>
           </p>
         </div>
 
         <div className="celebration-modal__actions">
-          <Button onClick={onClose}>NEXT MISSION</Button>
+          <Button onClick={onClose}>{buttonLabel}</Button>
         </div>
       </div>
     </div>
