@@ -17,8 +17,11 @@
   --font-size-xs: 12px;
   --font-size-sm: 14px;
   --font-size-base: 16px;
+  --font-size-sm-plus: 15px;
   --font-size-xl: 20px;
+  --font-size-2xl: 24px;
   --font-line-height-4: 16px;
+  --font-line-height-5: 20px;
   --font-line-height-6: 24px;
 
   /* Typography compositions
@@ -61,6 +64,20 @@
   --typography-body-2-bold-font-weight: var(--font-weight-bold);
   --typography-body-2-bold-line-height: 1.43;
   --typography-body-2-bold-letter-spacing: 0.17px;
+
+  /* Typography/body-2 — 14 / 1.43, 400, ls 0.17 */
+  --typography-body-2-font-family: var(--font-family-sans);
+  --typography-body-2-font-size: var(--font-size-sm);
+  --typography-body-2-font-weight: var(--font-weight-regular);
+  --typography-body-2-line-height: 1.43;
+  --typography-body-2-letter-spacing: 0.17px;
+
+  /* Typography/body-2-medium — 14 / 1.43, 500, ls 0.17 */
+  --typography-body-2-medium-font-family: var(--font-family-sans);
+  --typography-body-2-medium-font-size: var(--font-size-sm);
+  --typography-body-2-medium-font-weight: var(--font-weight-medium);
+  --typography-body-2-medium-line-height: 1.43;
+  --typography-body-2-medium-letter-spacing: 0.17px;
 
   /* Typography/body-3-bold — 13 / 16, 700, ls 0.4 (Figma uses raw 13 size) */
   --typography-body-3-bold-font-family: var(--font-family-sans);
