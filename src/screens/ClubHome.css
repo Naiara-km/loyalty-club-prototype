@@ -41,6 +41,9 @@
   width: 20px;
   height: 20px;
 }
+.club-home__icon-btn--help {
+  color: var(--ui-value-main);
+}
 .club-home__help-icon {
   display: block;
   width: 24px;
