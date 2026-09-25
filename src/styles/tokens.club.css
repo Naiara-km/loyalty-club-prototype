@@ -62,6 +62,13 @@
   --typography-body-2-bold-line-height: 1.43;
   --typography-body-2-bold-letter-spacing: 0.17px;
 
+  /* Typography/body-3-bold — 13 / 16, 700, ls 0.4 (Figma uses raw 13 size) */
+  --typography-body-3-bold-font-family: var(--font-family-sans);
+  --typography-body-3-bold-font-size: 13px;
+  --typography-body-3-bold-font-weight: var(--font-weight-bold);
+  --typography-body-3-bold-line-height: var(--font-line-height-4);
+  --typography-body-3-bold-letter-spacing: 0.4px;
+
   /* Spacing */
   --spacing-1: 4px;
   --spacing-2: 8px;
