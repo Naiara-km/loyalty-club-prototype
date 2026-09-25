@@ -11,13 +11,16 @@
   border-radius: var(--border-radii-lg);
 }
 
-/* Border per variant — Won has none, matches Figma exactly */
-.wardrobe--locked,
-.wardrobe--available {
+/* Border per variant — Won has none, matches Figma exactly.
+ * `bordered={false}` (via .wardrobe--no-border) suppresses borders on
+ * every variant — used when the Wardrobe is placed inside MainCard's
+ * items-row, which frames each slot with the card's own container. */
+.wardrobe--locked:not(.wardrobe--no-border),
+.wardrobe--available:not(.wardrobe--no-border) {
   border: var(--border-width-1) solid var(--ui-common-grey-300); /* Figma uses --ui-primary-shades-50 which is broken in tokens.system.css; grey-300 is the workaround. */
 }
 
-.wardrobe--selected {
+.wardrobe--selected:not(.wardrobe--no-border) {
   border-style: solid;
   border-color: var(--club-mission-card-active-border); /* #b8860b — same gold used on Mission Card active border */
   border-width: var(--border-width-1) var(--border-width-1) var(--border-width-3);

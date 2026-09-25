@@ -6,16 +6,29 @@ export type WardrobeVariant = 'Locked' | 'Selected' | 'Available' | 'Won'
 
 type WardrobeProps = {
   variant: WardrobeVariant
+  shirt?: ShirtVariant
+  title?: string
+  status?: ReactNode
+  bordered?: boolean
 }
 
-type VariantConfig = {
+/** Renders "Shirt N · Won" in the mixed weight the Won state uses. */
+export const WonStatus = ({ n }: { n: number }) => (
+  <>
+    <span className="wardrobe__status-bold">Shirt {n}</span>
+    <span>{' · '}</span>
+    <span className="wardrobe__status-bold">Won</span>
+  </>
+)
+
+type PresetConfig = {
   shirt: ShirtVariant
   title: string
   status: ReactNode
   statusModifier: 'secondary' | 'gold' | 'gold-mixed'
 }
 
-const config: Record<WardrobeVariant, VariantConfig> = {
+const presets: Record<WardrobeVariant, PresetConfig> = {
   Locked: {
     shirt: 'lock',
     title: 'Mistery shirt',
@@ -37,13 +50,7 @@ const config: Record<WardrobeVariant, VariantConfig> = {
   Won: {
     shirt: 'Default',
     title: 'Club White',
-    status: (
-      <>
-        <span className="wardrobe__status-bold">Shirt 1</span>
-        <span>{' · '}</span>
-        <span className="wardrobe__status-bold">Won</span>
-      </>
-    ),
+    status: <WonStatus n={1} />,
     statusModifier: 'gold-mixed',
   },
 }
@@ -55,20 +62,33 @@ const variantClass: Record<WardrobeVariant, string> = {
   Won: 'wardrobe--won',
 }
 
-export function Wardrobe({ variant }: WardrobeProps) {
-  const { shirt, title, status, statusModifier } = config[variant]
+export function Wardrobe({
+  variant,
+  shirt,
+  title,
+  status,
+  bordered = true,
+}: WardrobeProps) {
+  const preset = presets[variant]
+  const classes = [
+    'wardrobe',
+    variantClass[variant],
+    bordered ? '' : 'wardrobe--no-border',
+  ]
+    .filter(Boolean)
+    .join(' ')
   return (
-    <div className={`wardrobe ${variantClass[variant]}`}>
+    <div className={classes}>
       <div className="wardrobe__shirt-frame">
-        <Shirt variant={shirt} />
+        <Shirt variant={shirt ?? preset.shirt} />
       </div>
       <div className="wardrobe__text">
         <div className="wardrobe__title-row">
-          <p className="wardrobe__title">{title}</p>
+          <p className="wardrobe__title">{title ?? preset.title}</p>
         </div>
         <div className="wardrobe__status-row">
-          <p className={`wardrobe__status wardrobe__status--${statusModifier}`}>
-            {status}
+          <p className={`wardrobe__status wardrobe__status--${preset.statusModifier}`}>
+            {status ?? preset.status}
           </p>
         </div>
       </div>
