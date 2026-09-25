@@ -26,6 +26,9 @@ type MissionCardProps = {
   xpLabel?: string
   shirtLabel?: string
   buttonLabel?: string
+  /** When true, the primary Button renders a looping shimmer. Wired
+   *  from ClubHome only for CLAIM SHIRT NOW and NEED A HINT. */
+  buttonShimmer?: boolean
   /** When set on an Active card, replaces the Button with a dark
    *  display-only countdown ("Unlocks in HH:MM:SS"). Used for M2 in the
    *  unlocking state — Figma node 66:8460. */
@@ -50,6 +53,7 @@ export function MissionCard(props: MissionCardProps) {
       xpLabel = '+ 100 XP',
       shirtLabel = 'Shirt 1',
       buttonLabel = 'Button',
+      buttonShimmer = false,
       countdownText,
       nextStepLabel = 'NEXT STEP',
       nextStepIcon = playArrowFilled,
@@ -87,7 +91,9 @@ export function MissionCard(props: MissionCardProps) {
             <span className="mission-card__countdown-time">{countdownText}</span>
           </div>
         ) : (
-          <Button onClick={onButtonClick}>{buttonLabel}</Button>
+          <Button onClick={onButtonClick} shimmer={buttonShimmer}>
+            {buttonLabel}
+          </Button>
         )}
         <div className="mission-card__next-step">
           {nextStepIcon && (

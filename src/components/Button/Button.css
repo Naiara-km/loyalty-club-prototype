@@ -18,3 +18,52 @@
   white-space: nowrap;
   cursor: pointer;
 }
+
+/* --- Shimmer ---
+ * Diagonal white gleam that sweeps across the button on a slow loop.
+ * A ::before pseudo carries the gradient; overflow: hidden on the
+ * button clips the sweep to the pill shape. Label text sits above
+ * the sweep because the ::before is placed before the button's own
+ * text child in paint order and both share the same stacking level. */
+.button--shimmer {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.button--shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -40%;
+  width: 40%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 100%
+  );
+  transform: skewX(-18deg);
+  animation: button-shimmer 2.4s ease-in-out infinite;
+  animation-delay: 0.8s;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes button-shimmer {
+  0% {
+    left: -40%;
+  }
+  60%,
+  100% {
+    left: 130%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button--shimmer::before {
+    animation: none;
+    display: none;
+  }
+}

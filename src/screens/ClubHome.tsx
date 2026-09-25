@@ -170,6 +170,10 @@ function missionCardProps(
     return undefined // M3 active BET NOW — dev-panel simulates the bet
   })()
 
+  // Shimmer the two flow-progressing CTAs — CLAIM SHIRT NOW and
+  // NEED A HINT — to draw the eye. BET NOW stays plain.
+  const buttonShimmer = ctaLabel === 'CLAIM SHIRT NOW!' || ctaLabel === 'Need a hint?'
+
   return {
     variant: 'Active',
     title: missionTitles[missionNo].active,
@@ -180,6 +184,7 @@ function missionCardProps(
     xpLabel: `+ ${mission.xpReward} XP`,
     shirtLabel: `Shirt ${missionNo}`,
     buttonLabel: ctaLabel,
+    buttonShimmer,
     onButtonClick: onClick,
   }
 }
