@@ -74,6 +74,14 @@ const missionTitles = {
   3: { active: 'Place a bet', locked: 'Mistery mission' },
 } as const
 
+/** Subtitles for the Active card per mission — Figma 66:8460 (M2)
+ *  and 66:8809 (M3). M1's active card doesn't show a subtitle. */
+const missionSubtitles: Record<1 | 2 | 3, string | undefined> = {
+  1: undefined,
+  2: "Jay Jay's hiding in one of our games.",
+  3: 'Sports, Virtuals or Casino',
+}
+
 /** Build MissionCard props derived from the mission's state, the mission
  *  number (1/2/3), the current tick (for M2's countdown), and the
  *  dispatch fns. */
@@ -113,7 +121,8 @@ function missionCardProps(
     return {
       variant: 'Active',
       title: missionTitles[missionNo].active,
-      xpLabel: `+${mission.xpReward} XP`,
+      subtitle: missionSubtitles[missionNo],
+      xpLabel: `+ ${mission.xpReward} XP`,
       shirtLabel: `Shirt ${shirtName}`,
       countdownText: formatCountdown(msLeft),
     }
@@ -137,11 +146,11 @@ function missionCardProps(
   return {
     variant: 'Active',
     title: missionTitles[missionNo].active,
+    subtitle: missionSubtitles[missionNo],
     // M3 is the final mission — Figma 66:8809 labels its step chip
-    // "LAST STEP" and shows a subtitle beneath the title.
-    subtitle: missionNo === 3 ? 'Sports, Virtuals or Casino' : undefined,
+    // "LAST STEP".
     nextStepLabel: missionNo === 3 ? 'LAST STEP' : 'NEXT STEP',
-    xpLabel: `+${mission.xpReward} XP`,
+    xpLabel: `+ ${mission.xpReward} XP`,
     shirtLabel: `Shirt ${shirtName}`,
     buttonLabel: ctaLabel,
     onButtonClick: onClick,

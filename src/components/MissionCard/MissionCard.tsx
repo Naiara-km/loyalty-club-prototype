@@ -49,7 +49,7 @@ export function MissionCard(props: MissionCardProps) {
         </div>
         {countdownText ? (
           <div className="mission-card__countdown" aria-live="polite">
-            <span className="mission-card__countdown-label">Unlocks in </span>
+            <span className="mission-card__countdown-label">Unlocks In </span>
             <span className="mission-card__countdown-time">{countdownText}</span>
           </div>
         ) : (
