@@ -1,0 +1,177 @@
+/* Figma nodes 186:29922 / 30310 / 30733 / 31152 (all four states share
+ * the same layout). Backdrop + centered dialog, close X top-right, 2x2
+ * tile grid, single primary button. */
+
+.wardrobe-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3);
+  font-family: var(--font-family-sans);
+}
+
+.wardrobe-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: var(--ui-background-backdrop-overlay);
+}
+
+/* Dialog card — 336px wide per Figma 186:30238. */
+.wardrobe-modal__dialog {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 336px;
+  background-color: var(--ui-background-paper);
+  border-radius: var(--mainpages-desktop-container-corners);
+  overflow: hidden;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 16, 65, 0.1),
+    0 4px 6px -4px rgba(0, 16, 65, 0.1);
+  box-sizing: border-box;
+}
+
+/* Close X — Figma places it inside the dialog, top-right, above the
+ * title text (which reserves pr:56px so the X doesn't overlap). */
+.wardrobe-modal__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2);
+  background: transparent;
+  border: none;
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  color: var(--ui-text-secondary);
+}
+.wardrobe-modal__close-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+/* --- Title block (DialogTitle) --- */
+.wardrobe-modal__title-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  padding: 24px 56px var(--spacing-3) 24px; /* pr 56 so close X clears */
+}
+
+.wardrobe-modal__title {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-line-height-6);
+  letter-spacing: 0.15px;
+  color: var(--ui-text-primary);
+}
+
+.wardrobe-modal__subtitle {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  color: var(--ui-text-secondary);
+}
+
+/* --- Tile grid (2x2) --- */
+.wardrobe-modal__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-4);
+  padding: var(--spacing-2) var(--spacing-4);
+}
+
+.wardrobe-modal__tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-3) var(--spacing-3);
+  background-color: var(--ui-common-white-white-100p);
+  border: var(--border-width-1) solid var(--ui-common-grey-300);
+  border-radius: var(--border-radii-lg);
+  cursor: pointer;
+  font-family: var(--font-family-sans);
+  text-align: center;
+  transition: border-color 120ms ease;
+}
+.wardrobe-modal__tile:not(:disabled):hover {
+  border-color: var(--ui-value-dark);
+}
+.wardrobe-modal__tile:disabled {
+  cursor: default;
+}
+
+/* Selected — gold border with a thicker 3px bottom edge per Figma. */
+.wardrobe-modal__tile--selected {
+  border-color: var(--club-mission-card-active-border);
+  border-bottom-width: var(--border-width-3);
+}
+
+/* Locked — the shirt frame gets a grey fill behind the lock icon. */
+.wardrobe-modal__shirt-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 61px;
+  border-radius: var(--border-radii-default);
+}
+.wardrobe-modal__shirt-frame--locked {
+  background-color: var(--ui-background-8p);
+}
+
+/* --- Tile text --- */
+.wardrobe-modal__tile-text {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.wardrobe-modal__tile-title {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 11px; /* figma small-text */
+  font-weight: var(--font-weight-bold);
+  line-height: 14px;
+  color: var(--ui-text-primary);
+  white-space: nowrap;
+}
+
+.wardrobe-modal__tile-status {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 9px; /* figma extra-small */
+  line-height: 12px;
+  white-space: nowrap;
+}
+.wardrobe-modal__tile-status--secondary {
+  font-weight: var(--font-weight-regular);
+  color: var(--ui-text-secondary);
+}
+.wardrobe-modal__tile-status--gold {
+  font-weight: var(--font-weight-bold);
+  color: var(--club-mission-card-active-border);
+}
+
+/* --- Actions (DialogActions) --- */
+.wardrobe-modal__actions {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-4) 24px 20px;
+}

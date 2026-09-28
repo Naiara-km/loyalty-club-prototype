@@ -13,8 +13,9 @@ import {
 } from '../components/MissionProgress/MissionProgress'
 import { Path, type PathDot } from '../components/Path/Path'
 import type { TimelineDotState, TimelineDotStep } from '../components/TimelineDot/TimelineDot'
+import { WardrobeModal } from '../components/WardrobeModal/WardrobeModal'
 import { useClubState } from '../state/ClubStateContext'
-import type { Mission, ShirtColour } from '../state/clubState'
+import type { Mission, ShirtColour, ShirtId } from '../state/clubState'
 import './ClubHome.css'
 
 /** Real Club home screen. Renders against ClubState — every variant is
@@ -195,8 +196,8 @@ function missionCardProps(
 type ClaimedMissionNo = 1 | 2 | 3
 
 const shirtColourByMission: Record<ClaimedMissionNo, ShirtColour> = {
-  1: 'Green',
-  2: 'Red',
+  1: 'Red',
+  2: 'Green',
   3: 'Blue',
 }
 
@@ -211,6 +212,9 @@ export function ClubHome({ onBack }: ClubHomeProps) {
     const id = window.setInterval(() => setNow(Date.now()), 1000)
     return () => window.clearInterval(id)
   }, [missions.m2.state])
+
+  // Wardrobe modal — opens from the MainCard "Change Shirt" footer.
+  const [wardrobeOpen, setWardrobeOpen] = useState(false)
 
   // Celebration modal: opens on CLAIM SHIRT NOW, dispatches the claim
   // when the user taps NEXT MISSION (defers state advance until then).
@@ -391,9 +395,20 @@ export function ClubHome({ onBack }: ClubHomeProps) {
 
         <section className="club-home__collection">
           <h2 className="club-home__collection-title">Jay Jay&rsquo;s collection</h2>
-          <MainCard variant={collectedToMainVariant(collectedCount)} />
+          <MainCard
+            variant={collectedToMainVariant(collectedCount)}
+            onChangeShirt={() => setWardrobeOpen(true)}
+          />
         </section>
       </div>
+
+      <WardrobeModal
+        open={wardrobeOpen}
+        onClose={() => setWardrobeOpen(false)}
+        slots={wardrobe.slots}
+        wearing={wardrobe.wearing}
+        onWear={(id: ShirtId) => dispatch({ type: 'wear_shirt', id })}
+      />
 
       <CelebrationModal
         open={celebrating !== null}

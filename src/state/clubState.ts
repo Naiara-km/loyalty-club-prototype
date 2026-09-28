@@ -51,10 +51,12 @@ export const initialClubState: ClubState = {
     m3: { state: 'locked', xpReward: 300, unlockedAt: null, completedAt: null },
   },
   wardrobe: {
+    /* Figma 186:30310 / 30733 / 31152 maps missions → shirt colours:
+     * M1 = Red (Shirt 1), M2 = Green (Shirt 2), M3 = Blue (Shirt 3). */
     slots: [
       { id: 0, colour: 'White', won: true  },
-      { id: 1, colour: 'Green', won: false },
-      { id: 2, colour: 'Red',   won: false },
+      { id: 1, colour: 'Red',   won: false },
+      { id: 2, colour: 'Green', won: false },
       { id: 3, colour: 'Blue',  won: false },
     ],
     wearing: 0,

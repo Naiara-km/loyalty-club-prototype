@@ -18,10 +18,11 @@ const wonCount: Record<MainCardVariant, number> = {
 }
 
 /** Per-slot shirt + title used when the shirt has been won. Position 0..2
- * maps to slots left-to-right. Titles come verbatim from Figma. */
+ * maps to missions M1 → M2 → M3, and Figma 290:48194 lineup:
+ * M1 = Red (Shirt 1), M2 = Green (Shirt 2), M3 = Blue (Shirt 3). */
 const slots: Array<{ shirt: ShirtVariant; title: string }> = [
-  { shirt: 'Green', title: 'Club White' },
   { shirt: 'Red', title: 'Club Red' },
+  { shirt: 'Green', title: 'Club Green' },
   { shirt: 'Betking', title: 'Club Blue' },
 ]
 
