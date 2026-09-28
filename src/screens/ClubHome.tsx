@@ -144,6 +144,7 @@ function missionCardProps(
     const msLeft = (mission.unlockedAt ?? now) - now
     return {
       variant: 'Active',
+      texture: 'graphic',
       title: missionTitles[missionNo].active,
       subtitleAccent: `Mission ${missionNo}`,
       subtitle: missionSubtitles[missionNo],
@@ -176,6 +177,7 @@ function missionCardProps(
 
   return {
     variant: 'Active',
+    texture: 'graphic',
     title: missionTitles[missionNo].active,
     subtitleAccent: `Mission ${missionNo}`,
     subtitle: missionSubtitles[missionNo],
