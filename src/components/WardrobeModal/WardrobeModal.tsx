@@ -26,7 +26,10 @@ type WardrobeModalProps = {
 }
 
 const shirtVariantByColour: Record<ShirtColour, ShirtVariant> = {
-  White: 'Default',
+  // Figma 180:25665 — the "Club White" tile shows the full white shirt
+  // illustration (with the number 10) rather than the small default
+  // placeholder icon.
+  White: 'white',
   Red: 'Red',
   Green: 'Green',
   Blue: 'Betking',
