@@ -1,8 +1,9 @@
 /* --- Root — fluid width between 320 and 600, clips the Jay Jay figure
  *  that overflows below and (on narrow widths) behind the banner card.
  *  Banner content is anchored left and Jay Jay is absolutely anchored
- *  right; between them the empty gradient background just grows as
- *  the container widens. */
+ *  right; between them the shared "Kings-Champions" background image
+ *  fills the space (Figma 234:38780). The same PNG is used across all
+ *  four shirt-colour variants — only Jay Jay's figure swaps. */
 .club-banner {
   position: relative;
   display: flex;
@@ -16,6 +17,10 @@
   height: 263px;
   padding: 0 var(--spacing-2);
   overflow: clip;
+  background-image: url("../../assets/illustrations/club-banner-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .club-banner__content {
