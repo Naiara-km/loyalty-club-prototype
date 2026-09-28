@@ -96,6 +96,48 @@
   background-position: right 12% center;
 }
 
+/* Texture: graphic — Figma 290:48194. Bolder look: a near-solid
+ * yellow card background overlaid with a designer-authored SVG of
+ * five stacked chevrons that bleed off the top/left/right edges.
+ * The SVG already has baked-in opacity (0.7 group × 0.3 per path)
+ * so ::before renders at full opacity — --club-chevron-opacity is
+ * NOT applied for this variant. Chips also flip to a gold gradient
+ * per the same Figma frame. */
+.mission-card--shader-chevron.mission-card--texture-graphic {
+  background: linear-gradient(
+    0deg,
+    var(--ui-value-main) 0.91%,
+    var(--ui-value-main) 59.3%,
+    var(--ui-common-white-white-100p) 119.51%
+  );
+}
+
+.mission-card--shader-chevron.mission-card--texture-graphic::before {
+  background-image: url("../../assets/illustrations/mission-chevrons.svg");
+  background-repeat: no-repeat;
+  background-size: 330px 162px;
+  background-position: -34px -16px;
+  opacity: 1;
+}
+
+/* Chip gradient overrides for the graphic texture — Figma nodes
+ * 275:47448 (XP) and 275:47449 (Shirt). Keeps existing borders and
+ * text colours, only the fill switches to a light gold gradient. */
+.mission-card--shader-chevron.mission-card--texture-graphic .chip--xp {
+  background: linear-gradient(
+    -25.28deg,
+    #ffd64d 61.27%,
+    #ffffff 88.958%
+  );
+}
+.mission-card--shader-chevron.mission-card--texture-graphic .chip--shirt {
+  background: linear-gradient(
+    -30.28deg,
+    #ffd64d 61.27%,
+    #ffffff 88.958%
+  );
+}
+
 /* --- Shader: rings ---
  * Prior default — approximates Figma's WebGPU concentric-rings shader.
  * Ring stack from shader params: centre (81.15%, 76.63%), 18 rings across

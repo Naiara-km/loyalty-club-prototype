@@ -17,9 +17,10 @@ export type MissionCardShader =
   | 'aurora'
 
 /** Only meaningful when `shader === 'chevron'`. Chooses between the
- *  repeating chevron tile (default) and a single large decorative
- *  chevron in the right third of the card. */
-export type MissionCardTexture = 'chevrons' | 'single'
+ *  repeating chevron tile (default), a single large decorative
+ *  chevron, and a designer-authored multi-chevron graphic laid
+ *  over a solid-yellow background (Figma 290:48194). */
+export type MissionCardTexture = 'chevrons' | 'single' | 'graphic'
 
 type MissionCardProps = {
   variant: MissionCardVariant

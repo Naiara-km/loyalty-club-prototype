@@ -31,6 +31,15 @@ export const ActiveSingleChevron: Story = {
 }
 ActiveSingleChevron.storyName = 'Active — single chevron'
 
+/** Active card with the "graphic" chevrons texture — Figma 290:48194.
+ *  Solid-yellow card background, designer-authored SVG of five
+ *  stacked chevrons bleeding off the top/left/right, and chips
+ *  flipped to a light-gold gradient. */
+export const ActiveGraphicChevrons: Story = {
+  args: { variant: 'Active', shader: 'chevron', texture: 'graphic' },
+}
+ActiveGraphicChevrons.storyName = 'Active — graphic chevrons'
+
 /** Active card with the exploratory voxels/isometric-cube texture in
  *  place of the default concentric rings. Prototype only — used for
  *  stakeholder texture reviews. */
