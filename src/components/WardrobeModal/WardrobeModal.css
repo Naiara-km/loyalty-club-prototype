@@ -117,8 +117,10 @@
   cursor: default;
 }
 
-/* Selected — gold border with a thicker 3px bottom edge per Figma. */
+/* Selected — Figma 180:25871: gold border with a thicker 3px bottom
+ * edge plus a translucent yellow fill so the pick reads clearly. */
 .wardrobe-modal__tile--selected {
+  background-color: var(--ui-value-30p);
   border-color: var(--club-mission-card-active-border);
   border-bottom-width: var(--border-width-3);
 }
