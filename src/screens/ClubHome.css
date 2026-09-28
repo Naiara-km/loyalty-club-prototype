@@ -64,7 +64,10 @@
   color: var(--ui-value-main);
 }
 
-/* --- Content sheet — white fill per Figma Frame 48095932, fluid up to 600px --- */
+/* --- Content sheet — white fill per Figma Frame 48095932, fluid up to 600px.
+ * Top-left / top-right corners rounded 12px per Figma 272:44281
+ * (rounded-tl-[var(--border-radii/xl,12px)] rounded-tr-[…]) so the
+ * sheet curves visibly above the club banner. Bottom stays square. */
 .club-home__content {
   display: flex;
   flex-direction: column;
@@ -74,6 +77,8 @@
   max-width: 600px; /* figma: tablet reference is 600px wide */
   margin: 0 auto;
   background-color: var(--ui-common-white-white-100p);
+  border-top-left-radius: var(--mainpages-desktop-container-corners);
+  border-top-right-radius: var(--mainpages-desktop-container-corners);
   box-sizing: border-box;
 }
 
