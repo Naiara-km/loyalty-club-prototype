@@ -1,0 +1,193 @@
+/* Figma 81:14105 "Your path in the Club" — same dialog shell as the
+ * other Club modals (336px card on a dimmed backdrop), with a vertical
+ * timeline explaining the loyalty tiers. */
+
+.levels-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3);
+  font-family: var(--font-family-sans);
+}
+
+.levels-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: var(--ui-background-backdrop-overlay);
+}
+
+.levels-modal__dialog {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 336px;
+  background-color: var(--ui-background-paper);
+  border-radius: var(--mainpages-desktop-container-corners);
+  overflow: hidden;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 16, 65, 0.1),
+    0 4px 6px -4px rgba(0, 16, 65, 0.1);
+  box-sizing: border-box;
+}
+
+.levels-modal__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2);
+  background: transparent;
+  border: none;
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  color: var(--ui-text-secondary);
+}
+.levels-modal__close-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+/* --- Title block --- */
+.levels-modal__title-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  padding: 24px 56px var(--spacing-3) 24px;
+}
+
+.levels-modal__title {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--font-line-height-6);
+  letter-spacing: 0.15px;
+  color: var(--ui-text-primary);
+}
+
+.levels-modal__subtitle {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  color: var(--ui-text-secondary);
+}
+
+/* --- Content: 32px timeline column + text blocks --- */
+.levels-modal__content {
+  display: flex;
+  gap: var(--spacing-4);
+  padding: var(--spacing-3) 24px;
+}
+
+.levels-modal__path {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-4) 0;
+  width: 32px;
+  flex: none;
+}
+
+.levels-modal__dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 100px;
+  flex: none;
+}
+
+.levels-modal__dot--active {
+  background-color: var(--ui-semantic-colours-success-main);
+}
+.levels-modal__dot-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1); /* icon renders white on green */
+}
+
+.levels-modal__dot--locked {
+  background-color: var(--ui-common-grey-300);
+}
+.levels-modal__dot-label {
+  font-family: var(--font-family-sans);
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.43;
+  letter-spacing: 0.17px;
+  color: var(--ui-text-secondary);
+  white-space: nowrap;
+}
+
+/* Timeline line segments — each dot pair is separated by 2 or more
+ * short segments (see Figma 271:43846 / 271:43857). The first two
+ * segments after the active dot are green (progress made), the rest
+ * are grey (still ahead). Stacked with a small gap so the line reads
+ * as a dashed trail rather than a solid pipe. */
+.levels-modal__line {
+  width: 2px;
+  height: 14px;
+  margin: 2px 0;
+  background-color: var(--ui-common-grey-300);
+}
+
+.levels-modal__line--active {
+  background-color: var(--ui-semantic-colours-success-main);
+}
+
+/* --- Text blocks column --- */
+.levels-modal__blocks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+.levels-modal__block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.levels-modal__block-title {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.75;
+  letter-spacing: 0.15px;
+  color: var(--ui-text-primary);
+}
+
+.levels-modal__block-body {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 13px;
+  font-weight: var(--font-weight-regular);
+  line-height: 16px;
+  letter-spacing: 0.4px;
+  color: var(--ui-text-secondary);
+}
+
+/* --- Actions --- */
+.levels-modal__actions {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-4) 24px 20px;
+}

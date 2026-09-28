@@ -13,6 +13,7 @@ import {
 } from '../components/MissionProgress/MissionProgress'
 import { Path, type PathDot } from '../components/Path/Path'
 import type { TimelineDotState, TimelineDotStep } from '../components/TimelineDot/TimelineDot'
+import { LevelsModal } from '../components/LevelsModal/LevelsModal'
 import { WardrobeModal } from '../components/WardrobeModal/WardrobeModal'
 import { useClubState } from '../state/ClubStateContext'
 import type { Mission, ShirtColour, ShirtId } from '../state/clubState'
@@ -221,6 +222,9 @@ export function ClubHome({ onBack }: ClubHomeProps) {
   // Wardrobe modal — opens from the MainCard "Change Shirt" footer.
   const [wardrobeOpen, setWardrobeOpen] = useState(false)
 
+  // Levels modal — opens when the Starter progress bar is tapped.
+  const [levelsOpen, setLevelsOpen] = useState(false)
+
   // Celebration modal: opens on CLAIM SHIRT NOW, dispatches the claim
   // when the user taps NEXT MISSION (defers state advance until then).
   const [celebrating, setCelebrating] = useState<ClaimedMissionNo | null>(null)
@@ -381,7 +385,10 @@ export function ClubHome({ onBack }: ClubHomeProps) {
       <div className="club-home__content">
         {!allDone && (
           <>
-            <MissionProgress variant={xpToProgressVariant(totalXp)} />
+            <MissionProgress
+              variant={xpToProgressVariant(totalXp)}
+              onClick={() => setLevelsOpen(true)}
+            />
             <Missions chipLabel={`${countdownDaysLeft} DAYS LEFT`} />
           </>
         )}
@@ -414,6 +421,8 @@ export function ClubHome({ onBack }: ClubHomeProps) {
         wearing={wardrobe.wearing}
         onWear={(id: ShirtId) => dispatch({ type: 'wear_shirt', id })}
       />
+
+      <LevelsModal open={levelsOpen} onClose={() => setLevelsOpen(false)} />
 
       <CelebrationModal
         open={celebrating !== null}
