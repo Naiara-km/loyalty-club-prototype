@@ -37,6 +37,13 @@
   opacity: 0.6;
 }
 
+/* Dimmed — used for the M2 unlocking countdown card. Everything on
+ * the card (background gradient, chevrons, chips, countdown pill,
+ * NEXT MISSION chip) inherits the reduced opacity. */
+.mission-card--dimmed {
+  opacity: 0.6;
+}
+
 /* --- Shader: chevron (default) ---
  * Tone-on-tone forward-motion pattern: chevrons pointing right, drawn
  * as an inline SVG data URI used as a mask so `background-color`

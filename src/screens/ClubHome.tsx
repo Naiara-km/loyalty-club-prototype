@@ -96,14 +96,16 @@ function nextStepLabelFor(
   return state === 'condition_met' ? 'FOUND' : 'NEXT MISSION'
 }
 
-/** Icon shown in the next-step pill. M2 uses PersonCheckFilled once
- *  Jay Jay is found; before that it defaults to the play-arrow. M3
- *  has no icon (Figma 272:46066). */
+/** Icon shown in the next-step pill. M2 unlocking (dim countdown card)
+ *  and M2 condition_met (found) skip the play-arrow — the former per
+ *  Figma 293:48332, the latter uses PersonCheckFilled. M3 has no icon
+ *  (Figma 272:46066). */
 function nextStepIconFor(
   missionNo: 1 | 2 | 3,
   state: Mission['state'],
 ): string | null | undefined {
   if (missionNo === 3) return null
+  if (missionNo === 2 && state === 'unlocking') return null
   if (missionNo === 2 && state === 'condition_met') return personCheckFilled
   return undefined // fall through to MissionCard default (play-arrow)
 }
@@ -140,12 +142,14 @@ function missionCardProps(
   }
 
   // Unlocking — Active-style card with real title and a countdown pill
-  // instead of the primary button (Figma 66:8460).
+  // instead of the primary button. Rendered dim (opacity 0.6) to signal
+  // it's not actionable yet (Figma 293:48332).
   if (mission.state === 'unlocking') {
     const msLeft = (mission.unlockedAt ?? now) - now
     return {
       variant: 'Active',
       texture: 'graphic',
+      dimmed: true,
       title: missionTitles[missionNo].active,
       subtitleAccent: `Mission ${missionNo}`,
       subtitle: missionSubtitles[missionNo],

@@ -50,6 +50,10 @@ type MissionCardProps = {
   /** Active variant only, meaningful when `shader === 'chevron'`.
    *  Defaults to the repeating tile. */
   texture?: MissionCardTexture
+  /** Renders the card at 60% opacity — used for the M2 unlocking
+   *  countdown state (Figma 293:48332) to signal the mission isn't
+   *  actionable yet. */
+  dimmed?: boolean
   onButtonClick?: () => void
 }
 
@@ -68,12 +72,13 @@ export function MissionCard(props: MissionCardProps) {
       nextStepIcon = playArrowFilled,
       shader = 'chevron',
       texture = 'chevrons',
+      dimmed = false,
       onButtonClick,
     } = props
     const hasSubtitle = Boolean(subtitle || subtitleAccent)
     return (
       <div
-        className={`mission-card mission-card--active mission-card--shader-${shader} mission-card--texture-${texture}`}
+        className={`mission-card mission-card--active mission-card--shader-${shader} mission-card--texture-${texture}${dimmed ? ' mission-card--dimmed' : ''}`}
       >
         <div className="mission-card__meta">
           <div className="mission-card__meta-col">
