@@ -176,9 +176,10 @@ function missionCardProps(
     return undefined // M3 active BET NOW — dev-panel simulates the bet
   })()
 
-  // Shimmer the two flow-progressing CTAs — CLAIM SHIRT NOW and
-  // NEED A HINT — to draw the eye. BET NOW stays plain.
-  const buttonShimmer = ctaLabel === 'CLAIM SHIRT NOW!' || ctaLabel === 'Need a hint?'
+  // Every active/condition_met CTA shimmers — CLAIM SHIRT NOW,
+  // Need a hint? and BET NOW — so the currently-actionable button
+  // always draws the eye regardless of which mission is active.
+  const buttonShimmer = true
 
   return {
     variant: 'Active',
