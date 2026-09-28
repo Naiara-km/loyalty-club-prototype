@@ -130,23 +130,10 @@
   opacity: 1;
 }
 
-/* Chip gradient overrides for the graphic texture — Figma nodes
- * 275:47448 (XP) and 275:47449 (Shirt). Keeps existing borders and
- * text colours, only the fill switches to a light gold gradient. */
-.mission-card--shader-chevron.mission-card--texture-graphic .chip--xp {
-  background: linear-gradient(
-    -25.28deg,
-    #ffd64d 61.27%,
-    #ffffff 88.958%
-  );
-}
-.mission-card--shader-chevron.mission-card--texture-graphic .chip--shirt {
-  background: linear-gradient(
-    -30.28deg,
-    #ffd64d 61.27%,
-    #ffffff 88.958%
-  );
-}
+/* Chips inside the graphic texture use the default solid-white fill
+ * (Figma 290:48194, nodes 275:47448 / 275:47449). No override needed
+ * here — the base .chip--xp and .chip--shirt rules already paint a
+ * white background with the correct border + text colours. */
 
 /* --- Shader: rings ---
  * Prior default — approximates Figma's WebGPU concentric-rings shader.
