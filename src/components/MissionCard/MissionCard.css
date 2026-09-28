@@ -115,8 +115,18 @@
 .mission-card--shader-chevron.mission-card--texture-graphic::before {
   background-image: url("../../assets/illustrations/mission-chevrons.svg");
   background-repeat: no-repeat;
-  background-size: 330px 162px;
-  background-position: -34px -16px;
+  /* Responsive sizing:
+   *  - Width fills the card ('100%') so the chevrons scale from the
+   *    mobile 314px card up to the 600px tablet reference without
+   *    leaving empty space on the right. The source SVG carries
+   *    preserveAspectRatio="none", so horizontal stretching is the
+   *    designer's stated intent.
+   *  - Height stays at the Figma-authored 162px because the top
+   *    vertical bleed (-16px) is a fixed offset relative to the top
+   *    edge, not proportional to card height. This keeps the visual
+   *    weight of the chevrons consistent as the card grows taller. */
+  background-size: 100% 162px;
+  background-position: 0 -16px;
   opacity: 1;
 }
 
