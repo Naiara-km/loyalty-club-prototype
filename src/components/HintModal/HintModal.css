@@ -81,23 +81,42 @@
   padding: var(--spacing-2) var(--spacing-4);
 }
 
-/* Peek-a-boo Jay Jay: only the top ~90px of the figure shows, sitting
- * flush above the hint block. Overflow-clip on the frame trims the
- * body so it reads like a peek. */
+/* Peek-a-boo Jay Jay — Figma 339:24825. Two stacked SVGs (face + hands)
+ * sit inside a grid-like container that overlaps the hint block below
+ * by 52px, so the hint's yellow card hides the bottom of the face.
+ *
+ * Dimensions and offsets come straight from Figma:
+ *   Face:   69.071 × 112.007, at (0, 0)
+ *   Hands:  58.804 × 99.972,  at (5.6, 12.13)
+ *
+ * The face renders first so the hands paint on top of it (covering
+ * the eyes), matching the layer order in Figma. */
 .hint-modal__peek {
   position: relative;
-  width: 100%;
-  height: 90px;
-  margin-bottom: -32px;
-  overflow: clip;
-  display: flex;
-  justify-content: center;
-  z-index: 1;
+  align-self: center;
+  width: 69.071px;
+  height: 112.007px;
+  margin-bottom: -52px;
   pointer-events: none;
+  z-index: 1;
 }
-.hint-modal__peek-figure {
-  transform: scale(0.55);
-  transform-origin: center top;
+
+.hint-modal__peek-face {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 69.071px;
+  height: 112.007px;
+  display: block;
+}
+
+.hint-modal__peek-hands {
+  position: absolute;
+  left: 5.6px;
+  top: 12.13px;
+  width: 58.804px;
+  height: 99.972px;
+  display: block;
 }
 
 /* Text stack (hint block + task block) */

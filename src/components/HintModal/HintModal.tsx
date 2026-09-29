@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import closeFilled from '../../assets/icons/close-filled.svg'
+import peekFace from '../../assets/illustrations/jay-jay-peek-face.svg'
+import peekHands from '../../assets/illustrations/jay-jay-peek-hands.svg'
 import { Button } from '../Button/Button'
-import { JayJay } from '../JayJay/JayJay'
 import './HintModal.css'
 
 /** "Where's Jay Jay?" hint dialog — Figma 337:23136.
@@ -60,13 +61,22 @@ export function HintModal({ open, onClose }: HintModalProps) {
         </div>
 
         <div className="hint-modal__content">
-          {/* Peeking Jay Jay illustration — the top of the JayJay
-            *  figure is clipped by the parent so only the head +
-            *  shoulders overhang the hint block below. */}
+          {/* Peeking Jay Jay illustration — Figma 339:24825. Face SVG
+            *  sits behind (positioned at 0,0) and hands SVG on top of
+            *  it (offset 5.6/12.13). The wrapper's negative bottom
+            *  margin (-52px) pulls the hint block up so it appears to
+            *  cover Jay Jay's chin — matching the peek-a-boo framing. */}
           <div className="hint-modal__peek" aria-hidden>
-            <div className="hint-modal__peek-figure">
-              <JayJay variant="white" />
-            </div>
+            <img
+              src={peekFace}
+              alt=""
+              className="hint-modal__peek-face"
+            />
+            <img
+              src={peekHands}
+              alt=""
+              className="hint-modal__peek-hands"
+            />
           </div>
 
           <div className="hint-modal__stack">
