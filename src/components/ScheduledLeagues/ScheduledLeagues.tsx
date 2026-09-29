@@ -1,44 +1,32 @@
 import jackpotIcon from '../../assets/virtuals/jackpot-icon.svg'
-import kingsLeagueIcon from '../../assets/virtuals/kings-league-icon.svg'
-import kingsLeagueLabel from '../../assets/virtuals/kings-league-label.svg'
-import kingsChampionsIcon from '../../assets/virtuals/kings-champions-icon.svg'
-import kingsChampionsLabel from '../../assets/virtuals/kings-champions-label.svg'
-import kingsLigaIcon from '../../assets/virtuals/kings-liga-icon.svg'
-import kingsLigaLabel from '../../assets/virtuals/kings-liga-label.svg'
-import kingsItalianoIcon from '../../assets/virtuals/kings-italiano-icon.svg'
-import kingsItalianoLabel from '../../assets/virtuals/kings-italiano-label.svg'
-import kingsBundligaIcon from '../../assets/virtuals/kings-bundliga-icon.svg'
-import kingsBundligaLabel from '../../assets/virtuals/kings-bundliga-label.svg'
 import timerPulse from '../../assets/virtuals/timer-pulse.svg'
 import timerPulseLive from '../../assets/virtuals/timer-pulse-live.svg'
 import './ScheduledLeagues.css'
 
 /** Scheduled Leagues section — Figma 362:44063. Two-column grid:
- *  left column stacks two large tiles (Kings League, Kings Champions),
- *  right column stacks three small tiles (Kings Liga, Kings Italiano,
- *  Kings Bundliga). Each tile shows a country/league mark on the left
- *  and a countdown + Play pill on the right. Icons/labels come from
- *  the Figma export in src/assets/virtuals/. */
+ *  left column stacks two large tiles, right column stacks three
+ *  small tiles. Each tile shows a neutral league mark on the left
+ *  and a countdown + Play pill on the right.
+ *
+ *  Note: the Figma design uses per-league crest artwork for the tile
+ *  marks. The prototype renders a neutral text badge with the league
+ *  name in its place so the code doesn't carry the crest artwork.
+ *  Everything else — gradients, layout, spacing, countdown behaviour
+ *  — matches Figma verbatim. */
 
 type TileProps = {
-  icon: string
-  label: string
+  name: string
   countdown: string
   isLive?: boolean
   size: 'large' | 'small'
   modifier: string
 }
 
-function LeagueTile({ icon, label, countdown, isLive, size, modifier }: TileProps) {
+function LeagueTile({ name, countdown, isLive, size, modifier }: TileProps) {
   return (
     <div className={`sched-leagues__tile sched-leagues__tile--${size} sched-leagues__tile--${modifier}`}>
       <div className="sched-leagues__tile-mark">
-        <div className="sched-leagues__tile-icon">
-          <img src={icon} alt="" />
-        </div>
-        <div className="sched-leagues__tile-label">
-          <img src={label} alt="" />
-        </div>
+        <span className="sched-leagues__tile-name">{name}</span>
       </div>
       <div className="sched-leagues__tile-meta">
         <div className="sched-leagues__countdown">
@@ -75,15 +63,13 @@ export function ScheduledLeagues() {
       <div className="sched-leagues__grid">
         <div className="sched-leagues__col sched-leagues__col--large">
           <LeagueTile
-            icon={kingsLeagueIcon}
-            label={kingsLeagueLabel}
+            name="Kings League"
             countdown="02:00"
             size="large"
             modifier="league"
           />
           <LeagueTile
-            icon={kingsChampionsIcon}
-            label={kingsChampionsLabel}
+            name="Kings Champions"
             countdown="01:30"
             size="large"
             modifier="champions"
@@ -91,22 +77,19 @@ export function ScheduledLeagues() {
         </div>
         <div className="sched-leagues__col sched-leagues__col--small">
           <LeagueTile
-            icon={kingsLigaIcon}
-            label={kingsLigaLabel}
+            name="Kings Liga"
             countdown="02:00"
             size="small"
             modifier="liga"
           />
           <LeagueTile
-            icon={kingsItalianoIcon}
-            label={kingsItalianoLabel}
+            name="Kings Italiano"
             countdown="01:30"
             size="small"
             modifier="italiano"
           />
           <LeagueTile
-            icon={kingsBundligaIcon}
-            label={kingsBundligaLabel}
+            name="Kings Bundliga"
             countdown="LIVE"
             isLive
             size="small"

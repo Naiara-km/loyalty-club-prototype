@@ -1,0 +1,265 @@
+/* Scheduled Tournaments — Figma 362:44507. Header row + two-column
+ * layout: one full-height hero tile (blue, rays background) on the
+ * left, two stacked 76px tiles on the right. */
+
+.sched-tournaments {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-bottom: 24px;
+  background-color: var(--ui-background-paper);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* --- Header row (shared pattern with Scheduled Leagues) --- */
+.sched-tournaments__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 24px 16px 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sched-tournaments__titles {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sched-tournaments__title {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 20px;
+  font-weight: var(--font-weight-medium);
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  color: rgba(0, 12, 45, 0.87);
+  white-space: nowrap;
+}
+
+.sched-tournaments__subtitle {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 14px;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.43;
+  letter-spacing: 0.17px;
+  color: rgba(0, 12, 45, 0.6);
+  white-space: nowrap;
+}
+
+.sched-tournaments__jackpot-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex: none;
+}
+
+/* --- 2-column grid --- */
+.sched-tournaments__grid {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 160px;
+  padding: 0 16px;
+  overflow: clip;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* --- Left: hero tile --- */
+.sched-tournaments__hero {
+  flex: 1;
+  min-width: 131px;
+  height: 100%;
+  position: relative;
+  overflow: clip;
+  border-radius: 8px;
+  padding: 16px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(181deg, rgb(3, 44, 234) 0%, rgb(2, 28, 151) 100%);
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+.sched-tournaments__rays {
+  position: absolute;
+  pointer-events: none;
+  display: block;
+}
+
+.sched-tournaments__rays--large {
+  left: 50%;
+  top: -272px;
+  width: 761px;
+  height: 640px;
+  transform: translateX(-50%);
+}
+
+.sched-tournaments__rays--small {
+  top: 50%;
+  left: -76px;
+  width: 238px;
+  height: 200px;
+  transform: translateY(-50%);
+}
+
+.sched-tournaments__rays--centered {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.sched-tournaments__hero-mark {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+}
+.sched-tournaments__hero-name {
+  font-family: var(--font-family-sans);
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.15;
+  letter-spacing: 0.4px;
+  color: #ffffff;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Countdown pill — top-right absolute on the hero, inline on small tiles */
+.sched-tournaments__countdown--top {
+  position: absolute;
+  top: 12px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.6;
+  border-radius: 56px;
+  z-index: 1;
+}
+
+.sched-tournaments__countdown {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.6;
+  border-radius: 56px;
+}
+.sched-tournaments__countdown-time {
+  min-width: 25px;
+  font-family: var(--font-family-sans);
+  font-size: 11px;
+  font-weight: var(--font-weight-regular);
+  line-height: 11px;
+  color: #ffffff;
+  text-align: right;
+  white-space: nowrap;
+}
+.sched-tournaments__countdown-icon {
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+/* --- Right: small tiles column --- */
+.sched-tournaments__col {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sched-tournaments__tile {
+  position: relative;
+  height: 76px;
+  overflow: clip;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+}
+
+.sched-tournaments__tile--afkon {
+  background:
+    linear-gradient(180deg, rgba(0, 16, 65, 0) 0%, rgba(0, 16, 65, 0.3) 100%),
+    linear-gradient(90deg, rgb(0, 149, 95) 0%, rgb(0, 149, 95) 100%);
+}
+
+.sched-tournaments__tile--eurokup {
+  background-color: #014997;
+}
+
+.sched-tournaments__tile-mark {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  width: 76px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  box-sizing: border-box;
+}
+.sched-tournaments__tile-name {
+  font-family: var(--font-family-sans);
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  letter-spacing: 0.4px;
+  color: #ffffff;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.sched-tournaments__tile-meta {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 8px 8px 8px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+/* --- Play buttons — outline white pills --- */
+.sched-tournaments__play {
+  padding: 4px 12px;
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--border-radius-full);
+  font-family: var(--font-family-sans);
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  line-height: 18px;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.sched-tournaments__play:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sched-tournaments__play--large {
+  position: relative;
+  z-index: 1;
+  padding: 6px 20px;
+}

@@ -1,6 +1,8 @@
 import arrowBackFilled from '../assets/icons/arrow-back-filled.svg'
 import personFilled from '../assets/icons/person-filled.svg'
 import { ScheduledLeagues } from '../components/ScheduledLeagues/ScheduledLeagues'
+import { ScheduledTournaments } from '../components/ScheduledTournaments/ScheduledTournaments'
+import { TrendingBets } from '../components/TrendingBets/TrendingBets'
 import './Virtuals.css'
 
 /** Virtuals lobby page — Figma frame 362:44041. Rendered mobile-first
@@ -140,48 +142,11 @@ export function Virtuals({ onBack }: VirtualsProps) {
         {/* --- 3. Scheduled Leagues — Figma 362:44063 --- */}
         <ScheduledLeagues />
 
-        {/* --- 4. Trending Bets — tan card --- */}
-        <section className="virtuals__card virtuals__trending" aria-label="Trending Bets">
-          <div className="virtuals__card-header">
-            <h2 className="virtuals__card-title">Trending Bets</h2>
-            <p className="virtuals__card-subtitle">Top picks right now</p>
-          </div>
-          <div className="virtuals__trending-grid">
-            <div className="virtuals__trending-tile">
-              <div className="virtuals__trending-header">
-                <span className="virtuals__trending-team">Kings United</span>
-                <span className="virtuals__trending-vs">vs</span>
-                <span className="virtuals__trending-team">Titans FC</span>
-              </div>
-              <p className="virtuals__trending-line">1X2 · Kings win</p>
-              <p className="virtuals__trending-odds">4.16</p>
-            </div>
-            <div className="virtuals__trending-tile">
-              <div className="virtuals__trending-header">
-                <span className="virtuals__trending-team">Corner FC</span>
-                <span className="virtuals__trending-vs">vs</span>
-                <span className="virtuals__trending-team">Kings Cup</span>
-              </div>
-              <p className="virtuals__trending-line">Over 2.5 Goals</p>
-              <p className="virtuals__trending-odds">1.85</p>
-            </div>
-          </div>
-        </section>
+        {/* --- 4. Trending Bets — Figma 362:44103 --- */}
+        <TrendingBets />
 
-        {/* --- 5. Scheduled Tournaments — white card, blue promo --- */}
-        <section className="virtuals__card" aria-label="Scheduled Tournaments">
-          <h2 className="virtuals__card-title">Scheduled Tournaments</h2>
-          <div className="virtuals__tournament-promo">
-            <div className="virtuals__tournament-avatar" aria-hidden>🏆</div>
-            <div className="virtuals__tournament-info">
-              <p className="virtuals__tournament-name">Weekly Kings Cup</p>
-              <p className="virtuals__tournament-meta">
-                Starts in 2h 14m · Entry ₦500
-              </p>
-            </div>
-            <button type="button" className="virtuals__tournament-cta">ENTER</button>
-          </div>
-        </section>
+        {/* --- 5. Scheduled Tournaments — Figma 362:44507 --- */}
+        <ScheduledTournaments />
 
         {/* --- 6. Latest Winners — white card --- */}
         <section className="virtuals__card" aria-label="Latest Winners">

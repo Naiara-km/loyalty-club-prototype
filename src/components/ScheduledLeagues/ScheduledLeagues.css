@@ -124,19 +124,18 @@
   background: linear-gradient(180deg, #e51c3e 0%, #950341 100%);
 }
 
-/* --- Mark (icon + label stacked) — left column of the tile ---
- * Figma places the icon at ~6.67-60% and the label at ~60-86.67%
- * of an 80px (large) or 68px (small) box. Flex-column with a small
- * gap gives the same visual stack and stays robust across sizes. */
+/* --- Mark (league name badge) — left column of the tile. ---
+ * The Figma design uses a per-league crest here; the prototype
+ * renders a neutral centred name label instead so the section can
+ * ship without carrying the crest artwork. */
 .sched-leagues__tile-mark {
   height: 100%;
   padding: 0 8px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
   flex: none;
+  box-sizing: border-box;
 }
 
 .sched-leagues__tile--large .sched-leagues__tile-mark {
@@ -146,26 +145,21 @@
   width: 76px;
 }
 
-.sched-leagues__tile-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.sched-leagues__tile-icon img {
-  display: block;
-  width: 36px;
-  height: 36px;
+.sched-leagues__tile-name {
+  font-family: var(--font-family-sans);
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  letter-spacing: 0.4px;
+  color: #ffffff;
+  text-align: center;
+  text-transform: uppercase;
+  word-break: break-word;
 }
 
-.sched-leagues__tile-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.sched-leagues__tile-label img {
-  display: block;
-  height: 12px;
-  width: auto;
+.sched-leagues__tile--large .sched-leagues__tile-name {
+  font-size: 13px;
+  line-height: 1.25;
 }
 
 /* --- Meta column (countdown + play) --- */
