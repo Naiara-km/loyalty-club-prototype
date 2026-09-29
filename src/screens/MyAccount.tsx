@@ -23,9 +23,14 @@ import './MyAccount.css'
 /** Figma frame: 26:22254 (My Account Default). */
 type MyAccountProps = {
   onOpenClub: () => void
+  /** Fired when the user taps the back arrow or the close X in the
+   *  app bar — the prototype's stand-in for leaving the account page.
+   *  In the flow to find Jay Jay this leads the user to the Virtuals
+   *  lobby. */
+  onLeave: () => void
 }
 
-export function MyAccount({ onOpenClub }: MyAccountProps) {
+export function MyAccount({ onOpenClub, onLeave }: MyAccountProps) {
   const { totalXp, hasPendingClaim } = useClubState()
 
   return (
@@ -34,7 +39,12 @@ export function MyAccount({ onOpenClub }: MyAccountProps) {
         {/* Absolute app bar on top of the gradient */}
         <div className="my-account__app-bar">
           <div className="my-account__app-bar-left">
-            <button type="button" className="my-account__icon-btn" aria-label="Back">
+            <button
+              type="button"
+              className="my-account__icon-btn"
+              onClick={onLeave}
+              aria-label="Back"
+            >
               <img
                 src={arrowBackFilled}
                 alt=""
@@ -43,7 +53,12 @@ export function MyAccount({ onOpenClub }: MyAccountProps) {
             </button>
             <span className="my-account__app-bar-title">Account</span>
           </div>
-          <button type="button" className="my-account__icon-btn" aria-label="Close">
+          <button
+            type="button"
+            className="my-account__icon-btn"
+            onClick={onLeave}
+            aria-label="Close"
+          >
             <img
               src={closeFilled}
               alt=""

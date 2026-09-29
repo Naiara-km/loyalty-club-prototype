@@ -1,0 +1,504 @@
+/* Virtuals lobby — Figma 362:44041.
+ *
+ * Layout is mobile-first (360 base) and adapts at 600 and 1200 per
+ * the design's three breakpoints. Colours use production DS tokens
+ * where they exist; a few Virtuals-specific gradients / hues are
+ * inlined because they don't have a token counterpart yet. */
+
+.virtuals {
+  min-height: 100vh;
+  background-color: var(--ui-background-8p);
+  font-family: var(--font-family-sans);
+  color: var(--ui-text-primary);
+}
+
+/* --- Header --- */
+.virtuals__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: var(--ui-text-emphasis-bullet-main);
+  color: var(--ui-hybrid-text-primary);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.virtuals__header-back,
+.virtuals__header-account {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-1);
+  background: transparent;
+  border: none;
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  color: var(--ui-hybrid-text-primary);
+}
+.virtuals__header-back-icon,
+.virtuals__header-account-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.virtuals__header-logo {
+  display: block;
+  width: 28px;
+  height: 28px;
+}
+
+.virtuals__header-brand {
+  flex: 1;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--ui-hybrid-text-primary);
+  letter-spacing: 0.15px;
+}
+
+/* --- Page --- */
+.virtuals__page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* --- Jackpot banner strip ---
+ * Mobile: horizontal snap scroll with 3 cards. Tablet+: grid of 3. */
+.virtuals__jackpots {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 88%;
+  gap: var(--spacing-3);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: var(--spacing-2);
+  scrollbar-width: none;
+}
+.virtuals__jackpots::-webkit-scrollbar { display: none; }
+
+.virtuals__jackpot {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: var(--border-radii-lg);
+  color: #ffffff;
+  min-height: 200px;
+  box-sizing: border-box;
+  gap: 4px;
+}
+
+.virtuals__jackpot--fastest {
+  background: linear-gradient(135deg, #6a1b9a 0%, #4a148c 100%);
+}
+.virtuals__jackpot--trillwin {
+  background: linear-gradient(135deg, #f2453d 0%, #e0128a 100%);
+}
+.virtuals__jackpot--minutewin {
+  background: linear-gradient(135deg, #ff9800 0%, #e65100 100%);
+}
+
+.virtuals__jackpot-logo {
+  font-weight: var(--font-weight-extra-bold);
+  font-size: 20px;
+  letter-spacing: 2px;
+  margin-bottom: var(--spacing-2);
+}
+
+.virtuals__jackpot-prize-label {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.9;
+}
+.virtuals__jackpot-prize {
+  margin: 0;
+  font-size: 24px;
+  font-weight: var(--font-weight-bold);
+}
+.virtuals__jackpot-note {
+  margin: 4px 0 0;
+  font-size: 12px;
+  opacity: 0.9;
+}
+.virtuals__jackpot-timer {
+  margin: 0;
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+}
+.virtuals__jackpot-tickets {
+  margin: auto 0 0;
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+/* --- Card shell --- */
+.virtuals__card {
+  background-color: var(--ui-background-paper);
+  border-radius: var(--mainpages-desktop-container-corners);
+  padding: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  box-sizing: border-box;
+}
+
+.virtuals__card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.virtuals__card-title {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  color: var(--ui-text-primary);
+}
+.virtuals__card-title--white {
+  color: var(--ui-common-white-white-100p);
+}
+.virtuals__card-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ui-text-secondary);
+}
+.virtuals__card-subtitle--muted {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* --- Instant Leagues main ---
+ * Jay Jay hides "behind" this container in the follow-up interaction. */
+.virtuals__instant-leagues {
+  background: var(--ui-text-emphasis-bullet-main);
+  color: var(--ui-hybrid-text-primary);
+}
+.virtuals__instant-leagues .virtuals__card-title { color: #ffffff; }
+.virtuals__instant-leagues .virtuals__card-subtitle {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.virtuals__instant-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-3);
+}
+
+.virtuals__league-tile {
+  background: linear-gradient(135deg, #1a237e 0%, #0d1758 100%);
+  border-radius: var(--border-radii-lg);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+}
+.virtuals__league-tile--large {
+  min-height: 96px;
+}
+.virtuals__league-tile--fastkickoff {
+  background: linear-gradient(135deg, #1a4dcb 0%, #0d1758 100%);
+}
+.virtuals__league-tile--westcorner {
+  background: linear-gradient(135deg, #ff6d3c 0%, #c92a1a 100%);
+}
+.virtuals__league-tile--small {
+  min-height: 60px;
+  padding: 10px 12px;
+}
+
+.virtuals__league-icon {
+  font-size: 36px;
+  flex: none;
+}
+.virtuals__league-icon--small {
+  font-size: 20px;
+}
+
+.virtuals__league-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.virtuals__league-name {
+  margin: 0;
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  flex: 1;
+}
+.virtuals__league-countdown {
+  margin: 0;
+  font-size: 12px;
+  color: var(--ui-value-main);
+}
+
+.virtuals__league-cta {
+  align-self: flex-start;
+  padding: 6px 14px;
+  background: #ffffff;
+  color: var(--ui-text-primary);
+  border: none;
+  border-radius: var(--border-radius-full);
+  font-family: var(--font-family-sans);
+  font-size: 12px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* --- Trending --- */
+.virtuals__trending {
+  background: linear-gradient(135deg, #388e3c 0%, #1b5e20 100%);
+  color: #ffffff;
+}
+.virtuals__trending-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-3);
+}
+.virtuals__trending-tile {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: var(--border-radii-lg);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.virtuals__trending-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+}
+.virtuals__trending-line {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.85;
+}
+.virtuals__trending-odds {
+  margin: 0;
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--ui-value-main);
+}
+
+/* --- Scheduled Tournaments --- */
+.virtuals__tournaments {
+  background: linear-gradient(135deg, #1e88e5 0%, #0d47a1 100%);
+  color: #ffffff;
+}
+.virtuals__tournaments .virtuals__card-title { color: #ffffff; }
+.virtuals__tournament-tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  align-items: flex-start;
+}
+.virtuals__tournament-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+}
+.virtuals__tournament-info {
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.85;
+}
+.virtuals__tournament-cta {
+  padding: 8px 18px;
+  background: var(--ui-value-main);
+  color: var(--ui-primary-main);
+  border: none;
+  border-radius: var(--border-radius-full);
+  font-size: 12px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* --- Winners --- */
+.virtuals__winners-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+.virtuals__winner {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) 0;
+  border-bottom: 1px solid var(--ui-components-borders-divider, rgba(0, 16, 65, 0.1));
+}
+.virtuals__winner-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--ui-background-8p);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.virtuals__winner-name {
+  flex: 1;
+  font-size: 14px;
+  color: var(--ui-text-primary);
+}
+.virtuals__winner-amount {
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  color: var(--ui-semantic-colours-success-main);
+}
+
+/* --- Leagues grid section --- */
+.virtuals__leagues-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-2);
+}
+.virtuals__leagues-grid-tile {
+  background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+  border-radius: var(--border-radii-lg);
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: #ffffff;
+  min-height: 84px;
+}
+.virtuals__leagues-grid-tile--2 { background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%); }
+.virtuals__leagues-grid-tile--3 { background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%); }
+.virtuals__leagues-grid-tile--4 { background: linear-gradient(135deg, #00838f 0%, #006064 100%); }
+.virtuals__leagues-grid-tile--5 { background: linear-gradient(135deg, #ef6c00 0%, #e65100 100%); }
+.virtuals__leagues-grid-tile--6 { background: linear-gradient(135deg, #5d4037 0%, #3e2723 100%); }
+.virtuals__leagues-grid-icon {
+  font-size: 24px;
+}
+.virtuals__leagues-grid-name {
+  margin: 0;
+  font-size: 12px;
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+}
+
+/* --- West Corner --- */
+.virtuals__west-corner {
+  background-color: var(--ui-text-emphasis-bullet-main);
+  color: #ffffff;
+}
+.virtuals__west-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-2);
+}
+.virtuals__west-tile {
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, #b71c1c 0%, #7f0000 100%);
+  border-radius: var(--border-radii-lg);
+}
+
+/* --- Info block --- */
+.virtuals__info-body {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ui-text-secondary);
+}
+.virtuals__info-links {
+  list-style: none;
+  padding: 0;
+  margin: var(--spacing-2) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+.virtuals__info-links li {
+  padding: var(--spacing-2) 0;
+  border-bottom: 1px solid var(--ui-components-borders-divider, rgba(0, 16, 65, 0.1));
+  font-size: 14px;
+  color: var(--ui-text-primary);
+  cursor: pointer;
+}
+.virtuals__info-links li::after {
+  content: '›';
+  float: right;
+  color: var(--ui-text-secondary);
+}
+
+/* --- FAQ --- */
+.virtuals__faq-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.virtuals__faq-list li {
+  padding: var(--spacing-3) 0;
+  border-bottom: 1px solid var(--ui-components-borders-divider, rgba(0, 16, 65, 0.1));
+  font-size: 14px;
+  color: var(--ui-text-primary);
+  cursor: pointer;
+}
+.virtuals__faq-list li::after {
+  content: '⌄';
+  float: right;
+  color: var(--ui-text-secondary);
+  font-weight: bold;
+}
+
+/* --- Breakpoint: 600px (tablet) --- */
+@media (min-width: 600px) {
+  .virtuals__jackpots {
+    grid-auto-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    overflow-x: visible;
+  }
+
+  .virtuals__instant-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'a c'
+      'b d'
+      '. e';
+  }
+  .virtuals__instant-grid > :nth-child(1) { grid-area: a; }
+  .virtuals__instant-grid > :nth-child(2) { grid-area: b; }
+  .virtuals__instant-grid > :nth-child(3) { grid-area: c; }
+  .virtuals__instant-grid > :nth-child(4) { grid-area: d; }
+  .virtuals__instant-grid > :nth-child(5) { grid-area: e; }
+
+  .virtuals__trending-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .virtuals__leagues-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* --- Breakpoint: 1200px (desktop) --- */
+@media (min-width: 1200px) {
+  .virtuals__page {
+    padding: var(--spacing-4) 0;
+  }
+
+  .virtuals__leagues-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
