@@ -1,8 +1,11 @@
 import arrowBackFilled from '../assets/icons/arrow-back-filled.svg'
 import personFilled from '../assets/icons/person-filled.svg'
+import { FindJayJay } from '../components/FindJayJay/FindJayJay'
+import { LatestWinners } from '../components/LatestWinners/LatestWinners'
 import { ScheduledLeagues } from '../components/ScheduledLeagues/ScheduledLeagues'
 import { ScheduledTournaments } from '../components/ScheduledTournaments/ScheduledTournaments'
 import { TrendingBets } from '../components/TrendingBets/TrendingBets'
+import { useClubState } from '../state/ClubStateContext'
 import './Virtuals.css'
 
 /** Virtuals lobby page — Figma frame 362:44041. Rendered mobile-first
@@ -32,6 +35,8 @@ type VirtualsProps = {
 }
 
 export function Virtuals({ onBack }: VirtualsProps) {
+  const { dispatch } = useClubState()
+
   return (
     <div className="virtuals">
       {/* --- Header --- */}
@@ -148,41 +153,14 @@ export function Virtuals({ onBack }: VirtualsProps) {
         {/* --- 5. Scheduled Tournaments — Figma 362:44507 --- */}
         <ScheduledTournaments />
 
-        {/* --- 6. Latest Winners — white card --- */}
-        <section className="virtuals__card" aria-label="Latest Winners">
-          <div className="virtuals__card-header">
-            <h2 className="virtuals__card-title">Latest Winners</h2>
-            <p className="virtuals__card-subtitle">
-              See who's just cashed out on virtuals
-            </p>
-          </div>
-          <div className="virtuals__winners-highlight">
-            <span className="virtuals__winners-highlight-icon" aria-hidden>👑</span>
-            <span className="virtuals__winners-highlight-amount">
-              ₦20,000,000
-            </span>
-            <span className="virtuals__winners-highlight-trophies" aria-hidden>
-              🏆
-            </span>
-          </div>
-          <ul className="virtuals__winners-list">
-            <li className="virtuals__winner">
-              <span className="virtuals__winner-avatar" aria-hidden>👤</span>
-              <span className="virtuals__winner-name">Player_1394</span>
-              <span className="virtuals__winner-amount">₦1,250,000</span>
-            </li>
-            <li className="virtuals__winner">
-              <span className="virtuals__winner-avatar" aria-hidden>👤</span>
-              <span className="virtuals__winner-name">Player_2087</span>
-              <span className="virtuals__winner-amount">₦375,000</span>
-            </li>
-            <li className="virtuals__winner">
-              <span className="virtuals__winner-avatar" aria-hidden>👤</span>
-              <span className="virtuals__winner-name">Player_5511</span>
-              <span className="virtuals__winner-amount">₦82,500</span>
-            </li>
-          </ul>
-        </section>
+        {/* --- 6. Latest Winners — Figma 362:44517 --- */}
+        <LatestWinners />
+
+        {/* --- 6b. Find Jay Jay strip — Figma 362:44558. Tapping the
+          *  button (or the head crop) fires find_jay_jay so that M2
+          *  can advance from active to condition_met the next time
+          *  the user opens the Club. */}
+        <FindJayJay onCatch={() => dispatch({ type: 'find_jay_jay' })} />
 
         {/* --- 7. Instant Leagues — white card, 6-tile grid ---
           *  This is the section Jay Jay will hide behind. */}

@@ -1,0 +1,66 @@
+/* Find Jay Jay strip — Figma 362:44558. Shallow horizontal band
+ * with the Jay Jay head-crop on the left and a highlight TAP TO
+ * CATCH pill on the right. */
+
+.find-jayjay {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  height: 130px;
+  padding: 0 16px;
+  background-color: var(--ui-background-8p);
+  overflow: clip;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Face button — clips the shared JayJay figure to just the head. */
+.find-jayjay__face {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-100%);
+  width: 80px;
+  height: 130px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  overflow: clip;
+}
+
+/* Move + scale the full-body JayJay so only the head sits inside
+ * the frame. The JayJay component renders at 154 x 299, so we scale
+ * it up slightly and pull it down so the shoulders are cropped by
+ * the frame's bottom edge. */
+.find-jayjay__figure {
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  transform: translateX(-50%) scale(0.48);
+  transform-origin: top center;
+  pointer-events: none;
+}
+
+/* --- TAP TO CATCH pill (highlight variant) --- */
+.find-jayjay__catch {
+  padding: 10px 22px;
+  background-color: var(--ui-value-main);
+  color: var(--ui-primary-main);
+  border: none;
+  border-radius: var(--border-radius-full);
+  font-family: var(--font-family-sans);
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
+  line-height: 24px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  flex: none;
+}
+.find-jayjay__catch:hover {
+  filter: brightness(0.95);
+}
