@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import closeFilled from '../../assets/icons/close-filled.svg'
 import faceHiding from '../../assets/illustrations/jay-jay-face-hiding.svg'
+import handsOnHint from '../../assets/illustrations/jay-jay-hands-on-hint.png'
 import { Button } from '../Button/Button'
 import './HintModal.css'
 
@@ -74,6 +75,14 @@ export function HintModal({ open, onClose }: HintModalProps) {
 
             <div className="hint-modal__stack">
               <div className="hint-modal__hint">
+                {/* Peeking hands PNG sits on top of the yellow block's
+                  *  top edge — Figma 339:24831. Positioned absolutely
+                  *  so it overhangs above the hint container's border. */}
+                <img
+                  src={handsOnHint}
+                  alt=""
+                  className="hint-modal__hint-hands"
+                />
                 <p className="hint-modal__hint-text">
                   <span className="hint-modal__hint-bold">Hint:</span>
                   {' '}

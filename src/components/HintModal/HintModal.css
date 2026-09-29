@@ -119,11 +119,28 @@
 
 /* --- Hint block: yellow-tinted card --- */
 .hint-modal__hint {
+  position: relative;
   display: flex;
   align-items: center;
   padding: 24px 14px;
   background-color: var(--ui-value-20p);
   border-radius: var(--border-radii-lg);
+}
+
+/* Small peeking hands PNG (206x28) that hangs over the top edge of
+ * the yellow hint block — Figma 339:24831. Centered horizontally,
+ * pulled up so roughly the bottom half sits inside the yellow card
+ * and the top half hangs above it. */
+.hint-modal__hint-hands {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 206px;
+  height: 28px;
+  display: block;
+  pointer-events: none;
+  z-index: 3;
 }
 
 .hint-modal__hint-text {
