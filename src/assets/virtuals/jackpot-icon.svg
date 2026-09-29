@@ -1,0 +1,13 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="jackpot - icon">
+<circle id="Ellipse 6" cx="12" cy="12" r="12" fill="#001041"/>
+<path id="Union (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M14.4452 11.4484L16.892 7.55019L8.65413 11.5204L17.0218 15.5529L14.4452 11.4484ZM19.7137 17.9603L6.35076 11.5204L19.5837 5.14286L15.6259 11.4484L19.7137 17.9603ZM12.3442 15.462L4.28571 19.3456L8.02901 13.382L12.3442 15.462ZM8.40049 14.6712L10.041 15.4619L6.97743 16.9383L8.40049 14.6712ZM10.1716 8.62966L12.3541 5.15277L13.5492 7.00291L10.1716 8.62966Z" fill="url(#paint0_linear_0_609)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_609" x1="11.9997" y1="5.14286" x2="11.9997" y2="19.3456" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF1AFF"/>
+<stop offset="0.5" stop-color="white"/>
+<stop offset="1" stop-color="#1AFFFF"/>
+</linearGradient>
+</defs>
+</svg>

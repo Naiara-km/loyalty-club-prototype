@@ -1,5 +1,6 @@
 import arrowBackFilled from '../assets/icons/arrow-back-filled.svg'
 import personFilled from '../assets/icons/person-filled.svg'
+import { ScheduledLeagues } from '../components/ScheduledLeagues/ScheduledLeagues'
 import './Virtuals.css'
 
 /** Virtuals lobby page — Figma frame 362:44041. Rendered mobile-first
@@ -136,63 +137,8 @@ export function Virtuals({ onBack }: VirtualsProps) {
           </div>
         </section>
 
-        {/* --- 3. Scheduled Leagues — dark navy card --- */}
-        <section className="virtuals__card virtuals__scheduled" aria-label="Scheduled Leagues">
-          <div className="virtuals__card-header">
-            <h2 className="virtuals__card-title virtuals__card-title--white">
-              Scheduled Leagues
-            </h2>
-            <p className="virtuals__card-subtitle virtuals__card-subtitle--muted">
-              Virtual football, kicking off every minute
-            </p>
-          </div>
-          <div className="virtuals__scheduled-grid">
-            <div className="virtuals__scheduled-col virtuals__scheduled-col--large">
-              <div className="virtuals__league-large virtuals__league-large--blue">
-                <div className="virtuals__league-icon-lg" aria-hidden>⚽</div>
-                <div className="virtuals__league-meta">
-                  <p className="virtuals__league-name">Fast Kick-Off</p>
-                  <p className="virtuals__league-countdown">3:42</p>
-                </div>
-                <button type="button" className="virtuals__league-cta">PLAY</button>
-              </div>
-              <div className="virtuals__league-large virtuals__league-large--orange">
-                <div className="virtuals__league-icon-lg" aria-hidden>🏟️</div>
-                <div className="virtuals__league-meta">
-                  <p className="virtuals__league-name">Fast Kick-Off</p>
-                  <p className="virtuals__league-countdown">1:15</p>
-                </div>
-                <button type="button" className="virtuals__league-cta">PLAY</button>
-              </div>
-            </div>
-            <div className="virtuals__scheduled-col">
-              <div className="virtuals__league-small">
-                <div className="virtuals__league-icon-sm" aria-hidden>⚽</div>
-                <div className="virtuals__league-small-meta">
-                  <p className="virtuals__league-name">Kings League</p>
-                  <p className="virtuals__league-countdown-sm">4:20</p>
-                </div>
-                <button type="button" className="virtuals__league-cta virtuals__league-cta--dark">GO</button>
-              </div>
-              <div className="virtuals__league-small">
-                <div className="virtuals__league-icon-sm" aria-hidden>🥅</div>
-                <div className="virtuals__league-small-meta">
-                  <p className="virtuals__league-name">Penalty Kicks</p>
-                  <p className="virtuals__league-countdown-sm">1:03</p>
-                </div>
-                <button type="button" className="virtuals__league-cta virtuals__league-cta--dark">GO</button>
-              </div>
-              <div className="virtuals__league-small">
-                <div className="virtuals__league-icon-sm" aria-hidden>🏆</div>
-                <div className="virtuals__league-small-meta">
-                  <p className="virtuals__league-name">Cup Final</p>
-                  <p className="virtuals__league-countdown-sm">2:47</p>
-                </div>
-                <button type="button" className="virtuals__league-cta virtuals__league-cta--dark">GO</button>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* --- 3. Scheduled Leagues — Figma 362:44063 --- */}
+        <ScheduledLeagues />
 
         {/* --- 4. Trending Bets — tan card --- */}
         <section className="virtuals__card virtuals__trending" aria-label="Trending Bets">
