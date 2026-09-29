@@ -1,0 +1,170 @@
+/* Figma 337:23136 "Where's Jay Jay?" hint modal — same 336px card
+ * shell as the other Club modals, with a peek-a-boo Jay Jay perched
+ * above the hint block. */
+
+.hint-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3);
+  font-family: var(--font-family-sans);
+}
+
+.hint-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: var(--ui-background-backdrop-overlay);
+}
+
+.hint-modal__dialog {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 336px;
+  background-color: var(--ui-background-paper);
+  border-radius: var(--mainpages-desktop-container-corners);
+  overflow: hidden;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 16, 65, 0.1),
+    0 2px 4px -2px rgba(0, 16, 65, 0.1);
+  box-sizing: border-box;
+}
+
+.hint-modal__close {
+  position: absolute;
+  top: 8.5px;
+  right: 13px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2);
+  background: transparent;
+  border: none;
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  color: var(--ui-text-secondary);
+}
+.hint-modal__close-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+/* --- Title (H5-medium 24/1.334) --- */
+.hint-modal__title-block {
+  display: flex;
+  padding: 24px 56px var(--spacing-3) 24px;
+}
+
+.hint-modal__title {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.334;
+  letter-spacing: 0.15px;
+  color: var(--ui-text-primary);
+}
+
+/* --- Content --- */
+.hint-modal__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-2) var(--spacing-4);
+}
+
+/* Peek-a-boo Jay Jay: only the top ~90px of the figure shows, sitting
+ * flush above the hint block. Overflow-clip on the frame trims the
+ * body so it reads like a peek. */
+.hint-modal__peek {
+  position: relative;
+  width: 100%;
+  height: 90px;
+  margin-bottom: -32px;
+  overflow: clip;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+  pointer-events: none;
+}
+.hint-modal__peek-figure {
+  transform: scale(0.55);
+  transform-origin: center top;
+}
+
+/* Text stack (hint block + task block) */
+.hint-modal__stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  background-color: var(--ui-common-white-white-100p);
+}
+
+/* --- Hint block: yellow-tinted card --- */
+.hint-modal__hint {
+  display: flex;
+  align-items: center;
+  padding: 24px 14px;
+  background-color: var(--ui-value-20p);
+  border-radius: var(--border-radii-lg);
+}
+
+.hint-modal__hint-text {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 14px;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.43;
+  letter-spacing: 0.17px;
+  color: var(--ui-text-primary);
+}
+
+.hint-modal__hint-label {
+  font-weight: var(--font-weight-bold);
+}
+
+/* --- Task block --- */
+.hint-modal__task {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--spacing-2) 0;
+}
+
+.hint-modal__task-title {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.75;
+  letter-spacing: 0.15px;
+  color: var(--ui-text-primary);
+}
+
+.hint-modal__task-body {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 13px;
+  font-weight: var(--font-weight-regular);
+  line-height: 16px;
+  letter-spacing: 0.4px;
+  color: var(--ui-text-secondary);
+}
+
+/* --- Actions --- */
+.hint-modal__actions {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-4) 24px 20px;
+}

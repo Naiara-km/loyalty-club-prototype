@@ -13,6 +13,7 @@ import {
 } from '../components/MissionProgress/MissionProgress'
 import { Path, type PathDot } from '../components/Path/Path'
 import type { TimelineDotState, TimelineDotStep } from '../components/TimelineDot/TimelineDot'
+import { HintModal } from '../components/HintModal/HintModal'
 import { LevelsModal } from '../components/LevelsModal/LevelsModal'
 import { WardrobeModal } from '../components/WardrobeModal/WardrobeModal'
 import { useClubState } from '../state/ClubStateContext'
@@ -225,6 +226,9 @@ export function ClubHome({ onBack }: ClubHomeProps) {
   // Levels modal — opens when the Starter progress bar is tapped.
   const [levelsOpen, setLevelsOpen] = useState(false)
 
+  // Hint modal — opens from the M2 active card's "Need a hint?" CTA.
+  const [hintOpen, setHintOpen] = useState(false)
+
   // Celebration modal: opens on CLAIM SHIRT NOW, dispatches the claim
   // when the user taps NEXT MISSION (defers state advance until then).
   const [celebrating, setCelebrating] = useState<ClaimedMissionNo | null>(null)
@@ -399,7 +403,13 @@ export function ClubHome({ onBack }: ClubHomeProps) {
             {orderedMissions.map(({ no, mission }) => (
               <MissionCard
                 key={no}
-                {...missionCardProps(mission, no, now, claimHandlerByNo[no])}
+                {...missionCardProps(
+                  mission,
+                  no,
+                  now,
+                  claimHandlerByNo[no],
+                  no === 2 ? () => setHintOpen(true) : undefined,
+                )}
               />
             ))}
           </div>
@@ -423,6 +433,8 @@ export function ClubHome({ onBack }: ClubHomeProps) {
       />
 
       <LevelsModal open={levelsOpen} onClose={() => setLevelsOpen(false)} />
+
+      <HintModal open={hintOpen} onClose={() => setHintOpen(false)} />
 
       <CelebrationModal
         open={celebrating !== null}

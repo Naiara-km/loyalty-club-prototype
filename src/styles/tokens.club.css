@@ -132,4 +132,8 @@
    * tokens.system.css ships #f1c72f. Overridden here (loads after) so the
    * Loyalty gradient renders at the correct hue. Remove once prod DS is fixed. */
   --ui-value-main: #ffc400;
+
+  /* Figma UI/Value/20p — a 20% alpha wash of --ui-value-main used for
+   * yellow-tinted callouts (e.g. the hint block in HintModal 337:23136). */
+  --ui-value-20p: rgba(255, 196, 0, 0.2);
 }
