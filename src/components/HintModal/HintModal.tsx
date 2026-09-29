@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import closeFilled from '../../assets/icons/close-filled.svg'
-import peekFace from '../../assets/illustrations/jay-jay-peek-face.svg'
-import peekHands from '../../assets/illustrations/jay-jay-peek-hands.svg'
+import faceHiding from '../../assets/illustrations/jay-jay-face-hiding.svg'
 import { Button } from '../Button/Button'
 import './HintModal.css'
 
@@ -61,42 +60,40 @@ export function HintModal({ open, onClose }: HintModalProps) {
         </div>
 
         <div className="hint-modal__content">
-          {/* Peeking Jay Jay illustration — Figma 339:24825. Face SVG
-            *  sits behind (positioned at 0,0) and hands SVG on top of
-            *  it (offset 5.6/12.13). The wrapper's negative bottom
-            *  margin (-52px) pulls the hint block up so it appears to
-            *  cover Jay Jay's chin — matching the peek-a-boo framing. */}
-          <div className="hint-modal__peek" aria-hidden>
+          <div className="hint-modal__peek-frame">
+            {/* Jay Jay peek-a-boo — Figma 339:38863 uses a single
+              *  "face hiding" SVG (no crown, hands already baked into
+              *  the artwork). The wrapper's margin-bottom: -50px pulls
+              *  the hint block up so it covers the lower half of the
+              *  face — the classic peek framing. */}
             <img
-              src={peekFace}
+              src={faceHiding}
               alt=""
-              className="hint-modal__peek-face"
+              className="hint-modal__peek"
             />
-            <img
-              src={peekHands}
-              alt=""
-              className="hint-modal__peek-hands"
-            />
-          </div>
 
-          <div className="hint-modal__stack">
-            <div className="hint-modal__hint">
-              <p className="hint-modal__hint-text">
-                <span className="hint-modal__hint-label">Hint:</span>
-                {' '}
-                &ldquo;Where I am, the football never stops. New game
-                every minute, all day, and the teams are all called
-                Kings. That&rsquo;s all you&rsquo;re getting&hellip;&rdquo;
-              </p>
-            </div>
+            <div className="hint-modal__stack">
+              <div className="hint-modal__hint">
+                <p className="hint-modal__hint-text">
+                  <span className="hint-modal__hint-bold">Hint:</span>
+                  {' '}
+                  &ldquo;Where I am, the football never stops.{' '}
+                  <span className="hint-modal__hint-bold">
+                    New game every minute
+                  </span>
+                  , all day, and the teams are all called Kings.
+                  That&rsquo;s all you&rsquo;re getting&hellip;&rdquo;
+                </p>
+              </div>
 
-            <div className="hint-modal__task">
-              <p className="hint-modal__task-title">Your task:</p>
-              <p className="hint-modal__task-body">
-                Find where he&rsquo;s hiding and tap him. No need to
-                play or bet &mdash; he&rsquo;s just watching from the
-                sidelines.
-              </p>
+              <div className="hint-modal__task">
+                <p className="hint-modal__task-title">Your task:</p>
+                <p className="hint-modal__task-body">
+                  Find where he&rsquo;s hiding and tap him. No need to
+                  play or bet &mdash; he&rsquo;s just watching from the
+                  sidelines.
+                </p>
+              </div>
             </div>
           </div>
         </div>

@@ -73,57 +73,44 @@
   color: var(--ui-text-primary);
 }
 
-/* --- Content --- */
+/* --- Content — Figma 337:23160: px-24 py-8 outer, then px-12 py-16
+ * inner frame around the peek illustration + text stack. */
 .hint-modal__content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--spacing-2) var(--spacing-4);
+  padding: var(--spacing-2) 24px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Peek-a-boo Jay Jay — Figma 339:24825. Two stacked SVGs (face + hands)
- * sit inside a grid-like container that overlaps the hint block below
- * by 52px, so the hint's yellow card hides the bottom of the face.
- *
- * Dimensions and offsets come straight from Figma:
- *   Face:   69.071 × 112.007, at (0, 0)
- *   Hands:  58.804 × 99.972,  at (5.6, 12.13)
- *
- * The face renders first so the hands paint on top of it (covering
- * the eyes), matching the layer order in Figma. */
+.hint-modal__peek-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-4) 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Peek-a-boo Jay Jay — Figma 339:38863. Single "face hiding" SVG
+ * (58.804 × 99.972). The wrapper's margin-bottom: -50px pulls the
+ * hint block up so its yellow card covers the lower half of the
+ * face — the classic peek framing. */
 .hint-modal__peek {
-  position: relative;
-  align-self: center;
-  width: 69.071px;
-  height: 112.007px;
-  margin-bottom: -52px;
+  display: block;
+  width: 58.804px;
+  height: 99.972px;
+  margin-bottom: -50px;
   pointer-events: none;
   z-index: 1;
 }
 
-.hint-modal__peek-face {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 69.071px;
-  height: 112.007px;
-  display: block;
-}
-
-.hint-modal__peek-hands {
-  position: absolute;
-  left: 5.6px;
-  top: 12.13px;
-  width: 58.804px;
-  height: 99.972px;
-  display: block;
-}
-
-/* Text stack (hint block + task block) */
+/* Text stack — Figma 339:24824: gap-16 between hint and task blocks. */
 .hint-modal__stack {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2);
+  gap: var(--spacing-4);
   width: 100%;
   position: relative;
   z-index: 2;
@@ -149,7 +136,7 @@
   color: var(--ui-text-primary);
 }
 
-.hint-modal__hint-label {
+.hint-modal__hint-bold {
   font-weight: var(--font-weight-bold);
 }
 
@@ -158,7 +145,6 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: var(--spacing-2) 0;
 }
 
 .hint-modal__task-title {
