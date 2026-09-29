@@ -8,8 +8,8 @@
   align-items: center;
   justify-content: flex-end;
   gap: 16px;
-  height: 130px;
-  padding: 0 16px;
+  min-height: 130px;
+  padding: 24px 16px;
   background-color: var(--ui-background-8p);
   overflow: clip;
   width: 100%;
@@ -20,10 +20,10 @@
 .find-jayjay__face {
   position: absolute;
   left: 50%;
-  top: 0;
+  top: 24px;
   transform: translateX(-100%);
   width: 80px;
-  height: 130px;
+  height: 112px;
   padding: 0;
   background: transparent;
   border: none;
@@ -39,7 +39,7 @@
   position: absolute;
   left: 50%;
   top: 4px;
-  transform: translateX(-50%) scale(0.48);
+  transform: translateX(-50%) scale(0.46);
   transform-origin: top center;
   pointer-events: none;
 }
