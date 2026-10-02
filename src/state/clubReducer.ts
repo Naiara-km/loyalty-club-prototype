@@ -32,6 +32,8 @@ export type ClubEvent =
   | { type: 'place_bet' }
   | { type: 'wear_shirt'; id: ShirtId }
   | { type: 'set_days_left'; days: number }
+  | { type: 'expire_time'; completed: 0 | 1 | 2 }
+  | { type: 'restart_missions' }
 
 const HOUR = 60 * 60 * 1000
 
@@ -132,6 +134,11 @@ function applyEvent(state: ClubState, event: ClubEvent): ClubState {
     case 'set_days_left': {
       return { ...state, countdownDaysLeft: event.days }
     }
+    case 'restart_missions': {
+      // Clear expiration — shirts + XP already earned remain because
+      // the mission `state` and wardrobe slots aren't touched.
+      return { ...state, timeExpired: false }
+    }
     default:
       return state
   }
@@ -177,9 +184,24 @@ function computeStage(stage: Stage): ClubState {
   )
 }
 
+/** Which pre-canned stage corresponds to each "completed count" when the
+ *  dev panel fires expire_time. 0 = still at start (M1 active), 1 = M1
+ *  claimed (M2 unlocking), 2 = M1 + M2 claimed (M3 active). */
+const stageByCompletedCount: Record<0 | 1 | 2, Stage> = {
+  0: 'start',
+  1: 'm1_claimed',
+  2: 'm3_active',
+}
+
 export function clubReducer(state: ClubState, event: ClubEvent): ClubState {
   if (event.type === 'reset') return initialClubState
   if (event.type === 'jump_to_stage') return computeStage(event.stage)
+  if (event.type === 'expire_time') {
+    // Rebuild from the appropriate stage (preserves wardrobe + mission
+    // completions deterministically) and then flip the expiration flag.
+    const base = computeStage(stageByCompletedCount[event.completed])
+    return { ...base, timeExpired: true }
+  }
   return applyEvent(state, event)
 }
 

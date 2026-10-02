@@ -33,6 +33,12 @@ export type ClubState = {
     wearing: ShirtId
   }
   countdownDaysLeft: number
+  /** When true, the campaign has expired. ClubHome renders the
+   *  "Want another chance?" variants (Figma 496:60718 / 60317 / 60999).
+   *  Any mission not yet completed is treated as "expired" (hourglass
+   *  icon, grey text). The user can RESTART MY MISSIONS to clear this
+   *  flag; shirts/XP already earned stay. */
+  timeExpired: boolean
 }
 
 export const MAX_XP = 500
@@ -62,6 +68,7 @@ export const initialClubState: ClubState = {
     wearing: 0,
   },
   countdownDaysLeft: 14,
+  timeExpired: false,
 }
 
 /** Selectors — derived values the UI reads. Not memoised; state is small. */

@@ -6,6 +6,38 @@
   background-color: var(--ui-background-8p);
 }
 
+/* --- Spotlight overlay ---
+ *  Dims the whole page in the modal-overlay navy so the top mission
+ *  card (raised via z-index below) is the only bright thing on the
+ *  screen. Non-interactive (pointer-events: none) so the raised card
+ *  is still clickable. Fades out after ~1.5s. */
+.club-home__spotlight {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background-color: rgba(0, 16, 65, 0.6);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 400ms ease-out;
+}
+.club-home__spotlight--out {
+  opacity: 0;
+}
+
+/* Raise the first (top / actionable) mission card above the overlay
+ * while the spotlight is on. Also raise the .missions-row so the Path
+ * stays coherent — otherwise only the card would be lit. */
+.club-home--spotlight .club-home__mission-cards > *:first-child {
+  position: relative;
+  z-index: 91;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .club-home__spotlight {
+    transition: none;
+  }
+}
+
 /* --- Full-screen header (always spans viewport width) — Figma 272:44279
  * Left group holds back button + title; right holds the help button. */
 .club-home__header {
@@ -112,4 +144,152 @@
   line-height: 1.5;
   letter-spacing: 0.15px;
   color: var(--ui-primary-main);
+}
+
+/* --- All-done empty state — Figma 493:58147 --- */
+
+/* Shared section title: "Your missions" / "Jay Jay's collection".
+ * ExtraBold 20px to match the Figma hierarchy. */
+.club-home__section-title {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 20px;
+  font-weight: var(--font-weight-extra-bold);
+  line-height: normal;
+  color: #1d2332;
+  width: 100%;
+}
+
+/* "More missions coming soon" notification banner — Figma 493:59097.
+ * Yellow-tinted card with a solid gold outline (3px bottom, 1px rest). */
+.club-home__notify-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background-color: rgba(255, 196, 0, 0.2);
+  border: 1px solid var(--club-mission-card-active-border);
+  border-bottom-width: 3px;
+  border-radius: 8px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+.club-home__notify-icon {
+  display: block;
+  width: 42px;
+  height: 42px;
+}
+.club-home__notify-title {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 20px;
+  font-weight: var(--font-weight-extra-bold);
+  line-height: normal;
+  color: #1d2332;
+}
+.club-home__notify-body {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 13px;
+  font-weight: var(--font-weight-regular);
+  line-height: 16px;
+  letter-spacing: 0.4px;
+  color: var(--ui-text-secondary);
+}
+.club-home__notify-actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: var(--spacing-1);
+}
+.club-home__notify-actions > * {
+  flex: 1;
+}
+
+/* Compact completed-missions recap — Figma 493:58165. Three slim
+ * cards with strikethrough titles. Non-interactive. */
+.club-home__completed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+  width: 100%;
+}
+.club-home__completed-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+.club-home__completed-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: var(--ui-common-white-white-100p);
+  border: 1px solid #6fbf73;
+  border-radius: 8px;
+  box-shadow: 0px 2px 3px rgba(0, 16, 65, 0.06);
+  font-family: var(--font-family-sans);
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  color: var(--ui-text-secondary);
+  text-decoration: line-through;
+  text-decoration-skip-ink: none;
+}
+
+/* --- Time-expired empty state — Figma 496:60718 / 60317 / 60999 --- */
+
+/* Left-aligned variant of the notify banner — same yellow card look
+ * but title/body are flush-left (Figma 496:60724). */
+.club-home__notify-banner--left {
+  align-items: stretch;
+  text-align: left;
+}
+.club-home__notify-banner--left .club-home__notify-title,
+.club-home__notify-banner--left .club-home__notify-body {
+  text-align: left;
+}
+
+/* Compact expired-missions list — rows separated by hairline dividers,
+ * each row has an icon + label. Hourglass + grey for not-yet-done;
+ * check + strikethrough for completed. */
+.club-home__expired-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  background-color: var(--ui-common-white-white-100p);
+}
+.club-home__expired-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  border-bottom: 1px solid rgba(37, 93, 189, 0.12);
+}
+.club-home__expired-item:last-child {
+  border-bottom: none;
+}
+.club-home__expired-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex: none;
+}
+.club-home__expired-label {
+  font-family: var(--font-family-sans);
+  font-size: 14px;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.43;
+  letter-spacing: 0.17px;
+  color: rgba(0, 12, 45, 0.38);
+}
+.club-home__expired-item--done .club-home__expired-label {
+  text-decoration: line-through;
+  text-decoration-skip-ink: none;
 }

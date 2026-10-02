@@ -1,12 +1,20 @@
+import { useEffect, useRef, useState } from 'react'
 import arrowBackFilled from '../assets/icons/arrow-back-filled.svg'
 import personFilled from '../assets/icons/person-filled.svg'
+import { CaughtJayJayModal } from '../components/CaughtJayJayModal/CaughtJayJayModal'
 import { FindJayJay } from '../components/FindJayJay/FindJayJay'
+import { InstantLeagues } from '../components/InstantLeagues/InstantLeagues'
 import { LatestWinners } from '../components/LatestWinners/LatestWinners'
 import { ScheduledLeagues } from '../components/ScheduledLeagues/ScheduledLeagues'
 import { ScheduledTournaments } from '../components/ScheduledTournaments/ScheduledTournaments'
 import { TrendingBets } from '../components/TrendingBets/TrendingBets'
 import { useClubState } from '../state/ClubStateContext'
 import './Virtuals.css'
+
+/** Delay between the CAUGHT! stamp slam-in and the modal appearing —
+ *  long enough to read the stamp comfortably, short enough that the
+ *  user doesn't wonder why nothing is happening. */
+const CAUGHT_MODAL_DELAY_MS = 1000
 
 /** Virtuals lobby page — Figma frame 362:44041. Rendered mobile-first
  *  with breakpoints at 600 and 1200 per the design. Dark navy page
@@ -32,10 +40,59 @@ import './Virtuals.css'
 
 type VirtualsProps = {
   onBack: () => void
+  onGoToClub: () => void
 }
 
-export function Virtuals({ onBack }: VirtualsProps) {
+export function Virtuals({ onBack, onGoToClub }: VirtualsProps) {
   const { dispatch } = useClubState()
+
+  // Catch flow: tap → stamp appears immediately (caught=true) →
+  // after CAUGHT_MODAL_DELAY_MS the modal opens. Closing the modal
+  // resets both. Extra taps mid-flow are ignored by FindJayJay itself
+  // via its `caught` prop; the ref-guarded timer here prevents any
+  // double-schedule if `handleCatch` were called twice on the same
+  // tick. Timer is cleared on unmount.
+  const [caught, setCaught] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
+  const timerRef = useRef<number | null>(null)
+
+  const clearPendingTimer = () => {
+    if (timerRef.current !== null) {
+      window.clearTimeout(timerRef.current)
+      timerRef.current = null
+    }
+  }
+
+  const handleCatch = () => {
+    if (caught) return
+    setCaught(true)
+    dispatch({ type: 'find_jay_jay' })
+    clearPendingTimer()
+    timerRef.current = window.setTimeout(() => {
+      setModalOpen(true)
+      timerRef.current = null
+    }, CAUGHT_MODAL_DELAY_MS)
+  }
+
+  const handleModalClose = () => {
+    setModalOpen(false)
+    setCaught(false)
+    clearPendingTimer()
+  }
+
+  const handleGoToClub = () => {
+    // Close + reset, then navigate. State stays at M2 condition_met
+    // (set by find_jay_jay at the moment of tap), so ClubHome shows
+    // the Find Jay Jay card with FOUND badge + CLAIM SHIRT NOW! CTA.
+    // Tapping that CTA opens the existing shirt-2 CelebrationModal,
+    // which is where M3 actually transitions to "Place a bet".
+    setModalOpen(false)
+    setCaught(false)
+    clearPendingTimer()
+    onGoToClub()
+  }
+
+  useEffect(() => clearPendingTimer, [])
 
   return (
     <div className="virtuals">
@@ -160,36 +217,11 @@ export function Virtuals({ onBack }: VirtualsProps) {
           *  button (or the head crop) fires find_jay_jay so that M2
           *  can advance from active to condition_met the next time
           *  the user opens the Club. */}
-        <FindJayJay onCatch={() => dispatch({ type: 'find_jay_jay' })} />
+        <FindJayJay onCatch={handleCatch} caught={caught} />
 
-        {/* --- 7. Instant Leagues — white card, 6-tile grid ---
-          *  This is the section Jay Jay will hide behind. */}
-        <section className="virtuals__card virtuals__instant-leagues" aria-label="Instant Leagues">
-          <div className="virtuals__card-header">
-            <h2 className="virtuals__card-title">Instant Leagues</h2>
-            <p className="virtuals__card-subtitle">
-              Fresh matches every minute
-            </p>
-          </div>
-          <div className="virtuals__instant-grid">
-            {[
-              { name: 'Fast Kick-Off', modifier: 'red' },
-              { name: 'Kings League', modifier: 'orange' },
-              { name: 'Penalty Kicks', modifier: 'pink' },
-              { name: 'Cup Final', modifier: 'green' },
-              { name: 'Corner Kings', modifier: 'purple' },
-              { name: 'Trophy Cup', modifier: 'blue' },
-            ].map((tile) => (
-              <div
-                key={tile.name}
-                className={`virtuals__instant-tile virtuals__instant-tile--${tile.modifier}`}
-              >
-                <span className="virtuals__instant-icon" aria-hidden>⚽</span>
-                <p className="virtuals__instant-name">{tile.name}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        {/* --- 7. Instant Leagues — Figma 362:44563 ---
+          *  White card with 2×2 gradient tiles. Jay Jay hides here. */}
+        <InstantLeagues />
 
         {/* --- 8. West Corner — white card with 3 photo tiles --- */}
         <section className="virtuals__card" aria-label="West Corner">
@@ -239,6 +271,12 @@ export function Virtuals({ onBack }: VirtualsProps) {
           </ul>
         </section>
       </main>
+
+      <CaughtJayJayModal
+        open={modalOpen}
+        onClose={handleModalClose}
+        onGoToClub={handleGoToClub}
+      />
     </div>
   )
 }

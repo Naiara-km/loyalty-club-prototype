@@ -1,6 +1,8 @@
 /* Find Jay Jay strip — Figma 362:44558. Shallow horizontal band
- * with the Jay Jay head-crop on the left and a highlight TAP TO
- * CATCH pill on the right. */
+ * (91px in Figma) with the face illustration peeking up from below
+ * — the strip clips the bottom of the 112px face so it looks like
+ * the character is hiding just underneath. Highlight TAP TO CATCH
+ * pill sits on the right. */
 
 .find-jayjay {
   position: relative;
@@ -8,48 +10,66 @@
   align-items: center;
   justify-content: flex-end;
   gap: 16px;
-  min-height: 130px;
-  padding: 24px 16px;
+  height: 91px;
+  padding: 0 16px;
   background-color: var(--ui-background-8p);
   overflow: clip;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Face button — clips the shared JayJay figure to just the head. */
+/* Face — anchored at Figma coords (top: 13 inside a 91px strip). Base
+ * transform = peek position (Y=0). The .find-jayjay--hiding modifier
+ * pushes it down 78px (strip height 91 − face top 13) so the face top
+ * meets the ledge exactly and the whole face is clipped by the strip.
+ *
+ * The transition (600ms ease-in-out) governs the peek/hide morph as
+ * scroll toggles the modifier, giving enough dwell time to see the
+ * face when the strip is in the periphery. */
 .find-jayjay__face {
   position: absolute;
   left: 50%;
-  top: 24px;
-  transform: translateX(-100%);
-  width: 80px;
-  height: 112px;
+  top: 13px;
+  transform: translateX(-50%) translateY(0);
+  width: 69.071px;
+  height: 112.106px;
   padding: 0;
   background: transparent;
   border: none;
   cursor: pointer;
-  overflow: clip;
+  transition: transform 600ms ease-in-out;
+  will-change: transform;
 }
 
-/* Move + scale the full-body JayJay so only the head sits inside
- * the frame. The JayJay component renders at 154 x 299, so we scale
- * it up slightly and pull it down so the shoulders are cropped by
- * the frame's bottom edge. */
-.find-jayjay__figure {
-  position: absolute;
-  left: 50%;
-  top: 4px;
-  transform: translateX(-50%) scale(0.46);
-  transform-origin: top center;
-  pointer-events: none;
+.find-jayjay--hiding .find-jayjay__face {
+  transform: translateX(-50%) translateY(78px);
 }
 
-/* --- TAP TO CATCH pill (highlight variant) --- */
+.find-jayjay__face-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* --- TAP TO CATCH — outer button is the invisible 44px tap area
+ *  (never animates). The inner span is the visible pill that pulses. */
 .find-jayjay__catch {
+  padding: 0;
+  min-height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.find-jayjay__catch-pill {
+  display: inline-block;
   padding: 10px 22px;
   background-color: var(--ui-value-main);
   color: var(--ui-primary-main);
-  border: none;
   border-radius: var(--border-radius-full);
   font-family: var(--font-family-sans);
   font-size: 14px;
@@ -57,10 +77,110 @@
   line-height: 24px;
   letter-spacing: 0.4px;
   text-transform: uppercase;
-  cursor: pointer;
   white-space: nowrap;
-  flex: none;
+  animation: catch-pulse 1.5s ease-in-out infinite;
+  will-change: transform, box-shadow;
 }
-.find-jayjay__catch:hover {
+.find-jayjay__catch:hover .find-jayjay__catch-pill {
   filter: brightness(0.95);
+}
+
+/* Subtle scale + a radar-ping ring in the pill's own orange that
+ * spreads out from the edge and fades to transparent. */
+@keyframes catch-pulse {
+  0%   { transform: scale(1);    box-shadow: 0 0 0 0    rgba(250, 175, 0, 0.5); }
+  50%  { transform: scale(1.04); box-shadow: 0 0 0 12px rgba(250, 175, 0, 0);   }
+  100% { transform: scale(1);    box-shadow: 0 0 0 0    rgba(250, 175, 0, 0);   }
+}
+
+/* --- Caught state — user tapped Jay Jay or the pill ---
+ *  Head snaps to peek (300ms), pill shrinks + fades (200ms), CAUGHT!
+ *  stamp slams in on the opposite side from the pill. */
+.find-jayjay--caught .find-jayjay__face {
+  transform: translateX(-50%) translateY(0);
+  transition: transform 300ms ease-out;
+  pointer-events: none;
+}
+
+.find-jayjay--caught .find-jayjay__catch-pill {
+  animation: none;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+  box-shadow: none;
+}
+.find-jayjay--caught .find-jayjay__catch {
+  pointer-events: none;
+}
+
+/* CAUGHT! stamp — rubber-stamp look, tilted -8° and slam-in.
+ * Anchored to the strip's left, vertically centred inside the 91px
+ * band. Sized under ~150×48 so it never covers the face (which sits
+ * at the horizontal centre) and never overflows the strip. */
+.find-jayjay__stamp {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  background-color: #ffc700;
+  border: 3px solid #0a1541;
+  border-radius: 6px;
+  color: #0a1541;
+  font-family: var(--font-family-sans);
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+  transform-origin: center center;
+  animation: jayjay-stamp-slam 260ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes jayjay-stamp-slam {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) rotate(-8deg) scale(1.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-50%) rotate(-8deg) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%) rotate(-8deg) scale(1);
+  }
+}
+
+/* Reduced motion — freeze all animations. Face stays at peek, pill at
+ * base size, stamp appears with a simple fade instead of a slam. The
+ * scroll-driven hide toggle is disabled in JS in this mode. */
+@media (prefers-reduced-motion: reduce) {
+  .find-jayjay__face,
+  .find-jayjay--hiding .find-jayjay__face,
+  .find-jayjay--caught .find-jayjay__face {
+    animation: none;
+    transition: none;
+    transform: translateX(-50%) translateY(0);
+  }
+  .find-jayjay__catch-pill {
+    animation: none;
+    box-shadow: none;
+    transform: none;
+  }
+  .find-jayjay--caught .find-jayjay__catch-pill {
+    transition: opacity 120ms linear;
+  }
+  .find-jayjay__stamp {
+    animation: jayjay-stamp-fade 120ms linear both;
+  }
+  @keyframes jayjay-stamp-fade {
+    0%   { opacity: 0; transform: translateY(-50%) rotate(-8deg) scale(1); }
+    100% { opacity: 1; transform: translateY(-50%) rotate(-8deg) scale(1); }
+  }
 }

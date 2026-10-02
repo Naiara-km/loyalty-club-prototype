@@ -1,0 +1,199 @@
+/* Instant Leagues section — Figma 362:44563 (pixel-perfect).
+ *
+ * White card. Header row (title + subtitle + jackpot icon) above a
+ * 2×2 grid of 76px gradient tiles. Each tile has a chevron overlay
+ * pattern, a centred league mark on the left and a white outline
+ * "Play" pill on the right. Section closes with a hairline divider. */
+
+.instant-leagues {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: var(--ui-background-paper);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Jay Jay hands overlay — Figma 373:55309. 206×28 image pinned at
+ * the top-center of the section, offset up 10px so the fingers poke
+ * into the Find Jay Jay strip above. Figma anchor is left:185 in a
+ * 600px reference (image centre ≈ 12px left of the frame centre);
+ * centering with translateX(-50%) matches within a couple pixels. */
+.instant-leagues__hands {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 206px;
+  height: 28px;
+  display: block;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* --- Header row --- */
+.instant-leagues__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 24px 16px 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.instant-leagues__titles {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.instant-leagues__title {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 20px;
+  font-weight: var(--font-weight-medium);
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  color: rgba(0, 12, 45, 0.87);
+  white-space: nowrap;
+}
+
+.instant-leagues__subtitle {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 14px;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.43;
+  letter-spacing: 0.17px;
+  color: rgba(0, 12, 45, 0.6);
+}
+
+.instant-leagues__jackpot-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex: none;
+}
+
+/* --- Grid — 2×2 gradient tiles --- */
+.instant-leagues__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* --- Tile --- */
+.instant-leagues__tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 132px;
+  height: 76px;
+  padding: 8px 0;
+  overflow: clip;
+  border-radius: var(--border-radii-lg);
+  box-sizing: border-box;
+}
+
+/* Gradients per Figma — "Custom Palettes / Virtuals / brand gradients v2" */
+.instant-leagues__tile--league {
+  background: linear-gradient(180deg, rgb(176, 7, 180) 0%, rgb(113, 3, 118) 100%);
+}
+.instant-leagues__tile--liga {
+  background: linear-gradient(180deg, #faaf00 0%, #de8601 50%, #bd6500 100%);
+}
+.instant-leagues__tile--italiano {
+  background: linear-gradient(180deg, #269dd9 20%, #2865b5 100%);
+}
+.instant-leagues__tile--bundliga {
+  background: linear-gradient(180deg, #e51c3e 0%, #950341 100%);
+}
+
+/* Chevron rays overlay — decorative pattern behind the tile content. */
+.instant-leagues__chevron {
+  position: absolute;
+  top: 0;
+  left: -79.75px;
+  width: 427.5px;
+  height: 76px;
+  opacity: 0.25;
+  pointer-events: none;
+  object-fit: contain;
+}
+.instant-leagues__tile--league .instant-leagues__chevron { opacity: 0.2; }
+.instant-leagues__tile--liga .instant-leagues__chevron { opacity: 0.3; }
+.instant-leagues__tile--bundliga .instant-leagues__chevron { opacity: 0.3; }
+
+/* --- Mark (league name badge) — left column of the tile.
+ * The Figma design uses per-league crest artwork here; the prototype
+ * renders a neutral centred name label instead. */
+.instant-leagues__tile-mark {
+  position: relative;
+  z-index: 1;
+  width: 76px;
+  height: 100%;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  box-sizing: border-box;
+}
+
+.instant-leagues__tile-name {
+  font-family: var(--font-family-sans);
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  letter-spacing: 0.4px;
+  color: #ffffff;
+  text-align: center;
+  text-transform: uppercase;
+  word-break: break-word;
+}
+
+/* --- Meta column (play button) --- */
+.instant-leagues__tile-meta {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 4px 8px 4px 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  box-sizing: border-box;
+}
+
+/* --- Play button — outline white pill, Button X-Small text --- */
+.instant-leagues__play {
+  padding: 4px 12px;
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--border-radius-full);
+  font-family: var(--font-family-sans);
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  line-height: 18px;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.instant-leagues__play:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- Bottom divider (Figma "Divider - BK") --- */
+.instant-leagues__divider {
+  margin: 0 16px;
+  height: 1px;
+  background-color: rgba(37, 93, 189, 0.12);
+}

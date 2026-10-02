@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import arrowBackFilled from '../assets/icons/arrow-back-filled.svg'
+import circleNotificationsFilled from '../assets/icons/circle-notifications-filled.svg'
+import hourglassEmptyFilled from '../assets/icons/hourglass-empty-filled.svg'
 import personCheckFilled from '../assets/icons/person-check-filled.svg'
+import { Button } from '../components/Button/Button'
 import { CelebrationModal } from '../components/CelebrationModal/CelebrationModal'
 import { ClubBanner, type CollectedCount } from '../components/ClubBanner/ClubBanner'
 import type { JayJayVariant } from '../components/JayJay/JayJay'
@@ -229,6 +232,15 @@ export function ClubHome({ onBack }: ClubHomeProps) {
   // Hint modal — opens from the M2 active card's "Need a hint?" CTA.
   const [hintOpen, setHintOpen] = useState(false)
 
+  // Spotlight — on entry to ClubHome, dim everything except the top
+  // (actionable) mission card for ~1.5s to pull the eye to the CTA.
+  // Skipped when there's nothing to act on (top card is completed or
+  // locked). Stage machine covers the fade-out cleanly so the card
+  // stays raised until the overlay is fully invisible.
+  const [spotlightStage, setSpotlightStage] = useState<
+    'showing' | 'fading' | 'done'
+  >('showing')
+
   // Celebration modal: opens on CLAIM SHIRT NOW, dispatches the claim
   // when the user taps NEXT MISSION (defers state advance until then).
   const [celebrating, setCelebrating] = useState<ClaimedMissionNo | null>(null)
@@ -242,10 +254,20 @@ export function ClubHome({ onBack }: ClubHomeProps) {
     setCelebrating(null)
   }
 
+  useEffect(() => {
+    const fade = window.setTimeout(() => setSpotlightStage('fading'), 1500)
+    const done = window.setTimeout(() => setSpotlightStage('done'), 1500 + 400)
+    return () => {
+      window.clearTimeout(fade)
+      window.clearTimeout(done)
+    }
+  }, [])
+
   const wornSlot = wardrobe.slots[wardrobe.wearing]!
   const jayJayShirt: JayJayVariant = jayJayByColour[wornSlot.colour]
   const banner: CollectedCount = Math.min(3, collectedCount) as CollectedCount
-  const allDone = totalXp === 500
+  const allDone = totalXp === 500 && !state.timeExpired
+  const timeExpired = state.timeExpired
 
   // Card ordering — Figma section 272:47393 restacks the cards so that
   // the currently-active/unlocking mission is always at the top,
@@ -341,8 +363,24 @@ export function ClubHome({ onBack }: ClubHomeProps) {
     }
   })()
 
+  // Only show the spotlight when the top card is genuinely actionable
+  // (something to claim or engage with). Completed / locked → skip.
+  const topState = orderedMissions[0].mission.state
+  const spotlightEligible =
+    topState === 'active' || topState === 'condition_met'
+  const spotlightOn = spotlightEligible && spotlightStage !== 'done'
+  const spotlightFading = spotlightStage === 'fading'
+
+  const rootClass = `club-home${spotlightOn ? ' club-home--spotlight' : ''}`
+
   return (
-    <div className="club-home">
+    <div className={rootClass}>
+      {spotlightOn && (
+        <div
+          className={`club-home__spotlight${spotlightFading ? ' club-home__spotlight--out' : ''}`}
+          aria-hidden="true"
+        />
+      )}
       {/* Header — Figma 272:44279 */}
       <header className="club-home__header">
         <div className="club-home__header-left">
@@ -382,46 +420,196 @@ export function ClubHome({ onBack }: ClubHomeProps) {
         </button>
       </header>
 
-      {/* Banner — Jay Jay reflects worn shirt, tiles reflect collected count */}
-      <ClubBanner jayJayShirt={jayJayShirt} collectedCount={banner} />
+      {/* Banner — Jay Jay reflects worn shirt, tiles reflect collected count.
+        * When allDone, banner swaps to the "New missions. Coming soon..!"
+        * empty-state copy (Figma 493:58147). */}
+      <ClubBanner
+        jayJayShirt={jayJayShirt}
+        collectedCount={banner}
+        allDone={allDone}
+      />
 
       {/* Content sheet */}
       <div className="club-home__content">
-        {!allDone && (
+        {timeExpired ? (
+          <>
+            <MissionProgress
+              variant={xpToProgressVariant(totalXp)}
+              onClick={() => setLevelsOpen(true)}
+            />
+
+            {/* --- "Want another chance?" restart banner — Figma 496:60724. */}
+            <section
+              className="club-home__notify-banner club-home__notify-banner--left"
+              aria-label="Want another chance?"
+            >
+              <h2 className="club-home__notify-title">
+                Want another chance?
+              </h2>
+              <p className="club-home__notify-body">
+                Restart your missions and get extra 14 days. Shirts and XP you
+                do. will stay yours.
+              </p>
+              <div className="club-home__notify-actions">
+                <Button onClick={() => dispatch({ type: 'restart_missions' })}>
+                  RESTART MY MISSIONS
+                </Button>
+              </div>
+            </section>
+
+            {/* --- Compact expired-missions list — Figma 496:60731.
+              *  Hourglass for not-yet-completed, green check + strikethrough
+              *  for completed. Non-interactive. M3's name stays "Mistery
+              *  mission" since it's never revealed in the three expiration
+              *  snapshots (user never claims M2 → never unlocks M3's name). */}
+            <section className="club-home__completed">
+              <h2 className="club-home__section-title">Your missions</h2>
+              <ul className="club-home__expired-list">
+                {(
+                  [
+                    { no: 1, label: 'Free Claim Jay Jay First Shirt' },
+                    { no: 2, label: 'Find Jay Jay' },
+                    { no: 3, label: 'Mistery mission' },
+                  ] as const
+                ).map(({ no, label }) => {
+                  const done =
+                    missions[`m${no}` as const].state === 'completed'
+                  return (
+                    <li
+                      key={no}
+                      className={`club-home__expired-item${done ? ' club-home__expired-item--done' : ''}`}
+                    >
+                      {done ? (
+                        <svg
+                          className="club-home__expired-icon"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                          aria-hidden
+                        >
+                          <circle cx="12" cy="12" r="10" fill="#357a38" />
+                          <path
+                            d="M10 14.17l-3.59-3.58L5 12l5 5 9-9-1.41-1.41L10 14.17z"
+                            fill="white"
+                          />
+                        </svg>
+                      ) : (
+                        <img
+                          src={hourglassEmptyFilled}
+                          alt=""
+                          className="club-home__expired-icon"
+                        />
+                      )}
+                      <span className="club-home__expired-label">{label}</span>
+                    </li>
+                  )
+                })}
+              </ul>
+            </section>
+
+            <section className="club-home__collection">
+              <h2 className="club-home__section-title">
+                Jay Jay&rsquo;s collection
+              </h2>
+              <MainCard
+                variant={collectedToMainVariant(collectedCount)}
+                onChangeShirt={() => setWardrobeOpen(true)}
+              />
+            </section>
+          </>
+        ) : allDone ? (
+          <>
+            {/* --- "More missions coming soon" notify banner — Figma 493:59097.
+              *  Yellow-tinted card with bell icon, title/body, NOTIFY ME CTA.
+              *  Only shown in the all-done empty state. */}
+            <section
+              className="club-home__notify-banner"
+              aria-label="More missions coming soon"
+            >
+              <img
+                src={circleNotificationsFilled}
+                alt=""
+                className="club-home__notify-icon"
+              />
+              <h2 className="club-home__notify-title">
+                More missions coming soon
+              </h2>
+              <p className="club-home__notify-body">
+                Be the first to play when missions are available fot you.
+              </p>
+              <div className="club-home__notify-actions">
+                <Button>NOTIFY ME</Button>
+              </div>
+            </section>
+
+            <MissionProgress
+              variant="Mission 3"
+              allDone
+              onClick={() => setLevelsOpen(true)}
+            />
+
+            {/* --- Compact completed-missions list — Figma 493:58165.
+              *  Three slim cards, strikethrough titles, light green border.
+              *  Reads as a recap, not an interactive mission list. */}
+            <section className="club-home__completed">
+              <h2 className="club-home__section-title">Your missions</h2>
+              <ul className="club-home__completed-list">
+                <li className="club-home__completed-item">
+                  Claim Jay Jay first shirt!
+                </li>
+                <li className="club-home__completed-item">
+                  Find Jay Jay in the Website
+                </li>
+                <li className="club-home__completed-item">Place a bet</li>
+              </ul>
+            </section>
+
+            <section className="club-home__collection">
+              <h2 className="club-home__section-title">
+                Jay Jay&rsquo;s collection
+              </h2>
+              <MainCard
+                variant="3/3"
+                onChangeShirt={() => setWardrobeOpen(true)}
+              />
+            </section>
+          </>
+        ) : (
           <>
             <MissionProgress
               variant={xpToProgressVariant(totalXp)}
               onClick={() => setLevelsOpen(true)}
             />
             <Missions chipLabel={`${countdownDaysLeft} DAYS LEFT`} />
+
+            <div className="club-home__missions-row">
+              <Path dots={pathDots} />
+              <div className="club-home__mission-cards">
+                {orderedMissions.map(({ no, mission }) => (
+                  <MissionCard
+                    key={no}
+                    {...missionCardProps(
+                      mission,
+                      no,
+                      now,
+                      claimHandlerByNo[no],
+                      no === 2 ? () => setHintOpen(true) : undefined,
+                    )}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <section className="club-home__collection">
+              <h2 className="club-home__collection-title">
+                Jay Jay&rsquo;s collection
+              </h2>
+              <MainCard
+                variant={collectedToMainVariant(collectedCount)}
+                onChangeShirt={() => setWardrobeOpen(true)}
+              />
+            </section>
           </>
         )}
-
-        <div className="club-home__missions-row">
-          <Path dots={pathDots} />
-          <div className="club-home__mission-cards">
-            {orderedMissions.map(({ no, mission }) => (
-              <MissionCard
-                key={no}
-                {...missionCardProps(
-                  mission,
-                  no,
-                  now,
-                  claimHandlerByNo[no],
-                  no === 2 ? () => setHintOpen(true) : undefined,
-                )}
-              />
-            ))}
-          </div>
-        </div>
-
-        <section className="club-home__collection">
-          <h2 className="club-home__collection-title">Jay Jay&rsquo;s collection</h2>
-          <MainCard
-            variant={collectedToMainVariant(collectedCount)}
-            onChangeShirt={() => setWardrobeOpen(true)}
-          />
-        </section>
       </div>
 
       <WardrobeModal

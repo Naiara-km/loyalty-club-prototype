@@ -81,6 +81,33 @@ export function DevPanel() {
           </div>
 
           <div className="dev-panel__group">
+            <div className="dev-panel__field-label">Time expired</div>
+            <div className="dev-panel__button-col">
+              <button
+                type="button"
+                className="dev-panel__btn"
+                onClick={() => dispatch({ type: 'expire_time', completed: 0 })}
+              >
+                Expire · 0 done
+              </button>
+              <button
+                type="button"
+                className="dev-panel__btn"
+                onClick={() => dispatch({ type: 'expire_time', completed: 1 })}
+              >
+                Expire · 1 done
+              </button>
+              <button
+                type="button"
+                className="dev-panel__btn"
+                onClick={() => dispatch({ type: 'expire_time', completed: 2 })}
+              >
+                Expire · 2 done
+              </button>
+            </div>
+          </div>
+
+          <div className="dev-panel__group">
             <label className="dev-panel__field-label" htmlFor="dev-days">
               Days left
             </label>

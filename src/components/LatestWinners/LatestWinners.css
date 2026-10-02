@@ -49,7 +49,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
-  padding: 0 16px 20px;
+  padding: 0 16px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;

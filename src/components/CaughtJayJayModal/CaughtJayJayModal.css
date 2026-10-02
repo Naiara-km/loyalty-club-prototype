@@ -1,0 +1,142 @@
+/* Mission 2 Complete modal — Figma 373:54932.
+ *
+ * Centred dialog on top of a dark navy overlay. The Jay Jay figure
+ * inside the dialog carries a small tilted CAUGHT stamp (2px navy
+ * border, 3px radius, 16px Roboto Bold in the pill's own yellow) —
+ * this is the intra-modal stamp, separate from the larger stamp that
+ * slam-fires on the Virtuals strip when the user taps. */
+
+.caught-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.caught-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 16, 65, 0.8);
+}
+
+.caught-modal__dialog {
+  position: relative;
+  width: 336px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--ui-common-white-white-100p);
+  border-radius: 12px;
+  box-shadow: 0px 10px 15px -3px rgba(0, 16, 65, 0.1),
+    0px 4px 6px -4px rgba(0, 16, 65, 0.1);
+  overflow: clip;
+}
+
+.caught-modal__body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 24px 12px;
+  align-items: center;
+}
+
+.caught-modal__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+  width: 100%;
+}
+
+.caught-modal__title {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  color: rgba(0, 12, 45, 0.87);
+}
+
+.caught-modal__subtitle {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 16px;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  color: rgba(0, 12, 45, 0.6);
+}
+
+/* --- Jay Jay + intra-modal stamp --- */
+.caught-modal__figure {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.caught-modal__figure-jj {
+  width: 140.5px;
+  height: 272.463px;
+  display: block;
+}
+.caught-modal__figure-jj .jay-jay {
+  width: 100%;
+  height: 100%;
+}
+
+/* Small CAUGHT rectangle pinned across the chest — Figma spec:
+ * 88 × 36, 2px navy border, 3px radius, tilted -15°. */
+.caught-modal__figure-stamp {
+  position: absolute;
+  top: 57px;
+  left: 50%;
+  transform: translateX(calc(-50% - 20px)) rotate(-15deg);
+  transform-origin: center;
+  width: 88px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  background-color: #ffc400;
+  border: 2px solid rgba(0, 12, 45, 0.87);
+  border-radius: 3px;
+  font-family: var(--font-family-sans);
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  color: #000000;
+  box-sizing: border-box;
+}
+
+.caught-modal__foot {
+  margin: 0;
+  width: 301px;
+  max-width: 100%;
+  text-align: center;
+  font-family: var(--font-family-sans);
+  font-size: 16px;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  color: rgba(0, 12, 45, 0.6);
+}
+
+.caught-modal__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 16px 24px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.caught-modal__actions > * {
+  flex: 1;
+}

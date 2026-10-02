@@ -20,11 +20,15 @@ export type CollectedCount = 0 | 1 | 2 | 3
  *  - `collectedCount` controls the tile row + "N/3 COLLECTED" badge.
  *  - `variant` remains as a shortcut preset that sets both. Existing
  *    stories keep passing `variant` and still render identically.
+ *  - `allDone` swaps the copy for the empty-state after all 3 shirts
+ *    are claimed: "New missions. / Coming soon..!" + NEXT MISSIONS
+ *    badge + three locked (?) tiles. Figma 493:58147.
  *  Explicit `jayJayShirt` or `collectedCount` overrides the preset. */
 type ClubBannerProps = {
   variant?: ClubBannerVariant
   jayJayShirt?: JayJayVariant
   collectedCount?: CollectedCount
+  allDone?: boolean
 }
 
 type Preset = { jayJayShirt: JayJayVariant; collectedCount: CollectedCount }
@@ -43,14 +47,19 @@ const tilesByCount: Record<CollectedCount, [string, string, string]> = {
   3: [shirtRed, shirtGreen, shirtBlue],
 }
 
-export function ClubBanner({ variant, jayJayShirt, collectedCount }: ClubBannerProps) {
+export function ClubBanner({ variant, jayJayShirt, collectedCount, allDone = false }: ClubBannerProps) {
   const preset = variant ? variantPresets[variant] : variantPresets.White
   const finalJayJay = jayJayShirt ?? preset.jayJayShirt
   const finalCount = collectedCount ?? preset.collectedCount
-  const tiles = tilesByCount[finalCount]
+  // Empty-state hides the collected count by locking all three tiles;
+  // otherwise show tiles matching the current progress.
+  const tiles = allDone
+    ? [shirtLocked1, shirtLocked2, shirtLocked3]
+    : tilesByCount[finalCount]
 
   return (
     <div className="club-banner">
+      <div className="club-banner__inner">
       <div className="club-banner__content">
         <div className="club-banner__board">
           <div className="club-banner__board-center">
@@ -59,10 +68,21 @@ export function ClubBanner({ variant, jayJayShirt, collectedCount }: ClubBannerP
                 <div className="club-banner__card-shadow" aria-hidden />
                 <div className="club-banner__offer-card">
                   <div className="club-banner__title">
-                    <p className="club-banner__title-line">Win Jay Jay&rsquo;s</p>
-                    <p className="club-banner__title-line club-banner__title-line--accent">
-                      3 Exclusive Shirts!
-                    </p>
+                    {allDone ? (
+                      <>
+                        <p className="club-banner__title-line">New missions.</p>
+                        <p className="club-banner__title-line club-banner__title-line--accent">
+                          Coming soon..!
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="club-banner__title-line">Win Jay Jay&rsquo;s</p>
+                        <p className="club-banner__title-line club-banner__title-line--accent">
+                          3 Exclusive Shirts!
+                        </p>
+                      </>
+                    )}
                   </div>
                   <div className="club-banner__rewards">
                     <div className="club-banner__shirts">
@@ -90,7 +110,9 @@ export function ClubBanner({ variant, jayJayShirt, collectedCount }: ClubBannerP
                   </div>
                 </div>
                 <div className="club-banner__badge">
-                  <p className="club-banner__badge-text">{finalCount}/3 COLLECTED</p>
+                  <p className="club-banner__badge-text">
+                    {allDone ? 'NEXT MISSIONS' : `${finalCount}/3 COLLECTED`}
+                  </p>
                 </div>
               </div>
             </div>
@@ -104,6 +126,7 @@ export function ClubBanner({ variant, jayJayShirt, collectedCount }: ClubBannerP
         <div className="club-banner__jayjay-figure">
           <JayJay variant={finalJayJay} />
         </div>
+      </div>
       </div>
     </div>
   )

@@ -9,7 +9,6 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  padding-bottom: 24px;
   background-color: var(--ui-background-paper);
   width: 100%;
   box-sizing: border-box;

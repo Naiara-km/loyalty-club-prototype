@@ -6,6 +6,10 @@ export type MissionProgressVariant = 'Start' | 'Mission 1' | 'Mission 2' | 'Miss
 type MissionProgressProps = {
   variant: MissionProgressVariant
   onClick?: () => void
+  /** When true, swap the "Starter" label for "Level 1" — used by the
+   *  all-done empty state after the user has claimed all three shirts
+   *  (Figma 493:58147). */
+  allDone?: boolean
 }
 
 /** XP earned at each variant. Max XP is 500 for this bar. */
@@ -18,7 +22,7 @@ const xpPerVariant: Record<MissionProgressVariant, number> = {
 
 const MAX_XP = 500
 
-export function MissionProgress({ variant, onClick }: MissionProgressProps) {
+export function MissionProgress({ variant, onClick, allDone = false }: MissionProgressProps) {
   const xp = xpPerVariant[variant]
   const pct = Math.min(100, (xp / MAX_XP) * 100)
   return (
@@ -28,7 +32,7 @@ export function MissionProgress({ variant, onClick }: MissionProgressProps) {
       onClick={onClick}
     >
       <div className="mission-progress__row">
-        <span className="mission-progress__label">Starter</span>
+        <span className="mission-progress__label">{allDone ? 'Level 1' : 'Starter'}</span>
         <div className="mission-progress__bar" aria-hidden>
           <div
             className="mission-progress__bar-fill"

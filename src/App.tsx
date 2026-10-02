@@ -21,7 +21,10 @@ export default function App() {
         <ClubHome onBack={() => setScreen('my-account')} />
       )}
       {screen === 'virtuals' && (
-        <Virtuals onBack={() => setScreen('my-account')} />
+        <Virtuals
+          onBack={() => setScreen('my-account')}
+          onGoToClub={() => setScreen('club-home')}
+        />
       )}
       <DevPanel />
     </ClubStateProvider>

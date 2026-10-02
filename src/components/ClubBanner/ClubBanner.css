@@ -1,10 +1,27 @@
-/* --- Root — fluid width between 320 and 600, clips the Jay Jay figure
- *  that overflows below and (on narrow widths) behind the banner card.
- *  Banner content is anchored left and Jay Jay is absolutely anchored
- *  right; between them the shared "Kings-Champions" background image
- *  fills the space (Figma 234:38780). The same PNG is used across all
- *  four shirt-colour variants — only Jay Jay's figure swaps. */
+/* --- Root — full-width band. Carries the shared "Kings-Champions"
+ *  stadium background (Figma 234:38780) which now spans the entire
+ *  viewport on desktop. The interior content (board + Jay Jay) stays
+ *  centred at 600px via the .club-banner__inner wrapper so it doesn't
+ *  disperse across wide screens. Same PNG across all four shirt
+ *  variants — only Jay Jay swaps. */
 .club-banner {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  min-width: 320px;
+  height: 263px;
+  overflow: clip;
+  background-image: url("../../assets/illustrations/club-banner-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Inner wrapper — matches the original 600px reference so absolutely
+ * positioned children (Jay Jay) keep their Figma anchor. */
+.club-banner__inner {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -13,14 +30,9 @@
   gap: 6px;
   width: 100%;
   max-width: 600px;
-  min-width: 320px;
-  height: 263px;
+  height: 100%;
   padding: 0 var(--spacing-2);
-  overflow: clip;
-  background-image: url("../../assets/illustrations/club-banner-bg.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  box-sizing: border-box;
 }
 
 .club-banner__content {

@@ -100,8 +100,8 @@
 .virtuals__page {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-4);
-  padding: var(--spacing-4);
+  gap: 0;
+  padding: 0;
   max-width: 1200px;
   margin: 0 auto;
   box-sizing: border-box;
@@ -116,7 +116,6 @@
   gap: var(--spacing-3);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding-bottom: var(--spacing-2);
   scrollbar-width: none;
 }
 .virtuals__jackpots::-webkit-scrollbar { display: none; }
@@ -503,53 +502,6 @@
   color: var(--ui-semantic-colours-success-main);
 }
 
-/* --- 7. Instant Leagues grid (Jay Jay hides behind this) --- */
-.virtuals__instant-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-2);
-}
-.virtuals__instant-tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 20px 8px;
-  border-radius: 12px;
-  color: #ffffff;
-  min-height: 88px;
-  cursor: pointer;
-}
-.virtuals__instant-tile--red {
-  background: linear-gradient(135deg, #e53935 0%, #b71c1c 100%);
-}
-.virtuals__instant-tile--orange {
-  background: linear-gradient(135deg, #fb8c00 0%, #e65100 100%);
-}
-.virtuals__instant-tile--pink {
-  background: linear-gradient(135deg, #ec407a 0%, #ad1457 100%);
-}
-.virtuals__instant-tile--green {
-  background: linear-gradient(135deg, #43a047 0%, #1b5e20 100%);
-}
-.virtuals__instant-tile--purple {
-  background: linear-gradient(135deg, #7e57c2 0%, #4a148c 100%);
-}
-.virtuals__instant-tile--blue {
-  background: linear-gradient(135deg, #1e88e5 0%, #0d47a1 100%);
-}
-.virtuals__instant-icon {
-  font-size: 24px;
-}
-.virtuals__instant-name {
-  margin: 0;
-  font-size: 12px;
-  font-weight: var(--font-weight-bold);
-  text-align: center;
-  line-height: 1.15;
-}
-
 /* --- 8. West Corner --- */
 .virtuals__westcorner-tiles {
   display: grid;
@@ -647,20 +599,12 @@
     grid-template-columns: 1fr 1fr;
   }
 
-  .virtuals__instant-grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
 }
 
 /* --- Breakpoint: 1200px (desktop) --- */
 @media (min-width: 1200px) {
   .virtuals__nav {
     display: flex;
-  }
-
-  .virtuals__page {
-    padding: var(--spacing-4) 0;
-    gap: 16px;
   }
 
   .virtuals__card {
