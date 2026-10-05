@@ -93,11 +93,11 @@
   object-fit: cover;
 }
 
-/* --- Close button --- */
-.jayjay-dance-overlay__close {
+/* --- Top-right controls: mute toggle + close button --- */
+.jayjay-dance-overlay__close,
+.jayjay-dance-overlay__mute {
   position: absolute;
   top: var(--spacing-3);
-  right: var(--spacing-3);
   z-index: 3;
   display: inline-flex;
   align-items: center;
@@ -110,6 +110,20 @@
   border-radius: var(--border-radius-full);
   cursor: pointer;
   color: var(--ui-common-white-white-100p);
+}
+
+.jayjay-dance-overlay__close {
+  right: var(--spacing-3);
+}
+
+.jayjay-dance-overlay__mute {
+  right: calc(var(--spacing-3) + 36px + var(--spacing-2));
+}
+
+.jayjay-dance-overlay__mute svg {
+  display: block;
+  width: 20px;
+  height: 20px;
 }
 
 .jayjay-dance-overlay__close-icon {

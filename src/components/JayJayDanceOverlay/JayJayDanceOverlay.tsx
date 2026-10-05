@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import closeFilled from '../../assets/icons/close-filled.svg'
+import danceMusic from '../../assets/audio/dokta-brain-bikyaganye.mp3'
 import { danceClips, type DanceShirt } from '../../data/mock'
 import './JayJayDanceOverlay.css'
 
@@ -39,10 +40,15 @@ function shirtName(shirt: DanceShirt): string {
 
 export function JayJayDanceOverlay({ open, onClose, shirt, allWon = false }: JayJayDanceOverlayProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
   // Two-stage dismissal so we can run the fade before unmounting.
   // 'closing' triggers the CSS opacity transition; the timer that
   // follows calls onClose when the fade finishes.
   const [closing, setClosing] = useState(false)
+  // Soundtrack toggle — defaults to unmuted since the overlay only ever
+  // opens from a direct user tap on the dance button, which satisfies
+  // browser autoplay-with-sound policies.
+  const [muted, setMuted] = useState(false)
 
   const startClose = useCallback(() => {
     setClosing((already) => already || true)
@@ -53,11 +59,17 @@ export function JayJayDanceOverlay({ open, onClose, shirt, allWon = false }: Jay
     if (open) setClosing(false)
   }, [open])
 
-  // Auto-dismiss 10s after opening. Pause the video when the overlay
-  // leaves the screen so it stops decoding behind ClubHome.
+  // Auto-dismiss 10s after opening. Pause both video and audio when
+  // the overlay leaves the screen so nothing keeps running in the
+  // background behind ClubHome.
   useEffect(() => {
     if (!open) {
       videoRef.current?.pause()
+      const a = audioRef.current
+      if (a) {
+        a.pause()
+        a.currentTime = 0
+      }
       return
     }
     const id = window.setTimeout(startClose, AUTO_CLOSE_MS)
@@ -81,6 +93,12 @@ export function JayJayDanceOverlay({ open, onClose, shirt, allWon = false }: Jay
     return () => window.removeEventListener('keydown', onKey)
   }, [open, startClose])
 
+  // Keep the <audio> element's muted property in sync with React state
+  // so the toggle button works mid-playback.
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.muted = muted
+  }, [muted])
+
   if (!open) return null
 
   const name = shirtName(shirt)
@@ -88,6 +106,17 @@ export function JayJayDanceOverlay({ open, onClose, shirt, allWon = false }: Jay
   const caption = allWon
     ? 'Every shirt has its own moves. Change his shirt, change the dance.'
     : `This is his ${name} dance. Win a shirt to see the next one.`
+
+  // Start the soundtrack the first time the video reports it's playing
+  // — pairs the music with the visible dance regardless of how long
+  // the clip takes to decode.
+  const onVideoPlay = () => {
+    const a = audioRef.current
+    if (!a) return
+    // play() rejects silently when the browser blocks it; the mute
+    // button lets the user retry by toggling.
+    void a.play().catch(() => {})
+  }
 
   return (
     <div
@@ -108,6 +137,35 @@ export function JayJayDanceOverlay({ open, onClose, shirt, allWon = false }: Jay
           />
         ))}
       </div>
+
+      <audio ref={audioRef} src={danceMusic} loop preload="auto" />
+
+      <button
+        type="button"
+        className="jayjay-dance-overlay__mute"
+        onClick={(e) => {
+          e.stopPropagation()
+          setMuted((m) => !m)
+        }}
+        aria-label={muted ? 'Unmute music' : 'Mute music'}
+        aria-pressed={muted}
+      >
+        {muted ? (
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              fill="currentColor"
+              d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.2l2.45 2.45c.03-.2.05-.41.05-.62zM19 12c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.95 8.95 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 0 0 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"
+            />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              fill="currentColor"
+              d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06A7 7 0 0 1 14 18.71v2.06a9 9 0 0 0 0-17.54z"
+            />
+          </svg>
+        )}
+      </button>
 
       <button
         type="button"
@@ -130,6 +188,7 @@ export function JayJayDanceOverlay({ open, onClose, shirt, allWon = false }: Jay
           loop
           muted
           playsInline
+          onPlay={onVideoPlay}
         />
       </div>
 

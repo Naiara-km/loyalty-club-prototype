@@ -19,10 +19,99 @@
   background-repeat: no-repeat;
 }
 
+/* --- Ambient particle layers ---
+ * Two pseudo-element dust fields sitting between the stadium
+ * background and the inner wrapper (which lifts itself with z-index to
+ * stay above). Both layers are pointer-events: none and only animate
+ * transform / opacity so mid-range Android keeps compositing them on
+ * the GPU without re-rasterising gradients each frame.
+ *
+ * The patterns use radial-gradient tiles sized to a round number
+ * (160x120 / 240x180) and translate by exactly one tile per cycle, so
+ * the loop is seamless against background-repeat. Each pseudo-element
+ * is inset by a negative amount so the translated edges never expose
+ * empty space inside the hero. */
+
+/* Dust — tiny dots, white + warm gold at 25–45% opacity, 20+ positions
+ * packed into one 160x120 tile. 25s drift up and to the right. */
+.club-banner::before {
+  content: "";
+  position: absolute;
+  inset: -200px;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 6px 14px, rgba(255, 255, 255, 0.4) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 22px 48px, rgba(255, 196, 0, 0.4) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 38px 92px, rgba(255, 255, 255, 0.3) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 54px 30px, rgba(255, 196, 0, 0.35) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 70px 108px, rgba(255, 255, 255, 0.45) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 86px 60px, rgba(255, 196, 0, 0.3) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 102px 20px, rgba(255, 255, 255, 0.35) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 118px 80px, rgba(255, 196, 0, 0.4) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 134px 44px, rgba(255, 255, 255, 0.3) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 150px 100px, rgba(255, 196, 0, 0.35) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 14px 74px, rgba(255, 196, 0, 0.3) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 30px 110px, rgba(255, 255, 255, 0.4) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 46px 6px, rgba(255, 255, 255, 0.3) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 62px 66px, rgba(255, 196, 0, 0.4) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 78px 24px, rgba(255, 255, 255, 0.35) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 94px 96px, rgba(255, 196, 0, 0.3) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 110px 54px, rgba(255, 255, 255, 0.4) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 126px 12px, rgba(255, 196, 0, 0.35) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 142px 70px, rgba(255, 255, 255, 0.3) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 158px 36px, rgba(255, 196, 0, 0.4) 0 1.5px, transparent 2px);
+  background-size: 160px 120px;
+  background-repeat: repeat;
+  animation: club-banner-dust 25s linear infinite;
+  will-change: transform;
+}
+
+/* Depth layer — fewer, larger, blurred dots at ~10% opacity drifting
+ * the opposite way, slower. Keeps the parallax readable without
+ * stealing attention. */
+.club-banner::after {
+  content: "";
+  position: absolute;
+  inset: -300px;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 30px 40px, rgba(255, 255, 255, 0.1) 0 5px, transparent 6px),
+    radial-gradient(circle at 110px 90px, rgba(255, 196, 0, 0.1) 0 6px, transparent 7px),
+    radial-gradient(circle at 180px 30px, rgba(255, 255, 255, 0.1) 0 5px, transparent 6px),
+    radial-gradient(circle at 60px 140px, rgba(255, 196, 0, 0.1) 0 5px, transparent 6px),
+    radial-gradient(circle at 200px 160px, rgba(255, 255, 255, 0.1) 0 6px, transparent 7px),
+    radial-gradient(circle at 140px 60px, rgba(255, 196, 0, 0.1) 0 4px, transparent 5px);
+  background-size: 240px 180px;
+  background-repeat: repeat;
+  filter: blur(2px);
+  animation: club-banner-dust-depth 55s linear infinite;
+  will-change: transform;
+}
+
+@keyframes club-banner-dust {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(160px, -120px); }
+}
+
+@keyframes club-banner-dust-depth {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(-240px, 180px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .club-banner::before,
+  .club-banner::after {
+    animation: none;
+  }
+}
+
 /* Inner wrapper — matches the original 600px reference so absolutely
- * positioned children (Jay Jay) keep their Figma anchor. */
+ * positioned children (Jay Jay) keep their Figma anchor. z-index: 1
+ * lifts the whole content stack above the two particle pseudo-elements
+ * so Jay Jay and the board paint on top. */
 .club-banner__inner {
   position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
