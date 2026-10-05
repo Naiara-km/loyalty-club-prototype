@@ -1,17 +1,43 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import closeFilled from '../../assets/icons/close-filled.svg'
-import danceVideo from '../../assets/illustrations/jayjay-dance.mp4'
+import { danceClips, type DanceShirt } from '../../data/mock'
 import './JayJayDanceOverlay.css'
 
 type JayJayDanceOverlayProps = {
   open: boolean
   onClose: () => void
+  /** Shirt Jay Jay is wearing — drives which clip plays and the title /
+   *  caption copy. */
+  shirt: DanceShirt
+  /** True when all three mission shirts have been won; swaps the caption
+   *  to the collected-everything message. */
+  allWon?: boolean
 }
 
 const AUTO_CLOSE_MS = 10_000
 const FADE_OUT_MS = 350
 
-export function JayJayDanceOverlay({ open, onClose }: JayJayDanceOverlayProps) {
+/** All shipped dance clips, keyed by their bundle path. Missing files
+ *  (e.g. the red/green/blue variants, which don't exist yet) simply
+ *  won't appear here — resolveClip falls back to the white URL. */
+const bundledClips = import.meta.glob(
+  '../../assets/illustrations/jayjay-dance*.mp4',
+  { eager: true, query: '?url', import: 'default' },
+) as Record<string, string>
+
+const WHITE_KEY = `../../assets/illustrations/${danceClips.white}`
+
+function resolveClip(shirt: DanceShirt): string {
+  const key = `../../assets/illustrations/${danceClips[shirt]}`
+  return bundledClips[key] ?? bundledClips[WHITE_KEY]
+}
+
+/** "white" → "White" etc. Shirt names in copy are capitalised. */
+function shirtName(shirt: DanceShirt): string {
+  return shirt[0].toUpperCase() + shirt.slice(1)
+}
+
+export function JayJayDanceOverlay({ open, onClose, shirt, allWon = false }: JayJayDanceOverlayProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   // Two-stage dismissal so we can run the fade before unmounting.
   // 'closing' triggers the CSS opacity transition; the timer that
@@ -57,12 +83,18 @@ export function JayJayDanceOverlay({ open, onClose }: JayJayDanceOverlayProps) {
 
   if (!open) return null
 
+  const name = shirtName(shirt)
+  const title = `Jay Jay's ${name} dance`
+  const caption = allWon
+    ? 'Every shirt has its own moves. Change his shirt, change the dance.'
+    : `This is his ${name} dance. Win a shirt to see the next one.`
+
   return (
     <div
       className={`jayjay-dance-overlay${closing ? ' jayjay-dance-overlay--closing' : ''}`}
       role="dialog"
       aria-modal="true"
-      aria-label="Jay Jay's got moves"
+      aria-label={title}
       onClick={startClose}
     >
       {/* Confetti layer sits above the gradient but below the panel.
@@ -86,19 +118,22 @@ export function JayJayDanceOverlay({ open, onClose }: JayJayDanceOverlayProps) {
         <img src={closeFilled} alt="" className="jayjay-dance-overlay__close-icon" />
       </button>
 
-      <p className="jayjay-dance-overlay__caption">Jay Jay&rsquo;s got moves</p>
+      <p className="jayjay-dance-overlay__title">{title}</p>
 
       <div className="jayjay-dance-overlay__panel">
         <video
           ref={videoRef}
+          key={shirt}
           className="jayjay-dance-overlay__video"
-          src={danceVideo}
+          src={resolveClip(shirt)}
           autoPlay
           loop
           muted
           playsInline
         />
       </div>
+
+      <p className="jayjay-dance-overlay__caption">{caption}</p>
     </div>
   )
 }

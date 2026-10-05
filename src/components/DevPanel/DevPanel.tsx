@@ -77,6 +77,15 @@ export function DevPanel() {
               >
                 Place a bet (M3)
               </button>
+              <button
+                type="button"
+                className="dev-panel__btn"
+                onClick={() =>
+                  window.dispatchEvent(new CustomEvent('club:skip-dance-cooldown'))
+                }
+              >
+                Skip dance cooldown (5m)
+              </button>
             </div>
           </div>
 

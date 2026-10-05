@@ -30,6 +30,9 @@ type ClubBannerProps = {
   collectedCount?: CollectedCount
   allDone?: boolean
   onDanceClick?: () => void
+  /** When set, the Jay Jay Dance button renders the grey Pending state
+   *  with this "M:SS" countdown; tapping is a no-op until it clears. */
+  danceCountdown?: string | null
 }
 
 type Preset = { jayJayShirt: JayJayVariant; collectedCount: CollectedCount }
@@ -48,7 +51,7 @@ const tilesByCount: Record<CollectedCount, [string, string, string]> = {
   3: [shirtRed, shirtGreen, shirtBlue],
 }
 
-export function ClubBanner({ variant, jayJayShirt, collectedCount, allDone = false, onDanceClick }: ClubBannerProps) {
+export function ClubBanner({ variant, jayJayShirt, collectedCount, allDone = false, onDanceClick, danceCountdown }: ClubBannerProps) {
   const preset = variant ? variantPresets[variant] : variantPresets.White
   const finalJayJay = jayJayShirt ?? preset.jayJayShirt
   const finalCount = collectedCount ?? preset.collectedCount
@@ -120,7 +123,14 @@ export function ClubBanner({ variant, jayJayShirt, collectedCount, allDone = fal
           </div>
         </div>
         <div className="club-banner__cta">
-          <DanceButton variant="Active" onClick={onDanceClick} />
+          {danceCountdown ? (
+            <DanceButton
+              variant="Pending"
+              label={`🕺🏾Next dance ${danceCountdown}`}
+            />
+          ) : (
+            <DanceButton variant="Active" onClick={onDanceClick} />
+          )}
         </div>
       </div>
       <div className="club-banner__jayjay">

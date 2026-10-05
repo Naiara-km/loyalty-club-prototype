@@ -8,7 +8,7 @@ type MissionsProps = {
 }
 
 export function Missions({
-  title = 'Complete missions',
+  title = 'Complete missions to win new shirt, new dance.',
   subtitle = 'Finish 3 missions to unlock 3 limited-edition shirts. Each one earns XP and moves you closer to the next level.',
   chipLabel = '14 DAYS LEFT',
 }: MissionsProps) {

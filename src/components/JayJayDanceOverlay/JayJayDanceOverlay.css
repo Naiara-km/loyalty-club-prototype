@@ -45,8 +45,8 @@
   100% { background-position: 0% 0%; }
 }
 
-/* --- Caption above the panel --- */
-.jayjay-dance-overlay__caption {
+/* --- Title above the panel --- */
+.jayjay-dance-overlay__title {
   margin: 0 0 var(--spacing-3);
   font-family: var(--font-family-sans);
   font-size: var(--font-size-xl);
@@ -59,6 +59,21 @@
   z-index: 2;
 }
 
+/* --- Caption below the panel --- */
+.jayjay-dance-overlay__caption {
+  margin: var(--spacing-3) 0 0;
+  max-width: 320px;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.4;
+  letter-spacing: 0.15px;
+  color: var(--ui-common-white-white-100p);
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0, 16, 65, 0.3);
+  z-index: 2;
+}
+
 /* --- Video panel: 336×640 native, scaled to ~70vh --- */
 .jayjay-dance-overlay__panel {
   position: relative;
@@ -66,10 +81,9 @@
   height: 70vh;
   aspect-ratio: 336 / 640;
   max-width: calc(100vw - var(--spacing-4) * 2);
-  background-color: var(--ui-common-white-white-100p);
+  background-color: transparent;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 16, 65, 0.25);
 }
 
 .jayjay-dance-overlay__video {

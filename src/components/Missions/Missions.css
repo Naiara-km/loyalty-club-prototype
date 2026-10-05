@@ -43,7 +43,6 @@
   line-height: var(--font-line-height-6);
   letter-spacing: 0.15px;
   color: var(--ui-text-primary);
-  white-space: nowrap;
   word-break: break-word;
 }
 

@@ -20,6 +20,7 @@ import { HintModal } from '../components/HintModal/HintModal'
 import { JayJayDanceOverlay } from '../components/JayJayDanceOverlay/JayJayDanceOverlay'
 import { LevelsModal } from '../components/LevelsModal/LevelsModal'
 import { WardrobeModal } from '../components/WardrobeModal/WardrobeModal'
+import type { DanceShirt } from '../data/mock'
 import { useClubState } from '../state/ClubStateContext'
 import type { Mission, ShirtColour, ShirtId } from '../state/clubState'
 import './ClubHome.css'
@@ -216,13 +217,33 @@ export function ClubHome({ onBack }: ClubHomeProps) {
   const { state, totalXp, collectedCount, dispatch } = useClubState()
   const { missions, wardrobe, countdownDaysLeft } = state
 
-  // Tick every second while M2 is unlocking so the countdown pill updates.
+  // Tick every second while M2 is unlocking or the Jay Jay dance
+  // cooldown is active so both countdowns update.
   const [now, setNow] = useState(() => Date.now())
+  // Timestamp when the Jay Jay dance button becomes tappable again
+  // (5 minutes after it was last triggered). null means available.
+  const [danceAvailableAt, setDanceAvailableAt] = useState<number | null>(null)
   useEffect(() => {
-    if (missions.m2.state !== 'unlocking') return
-    const id = window.setInterval(() => setNow(Date.now()), 1000)
+    const needsTick = missions.m2.state === 'unlocking' || danceAvailableAt !== null
+    if (!needsTick) return
+    const id = window.setInterval(() => {
+      const n = Date.now()
+      setNow(n)
+      if (danceAvailableAt !== null && danceAvailableAt <= n) {
+        setDanceAvailableAt(null)
+      }
+    }, 1000)
     return () => window.clearInterval(id)
-  }, [missions.m2.state])
+  }, [missions.m2.state, danceAvailableAt])
+
+  // DevPanel sends a window event to clear the dance cooldown — the
+  // state is local to ClubHome but the panel lives at App level, so a
+  // one-off event is cheaper than lifting state up for a dev-only knob.
+  useEffect(() => {
+    const onSkip = () => setDanceAvailableAt(null)
+    window.addEventListener('club:skip-dance-cooldown', onSkip)
+    return () => window.removeEventListener('club:skip-dance-cooldown', onSkip)
+  }, [])
 
   // Wardrobe modal — opens from the MainCard "Change Shirt" footer.
   const [wardrobeOpen, setWardrobeOpen] = useState(false)
@@ -235,8 +256,24 @@ export function ClubHome({ onBack }: ClubHomeProps) {
 
   // Jay Jay dance overlay — opens from the banner's Jay Jay Dance CTA.
   // Full-screen above ClubHome; scroll position is preserved because
-  // it's a sibling, not a route change.
+  // it's a sibling, not a route change. Opening it starts a 5-minute
+  // cooldown that flips the button to its grey Pending state.
   const [danceOpen, setDanceOpen] = useState(false)
+  const openDance = () => {
+    setDanceOpen(true)
+    setDanceAvailableAt(Date.now() + 5 * 60 * 1000)
+  }
+
+  // "M:SS" countdown for the dance button, null when the dance is
+  // available (button renders Active).
+  const danceCountdown = (() => {
+    if (danceAvailableAt === null) return null
+    const total = Math.max(0, Math.ceil((danceAvailableAt - now) / 1000))
+    if (total <= 0) return null
+    const m = Math.floor(total / 60)
+    const s = total % 60
+    return `${m}:${String(s).padStart(2, '0')}`
+  })()
 
   // Spotlight — on entry to ClubHome, dim everything except the top
   // (actionable) mission card for ~1.5s to pull the eye to the CTA.
@@ -433,7 +470,8 @@ export function ClubHome({ onBack }: ClubHomeProps) {
         jayJayShirt={jayJayShirt}
         collectedCount={banner}
         allDone={allDone}
-        onDanceClick={() => setDanceOpen(true)}
+        onDanceClick={openDance}
+        danceCountdown={danceCountdown}
       />
 
       {/* Content sheet */}
@@ -631,7 +669,12 @@ export function ClubHome({ onBack }: ClubHomeProps) {
 
       <HintModal open={hintOpen} onClose={() => setHintOpen(false)} />
 
-      <JayJayDanceOverlay open={danceOpen} onClose={() => setDanceOpen(false)} />
+      <JayJayDanceOverlay
+        open={danceOpen}
+        onClose={() => setDanceOpen(false)}
+        shirt={wornSlot.colour.toLowerCase() as DanceShirt}
+        allWon={collectedCount === 3}
+      />
 
       <CelebrationModal
         open={celebrating !== null}
