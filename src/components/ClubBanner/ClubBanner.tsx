@@ -29,6 +29,7 @@ type ClubBannerProps = {
   jayJayShirt?: JayJayVariant
   collectedCount?: CollectedCount
   allDone?: boolean
+  onDanceClick?: () => void
 }
 
 type Preset = { jayJayShirt: JayJayVariant; collectedCount: CollectedCount }
@@ -47,7 +48,7 @@ const tilesByCount: Record<CollectedCount, [string, string, string]> = {
   3: [shirtRed, shirtGreen, shirtBlue],
 }
 
-export function ClubBanner({ variant, jayJayShirt, collectedCount, allDone = false }: ClubBannerProps) {
+export function ClubBanner({ variant, jayJayShirt, collectedCount, allDone = false, onDanceClick }: ClubBannerProps) {
   const preset = variant ? variantPresets[variant] : variantPresets.White
   const finalJayJay = jayJayShirt ?? preset.jayJayShirt
   const finalCount = collectedCount ?? preset.collectedCount
@@ -119,7 +120,7 @@ export function ClubBanner({ variant, jayJayShirt, collectedCount, allDone = fal
           </div>
         </div>
         <div className="club-banner__cta">
-          <DanceButton variant="Active" />
+          <DanceButton variant="Active" onClick={onDanceClick} />
         </div>
       </div>
       <div className="club-banner__jayjay">

@@ -17,6 +17,7 @@ import {
 import { Path, type PathDot } from '../components/Path/Path'
 import type { TimelineDotState, TimelineDotStep } from '../components/TimelineDot/TimelineDot'
 import { HintModal } from '../components/HintModal/HintModal'
+import { JayJayDanceOverlay } from '../components/JayJayDanceOverlay/JayJayDanceOverlay'
 import { LevelsModal } from '../components/LevelsModal/LevelsModal'
 import { WardrobeModal } from '../components/WardrobeModal/WardrobeModal'
 import { useClubState } from '../state/ClubStateContext'
@@ -232,6 +233,11 @@ export function ClubHome({ onBack }: ClubHomeProps) {
   // Hint modal — opens from the M2 active card's "Need a hint?" CTA.
   const [hintOpen, setHintOpen] = useState(false)
 
+  // Jay Jay dance overlay — opens from the banner's Jay Jay Dance CTA.
+  // Full-screen above ClubHome; scroll position is preserved because
+  // it's a sibling, not a route change.
+  const [danceOpen, setDanceOpen] = useState(false)
+
   // Spotlight — on entry to ClubHome, dim everything except the top
   // (actionable) mission card for ~1.5s to pull the eye to the CTA.
   // Skipped when there's nothing to act on (top card is completed or
@@ -427,6 +433,7 @@ export function ClubHome({ onBack }: ClubHomeProps) {
         jayJayShirt={jayJayShirt}
         collectedCount={banner}
         allDone={allDone}
+        onDanceClick={() => setDanceOpen(true)}
       />
 
       {/* Content sheet */}
@@ -623,6 +630,8 @@ export function ClubHome({ onBack }: ClubHomeProps) {
       <LevelsModal open={levelsOpen} onClose={() => setLevelsOpen(false)} />
 
       <HintModal open={hintOpen} onClose={() => setHintOpen(false)} />
+
+      <JayJayDanceOverlay open={danceOpen} onClose={() => setDanceOpen(false)} />
 
       <CelebrationModal
         open={celebrating !== null}

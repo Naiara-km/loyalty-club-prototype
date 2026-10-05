@@ -1,0 +1,234 @@
+/* Full-screen Jay Jay dance overlay. Opens on top of ClubHome without
+ * a route change so the back-scroll position is preserved. Vibrant
+ * animated gradient (navy → Club blue → gold), low-density confetti,
+ * a white rounded panel holding the dance video. */
+
+.jayjay-dance-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-4);
+  box-sizing: border-box;
+  overflow: hidden;
+  cursor: pointer;
+
+  /* 400% background so background-position can slide between stops
+   * without visible seams. Three brand colours plus a return to navy
+   * so the loop closes cleanly. */
+  background: linear-gradient(
+    135deg,
+    var(--ui-primary-main) 0%,
+    var(--ui-secondary-main) 35%,
+    var(--ui-value-main) 65%,
+    var(--ui-primary-main) 100%
+  );
+  background-size: 400% 400%;
+  background-position: 0% 0%;
+  animation: jayjay-dance-gradient 8s ease-in-out infinite;
+
+  opacity: 1;
+  transition: opacity 350ms ease-out;
+}
+
+.jayjay-dance-overlay--closing {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes jayjay-dance-gradient {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* --- Caption above the panel --- */
+.jayjay-dance-overlay__caption {
+  margin: 0 0 var(--spacing-3);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.3;
+  letter-spacing: 0.15px;
+  color: var(--ui-common-white-white-100p);
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 16, 65, 0.35);
+  z-index: 2;
+}
+
+/* --- Video panel: 336×640 native, scaled to ~70vh --- */
+.jayjay-dance-overlay__panel {
+  position: relative;
+  z-index: 2;
+  height: 70vh;
+  aspect-ratio: 336 / 640;
+  max-width: calc(100vw - var(--spacing-4) * 2);
+  background-color: var(--ui-common-white-white-100p);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 16, 65, 0.25);
+}
+
+.jayjay-dance-overlay__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- Close button --- */
+.jayjay-dance-overlay__close {
+  position: absolute;
+  top: var(--spacing-3);
+  right: var(--spacing-3);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: rgba(0, 16, 65, 0.4);
+  border: none;
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  color: var(--ui-common-white-white-100p);
+}
+
+.jayjay-dance-overlay__close-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+}
+
+/* --- Confetti / sparkle layer ---
+ * Nine small shapes drifting up full-screen, staggered via delay and
+ * `left` so they don't march in a line. Mix of gold and white, a
+ * couple round, a couple square-ish for subtle variety. */
+.jayjay-dance-overlay__confetti {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.jayjay-dance-overlay__confetto {
+  position: absolute;
+  bottom: -24px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  opacity: 0.9;
+  animation: jayjay-dance-drift 7s linear infinite;
+}
+
+@keyframes jayjay-dance-drift {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  90% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Per-piece position / colour / timing. Nine pieces across the width,
+ * three in gold, three in white, three mixed, varied sizes. */
+.jayjay-dance-overlay__confetto--0 {
+  left: 8%;
+  background-color: var(--ui-value-main);
+  animation-delay: 0s;
+  animation-duration: 7s;
+}
+.jayjay-dance-overlay__confetto--1 {
+  left: 18%;
+  width: 6px;
+  height: 6px;
+  background-color: var(--ui-common-white-white-100p);
+  animation-delay: 1.2s;
+  animation-duration: 8s;
+}
+.jayjay-dance-overlay__confetto--2 {
+  left: 28%;
+  width: 10px;
+  height: 10px;
+  background-color: var(--ui-value-main);
+  border-radius: 2px;
+  animation-delay: 2.4s;
+  animation-duration: 9s;
+}
+.jayjay-dance-overlay__confetto--3 {
+  left: 40%;
+  background-color: var(--ui-common-white-white-100p);
+  animation-delay: 0.6s;
+  animation-duration: 8.5s;
+}
+.jayjay-dance-overlay__confetto--4 {
+  left: 52%;
+  width: 7px;
+  height: 7px;
+  background-color: var(--ui-value-main);
+  animation-delay: 3s;
+  animation-duration: 7.5s;
+}
+.jayjay-dance-overlay__confetto--5 {
+  left: 63%;
+  width: 9px;
+  height: 9px;
+  background-color: var(--ui-common-white-white-100p);
+  border-radius: 2px;
+  animation-delay: 1.8s;
+  animation-duration: 9s;
+}
+.jayjay-dance-overlay__confetto--6 {
+  left: 74%;
+  background-color: var(--ui-value-main);
+  animation-delay: 4s;
+  animation-duration: 8s;
+}
+.jayjay-dance-overlay__confetto--7 {
+  left: 84%;
+  width: 6px;
+  height: 6px;
+  background-color: var(--ui-common-white-white-100p);
+  animation-delay: 2.2s;
+  animation-duration: 7s;
+}
+.jayjay-dance-overlay__confetto--8 {
+  left: 92%;
+  width: 8px;
+  height: 8px;
+  background-color: var(--ui-value-main);
+  border-radius: 2px;
+  animation-delay: 3.6s;
+  animation-duration: 9.5s;
+}
+
+/* --- Reduced motion: no gradient shift, no confetti.
+ *  Video still plays — it's the content, not the ambience. */
+@media (prefers-reduced-motion: reduce) {
+  .jayjay-dance-overlay {
+    animation: none;
+    background: linear-gradient(
+      135deg,
+      var(--ui-primary-main) 0%,
+      var(--ui-secondary-main) 50%,
+      var(--ui-value-main) 100%
+    );
+  }
+  .jayjay-dance-overlay__confetti {
+    display: none;
+  }
+}
